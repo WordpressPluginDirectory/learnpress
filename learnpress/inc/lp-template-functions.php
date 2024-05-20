@@ -93,8 +93,9 @@ if ( ! function_exists( 'learn_press_get_course_tabs' ) ) {
 			$is_enrolled_course = true;
 		}
 
-		$file_per_page = LP_Settings::get_option( 'material_file_per_page', -1 );
-		if ( $is_enrolled_course && (int) $file_per_page != 0 ) {
+		$file_per_page = LP_Settings::get_option( 'material_file_per_page', - 1 );
+		$count_files   = LP_Material_Files_DB::getInstance()->get_total( $course->get_id() );
+		if ( $is_enrolled_course && (int) $file_per_page != 0 && $count_files > 0 ) {
 			$defaults['materials'] = array(
 				'title'    => esc_html__( 'Materials', 'learnpress' ),
 				'priority' => 45,
@@ -1349,8 +1350,8 @@ function learn_press_register_sidebars() {
 			'description'   => esc_html__( 'Widgets in this area will be shown in a single course', 'learnpress' ),
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</div>',
-			'before_title'  => '<h2 class="widgettitle">',
-			'after_title'   => '</h2>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
 		)
 	);
 	register_sidebar(
@@ -1360,8 +1361,8 @@ function learn_press_register_sidebars() {
 			'description'   => esc_html__( 'Widgets in this area will be shown on all course pages', 'learnpress' ),
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</div>',
-			'before_title'  => '<h2 class="widgettitle">',
-			'after_title'   => '</h2>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
 		)
 	);
 }

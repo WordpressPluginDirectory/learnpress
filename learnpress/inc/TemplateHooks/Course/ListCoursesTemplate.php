@@ -247,18 +247,15 @@ class ListCoursesTemplate {
 					'wrapper'       => [ 'text_html' => '<div class="course-info">' ],
 					'short_des'     => [ 'text_html' => $singleCourseTemplate->html_short_description( $course, 15 ) ],
 					'clearfix'      => [ 'text_html' => '<div class="clearfix"></div>' ],
-					'price'         => [
-						'text_html' => sprintf(
-							'<div class="course-footer">%s</div>',
-							$singleCourseTemplate->html_price( $course )
-						),
-					],
-					'read_more'     => [
-						'text_html' => sprintf(
+					'course-footer' => [
+						'course-footer-start' => '<div class="course-footer">',
+						'price'               => $singleCourseTemplate->html_price( $course ),
+						'btn_read_more'       => sprintf(
 							'<div class="course-readmore"><a href="%s">%s</a></div>',
 							$course->get_permalink(),
 							__( 'Read more', 'learnpress' )
 						),
+						'course-footer-end'   => '</div>',
 					],
 					'close_wrapper' => [ 'text_html' => '</div>' ],
 				],
@@ -379,8 +376,8 @@ class ListCoursesTemplate {
 					'add_args'  => '',
 					'current'   => max( 1, $data['paged'] ?? 1 ),
 					'total'     => $data[ 'total_pages' ?? 1 ],
-					'prev_text' => '<i class="fas fa-angle-left"></i>',
-					'next_text' => '<i class="fas fa-angle-right"></i>',
+					'prev_text' => '<i class="lp-icon-angle-left"></i>',
+					'next_text' => '<i class="lp-icon-angle-right"></i>',
 					'type'      => 'list',
 					'end_size'  => 3,
 					'mid_size'  => 3,
@@ -512,14 +509,17 @@ class ListCoursesTemplate {
 			'<div class="courses-order-by-wrapper">' => '</div>',
 		];
 
-		$values = [
-			'post_date'       => esc_html__( 'Newly published', 'learnpress' ),
-			'post_title'      => esc_html__( 'Title a-z', 'learnpress' ),
-			'post_title_desc' => esc_html__( 'Title z-a', 'learnpress' ),
-			'price'           => esc_html__( 'Price high to low', 'learnpress' ),
-			'price_low'       => esc_html__( 'Price low to high', 'learnpress' ),
-			'popular'         => esc_html__( 'Popular', 'learnpress' ),
-		];
+		$values = apply_filters(
+			'learn-press/courses/order-by/values',
+			[
+				'post_date'       => esc_html__( 'Newly published', 'learnpress' ),
+				'post_title'      => esc_html__( 'Title a-z', 'learnpress' ),
+				'post_title_desc' => esc_html__( 'Title z-a', 'learnpress' ),
+				'price'           => esc_html__( 'Price high to low', 'learnpress' ),
+				'price_low'       => esc_html__( 'Price low to high', 'learnpress' ),
+				'popular'         => esc_html__( 'Popular', 'learnpress' ),
+			]
+		);
 
 		$content = '<select name="order_by" class="courses-order-by">';
 		foreach ( $values as $k => $v ) {
@@ -541,7 +541,7 @@ class ListCoursesTemplate {
 						name="c_search"
 						value="<?php echo esc_attr( $s ); ?>">
 			</label>
-			<button type="submit" name="lp-btn-search-courses"><i class="fas fa-search"></i></button>
+			<button type="submit" name="lp-btn-search-courses"><i class="lp-icon-search"></i></button>
 		</form>
 		<?php
 		return ob_get_clean();

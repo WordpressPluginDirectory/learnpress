@@ -21,10 +21,6 @@ class LP_Query {
 		add_action( 'init', array( $this, 'add_rewrite_tags' ), 1000 );
 		add_action( 'init', array( $this, 'add_rewrite_endpoints' ) );
 		add_filter( 'option_rewrite_rules', [ $this, 'update_option_rewrite_rules' ], 1 );
-		/**
-		 * Add searching post by taxonomies
-		 */
-		//add_action( 'pre_get_posts', array( $this, 'query_taxonomy' ) );
 	}
 
 	/**
@@ -124,40 +120,34 @@ class LP_Query {
 				if ( ! preg_match( '!page!', LP_Helper::getUrlCurrent() ) ) {
 					$course_slug = preg_replace( '!%course_category%!', '([^/]+)/([^/]+)', $course_slug );
 
+					// Rule single course
+					$rules['single-course-with-cat'][] = [
+						"^{$course_slug}/?$" =>
+							'index.php?' . LP_COURSE_CPT . '=$matches[2]&course_category=$matches[1]',
+					];
+
+					// Rule single item
 					foreach ( $course_item_slugs as $post_type => $course_item_slug ) {
 						$rules['course-with-cat-items'][ $post_type ] = [
-							"^{$course_slug}(?:/{$course_item_slug}/([^/]+))?/?$" =>
+							"^{$course_slug}(?:/{$course_item_slug}/([^/]+))/?$" =>
 								'index.php?' . LP_COURSE_CPT . '=$matches[2]&course_category=$matches[1]&course-item=$matches[3]&item-type=' . $post_type,
 						];
 					}
-
-					// Todo fix: temporary addons before addons updated, when all addons updated, this code will be removed
-					if ( class_exists( 'LP_Addon_H5p_Preload' ) ) { // LP_Addon_H5p fix on v4.0.3
-						$h5p_slug                                     = urldecode( sanitize_title_with_dashes( LP_Settings::get_option( 'h5p_slug', 'h5p' ) ) );
-						$rules['course-with-cat-items'][ LP_H5P_CPT ] = [
-							"^{$course_slug}(?:/{$h5p_slug}/([^/]+))?/?$" =>
-								'index.php?' . LP_COURSE_CPT . '=$matches[2]&course_category=$matches[1]&course-item=$matches[3]&item-type=' . LP_H5P_CPT,
-						];
-					}
-					// End Fixed
 				}
 			} else {
+				// Rule single course
+				$rules['single-course'][] = [
+					"^{$course_slug}/([^/]+)/?$" =>
+						'index.php?' . LP_COURSE_CPT . '=$matches[1]',
+				];
+
+				// Rule single item
 				foreach ( $course_item_slugs as $post_type => $course_item_slug ) {
 					$rules['course-items'][ $post_type ] = [
-						"^{$course_slug}/([^/]+)(?:/{$course_item_slug}/([^/]+))?/?$" =>
+						"^{$course_slug}/([^/]+)(?:/{$course_item_slug}/([^/]+))/?$" =>
 							'index.php?' . LP_COURSE_CPT . '=$matches[1]&course-item=$matches[2]&item-type=' . $post_type,
 					];
 				}
-
-				// Todo Fix: temporary addons before addons updated, when all addons updated, this code will be removed
-				if ( class_exists( 'LP_Addon_H5p_Preload' ) ) { // LP_Addon_H5p fix on v4.0.3
-					$h5p_slug                            = urldecode( sanitize_title_with_dashes( LP_Settings::get_option( 'h5p_slug', 'h5p' ) ) );
-					$rules['course-items'][ LP_H5P_CPT ] = [
-						"^{$course_slug}/([^/]+)(?:/{$h5p_slug}/([^/]+))?/?$" =>
-							'index.php?' . LP_COURSE_CPT . '=$matches[1]&course-item=$matches[2]&item-type=' . LP_H5P_CPT,
-					];
-				}
-				// End Fixed
 			}
 
 			// Profile
@@ -195,7 +185,7 @@ class LP_Query {
 		$profile_id = learn_press_get_page_id( 'profile' );
 		if ( $profile_id ) {
 			// Rule view profile of user (self or another)
-			$page_profile_slug        = get_post_field( 'post_name', $profile_id );
+			$page_profile_slug        = urldecode( get_post_field( 'post_name', $profile_id ) );
 			$rules['profile']['user'] = [
 				"^{$page_profile_slug}/([^/]*)/?$" =>
 					"index.php?page_id={$profile_id}&user=" . '$matches[1]',
@@ -228,30 +218,12 @@ class LP_Query {
 	}
 
 	/**
-	 * @param WP_Query $q
-	 *
-	 * @todo has error with block theme of Woo, when search ?s=test
-	 */
-	public function query_taxonomy( $q ) {
-
-		// We only want to affect the main query
-		if ( ! $q->is_main_query() ) {
-			return;
-		}
-
-		if ( is_search() ) {
-			add_filter( 'posts_where', array( $this, 'add_tax_search' ) );
-			add_filter( 'posts_join', array( $this, 'join_term' ) );
-			add_filter( 'posts_groupby', array( $this, 'tax_groupby' ) );
-		}
-	}
-
-	/**
 	 * @param string $join
 	 *
 	 * @return string
+	 * @deprecated 4.2.6.6
 	 */
-	public function join_term( $join ) {
+	/*public function join_term( $join ) {
 		global $wp_query, $wpdb;
 
 		if ( ! empty( $wp_query->query_vars['s'] ) && ! is_admin() ) {
@@ -263,14 +235,15 @@ class LP_Query {
 		}
 
 		return $join;
-	}
+	}*/
 
 	/**
 	 * @param string $where
 	 *
 	 * @return string
+	 * @deprecated 4.2.6.6
 	 */
-	public function add_tax_search( $where ) {
+	/*public function add_tax_search( $where ) {
 		global $wp_query, $wpdb;
 
 		if ( ! empty( $wp_query->query_vars['s'] ) && ! is_admin() ) {
@@ -279,30 +252,32 @@ class LP_Query {
 		}
 
 		return $where;
-	}
+	}*/
 
 	/**
 	 * @param string $groupby
 	 *
 	 * @return string
+	 * @deprecated 4.2.6.6
 	 */
-	public function tax_groupby( $groupby ) {
+	/*public function tax_groupby( $groupby ) {
 		global $wpdb;
 		$groupby = "{$wpdb->posts}.ID";
 
 		$this->remove_query_tax();
 
 		return $groupby;
-	}
+	}*/
 
 	/**
 	 * Remove filter query
+	 * @deprecated 4.2.6.6
 	 */
-	public function remove_query_tax() {
+	/*public function remove_query_tax() {
 		remove_filter( 'posts_where', 'learn_press_add_tax_search' );
 		remove_filter( 'posts_join', 'learn_press_join_term' );
 		remove_filter( 'posts_groupby', 'learn_press_tax_groupby' );
-	}
+	}*/
 
 	/**
 	 * Clear cache rewrite rules when update option rewrite_rules

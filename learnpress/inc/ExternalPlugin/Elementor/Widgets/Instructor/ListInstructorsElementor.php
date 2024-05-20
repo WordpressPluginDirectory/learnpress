@@ -79,7 +79,7 @@ class ListInstructorsElementor extends LPElementorWidgetBase {
 					".elementor-repeater-item-{$item_layout['_id']}",
 					$item_layout['layout_custom_css']
 				);
-				echo '<style id="' . $this->get_id() . '">' . $item_layout['layout_custom_css'] . '</style>';
+				echo '<style id="' . esc_attr( $this->get_id() ) . '">' . $item_layout['layout_custom_css'] . '</style>';
 			}
 
 			// Show list instructors
@@ -93,7 +93,10 @@ class ListInstructorsElementor extends LPElementorWidgetBase {
 				}
 				?>
 				<li class="item-instructor">
-					<?php echo $singleInstructorTemplate->render_data( $instructor, html_entity_decode( $item_layout['layout_html'] ) ); ?>
+					<?php echo $singleInstructorTemplate->render_data(
+						$instructor,
+						wp_kses_post( html_entity_decode( $item_layout['layout_html'] ) )
+					); ?>
 				</li>
 				<?php
 			}
