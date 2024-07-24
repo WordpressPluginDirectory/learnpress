@@ -3,9 +3,9 @@ Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla
 Donate link:
 Tags: elearning, education, course, lms, learning management system
 Requires at least: 6.3
-Tested up to: 6.5.4
+Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 4.2.6.8.2
+Stable tag: 4.2.6.9.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,7 +15,7 @@ A WordPress LMS Plugin to create WordPress Learning Management System. Turn your
 
 **<a href="https://thimpress.com/learnpress/" target="_blank">WordPress LMS Plugin</a>** - LearnPress is a comprehensive *WordPress LMS Plugin* for WordPress. This is one of the best WordPress LMS Plugins which can be used to easily create & sell courses online. You can create a course curriculum with lessons & quizzes included which is managed with an easy-to-use interface for users. Having this WordPress LMS Plugin, now you have a chance to quickly and easily create education, online school, online-course websites with no coding knowledge required.
 
-<a href="https://edupress.thimpress.com" target="_blank">Live Demo</a> | <a href="https://docs.thimpress.com/learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Documentation</a> | <a href="https://thimpress.com/forums/forum/plugins/learnpress-plugin/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Support</a>
+<a href="https://edupress.thimpress.com" target="_blank">Live Demo</a> | <a href="https://docs.thimpress.com/learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Documentation</a> | <a href="https://thimpress.com/forums/forum/learnpress-plugin/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Support</a>
 <a href="https://thimpress.com/product/education-wordpress-starter-theme-for-learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content">Free LearnPress Theme</a>
 <a href="https://1.envato.market/G5Ook" target="_blank">LearnPress Themes</a>
 <a href="https://thimpress.com/eduma-mobile-app/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">LearnPress Mobile App</a>
@@ -180,7 +180,7 @@ And if you want to extend or use LearnPress, see our <a href="https://github.com
 = Where can I get support or talk to other users? =
 If you get troubles when using LearnPress you can ask for help on the <a href="https://wordpress.org/support/plugin/learnpress/">LearnPress Support Forum</a> or <a href="https://www.facebook.com/groups/learnpress/" target="_blank">join the private Facebook group</a>. You could share your feedback about LearnPress. And let us know which feature you want us to build next.
 
-For help with premium add-ons, use our <a href="https://thimpress.com/forums/forum/plugins/learnpress-premium-add-ons/">helpdesk</a>.
+For help with premium add-ons, use our <a href="https://thimpress.com/forums/forum/learnpress-premium-add-ons/">helpdesk</a>.
 
 = Where can I ask for new features, suggest new ideas or new themes for LearnPress? =
 You can send us your thoughts through via email: support@thimpress.com
@@ -210,8 +210,20 @@ https://www.transifex.com/projects/p/learnpress/
 
 == Changelog ==
 
+= 4.2.6.9.1 (2024-07-24) =
+~ Fixed: error check paths override of theme.
+
+= 4.2.6.9 (2024-07-24) =
+~ Fixed: security.
+~ Optimize courses.
+~ Create table learnpress_courses from posts to query faster.
+~ Tweak: choose users when create manual LP Order.
+~ Tweak: filed search instructor on list courses, orders, lessons, quizzes,...
+~ Tweak: get options list author via API when edit courses (make edit load screen edit courses faster).
+~ Fixed: show tab material with course no require enroll.
+
 = 4.2.6.8.2 (2024-06-28) =
-~ Added function retrieve_password_message override message reset password.
+~ Added: function retrieve_password_message override message reset password.
 ~ Fixed: security.
 ~ Fixed: style login/register for Divi theme.
 ~ Fixed: responsive curriculum.
