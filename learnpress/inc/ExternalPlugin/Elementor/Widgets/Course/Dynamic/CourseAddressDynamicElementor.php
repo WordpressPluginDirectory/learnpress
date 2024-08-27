@@ -1,25 +1,28 @@
 <?php
 /**
- * Class CourseCountQuizDynamicElementor
+ * Class CourseLevelDynamicElementor
  *
- * Dynamic course count quiz elementor.
+ * Dynamic course level elementor.
  *
  * @since 4.2.3.5
  * @version 1.0.0
  */
+
 namespace LearnPress\ExternalPlugin\Elementor\Widgets\Course\Dynamic;
 use Elementor\Core\DynamicTags\Tag;
 use LearnPress\ExternalPlugin\Elementor\LPDynamicElementor;
+use LearnPress\Models\CourseModel;
 use LearnPress\TemplateHooks\Course\SingleCourseTemplate;
+use Throwable;
 
 defined( 'ABSPATH' ) || exit;
 
-class CourseCountQuizDynamicElementor extends Tag {
+class CourseAddressDynamicElementor extends Tag {
 	use LPDynamicElementor;
 
 	public function __construct( array $data = [] ) {
-		$this->lp_dynamic_title = 'Course Count Quiz';
-		$this->lp_dynamic_name  = 'course-count-quiz';
+		$this->lp_dynamic_title = 'Course Address';
+		$this->lp_dynamic_name  = 'course-address';
 		parent::__construct( $data );
 	}
 
@@ -31,8 +34,14 @@ class CourseCountQuizDynamicElementor extends Tag {
 			if ( ! $course ) {
 				return;
 			}
-			echo $singleCourseTemplate->html_count_item( $course, LP_QUIZ_CPT );
-		} catch ( \Throwable $e ) {
+
+			$course = CourseModel::find( $course->get_id() );
+			if ( ! $course ) {
+				return;
+			}
+
+			echo $singleCourseTemplate->html_address( $course );
+		} catch ( Throwable $e ) {
 			error_log( $e->getMessage() );
 		}
 	}

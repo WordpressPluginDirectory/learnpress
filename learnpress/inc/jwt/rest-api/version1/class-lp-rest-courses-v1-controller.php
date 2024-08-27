@@ -531,19 +531,32 @@ class LP_Jwt_Courses_V1_Controller extends LP_REST_Jwt_Posts_Controller {
 	public function prepare_struct_courses_response( $courses, $params ): array {
 		$data = [];
 		foreach ( $courses as $courseObj ) {
-			$course = CourseModel::find( $courseObj->ID );
+			$course = CourseModel::find( $courseObj->ID, true );
 			if ( empty( $course ) ) {
 				// For course not save on table learnpress_courses but still can use object has course ID
 				$course = new CourseModel( $courseObj );
 			}
 
-			$courseObjPrepare                        = new stdClass();
-			$courseObjPrepare->id                    = (int) $courseObj->ID;
-			$courseObjPrepare->name                  = $courseObj->post_title;
-			$courseObjPrepare->image                 = $course->get_image_url();
-			$author                                  = $course->get_author_model();
-			$courseObjPrepare->instructor            = ! empty( $author ) ? $this->get_author_info( $author ) : [];
-			$courseObjPrepare->categories            = $course->get_categories();
+			$courseObjPrepare             = new stdClass();
+			$courseObjPrepare->id         = (int) $courseObj->ID;
+			$courseObjPrepare->name       = $courseObj->post_title;
+			$courseObjPrepare->image      = $course->get_image_url();
+			$author                       = $course->get_author_model();
+			$courseObjPrepare->instructor = ! empty( $author ) ? $this->get_author_info( $author ) : [];
+			$courseObjPrepare->duration   = $course->get_meta_value_by_key( CoursePostModel::META_KEY_DURATION, '' );
+			$duration                     = $course->get_meta_value_by_key( CoursePostModel::META_KEY_DURATION, '' );
+			$duration_arr                 = explode( ' ', $duration );
+			$duration_number              = floatval( $duration_arr[0] ?? 0 );
+			$duration_type                = $duration_arr[1] ?? '';
+			$duration_str                 = LP_Datetime::get_string_plural_duration( $duration_number, $duration_type );
+			$courseObjPrepare->duration   = $duration_str;
+			$course_categories            = $course->get_categories();
+			// Add key id, for old app.
+			foreach ( $course_categories as $k => $category ) {
+				$category->id            = $category->term_id;
+				$course_categories[ $k ] = $category;
+			}
+			$courseObjPrepare->categories            = $course_categories;
 			$courseObjPrepare->price                 = $course->get_price();
 			$courseObjPrepare->price_rendered        = $this->render_course_price( $course );
 			$courseObjPrepare->origin_price          = $course->get_regular_price();
@@ -950,26 +963,23 @@ class LP_Jwt_Courses_V1_Controller extends LP_REST_Jwt_Posts_Controller {
 	 * @return array
 	 */
 	public function get_instructor_info( $course ) {
-		$user_id = get_post_meta( $course->get_id(), '_lp_course_author', true );
+		if ( ! $course ) {
+			return [];
+		}
 
-		$output = array();
-
-		$extra_info = learn_press_get_user_extra_profile_info( $user_id );
-
+		$output     = array();
+		$extra_info = learn_press_get_user_extra_profile_info( $course->get_id() );
 		$instructor = $course->get_instructor();
 
-		$output['avatar'] = $instructor->get_upload_profile_src();
-
-		if ( $user_id ) {
-			$user = get_user_by( 'ID', absint( $user_id ) );
-
-			if ( $user ) {
-				$output['id']          = absint( $user_id );
-				$output['name']        = $user->display_name;
-				$output['description'] = $user->description;
-				$output['social']      = $extra_info;
-			}
+		if ( ! $instructor ) {
+			return [];
 		}
+
+		$output['avatar']      = $instructor->get_upload_profile_src();
+		$output['id']          = $instructor->get_id();
+		$output['name']        = $instructor->get_display_name();
+		$output['description'] = $instructor->get_description();
+		$output['social']      = $extra_info;
 
 		return $output;
 	}
