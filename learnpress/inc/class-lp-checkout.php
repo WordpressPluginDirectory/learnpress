@@ -275,6 +275,14 @@ class LP_Checkout {
 			}
 		}
 
+		if ( $this->is_enable_guest_checkout() && $this->get_checkout_email() ) {
+			$order->set_checkout_email( $this->get_checkout_email() );
+			// Check email exists on the user will get user_id to set
+			if ( ! $user_id ) {
+				$user_id = $this->checkout_email_exists();
+			}
+		}
+
 		$order->set_customer_note( $this->order_comment );
 		$order->set_status( LP_ORDER_PENDING );
 		$order->set_total( $cart_total->total );
@@ -286,10 +294,6 @@ class LP_Checkout {
 		if ( $this->payment_method instanceof LP_Gateway_Abstract ) {
 			$order->set_data( 'payment_method', $this->payment_method->get_id() );
 			$order->set_data( 'payment_method_title', $this->payment_method->get_title() );
-		}
-
-		if ( $this->is_enable_guest_checkout() && $this->get_checkout_email() ) {
-			$order->set_checkout_email( $this->get_checkout_email() );
 		}
 
 		$order_id = $order->save();
@@ -321,7 +325,7 @@ class LP_Checkout {
 	/**
 	 * Guest checkout is enable?
 	 *
-	 * @return mixed
+	 * @return bool
 	 * @since 3.0.0
 	 */
 	public function is_enable_guest_checkout() {
@@ -471,11 +475,13 @@ class LP_Checkout {
 	 * @throws Exception
 	 */
 	public function process_checkout() {
-		try {
-			if ( function_exists( 'set_time_limit' ) ) {
-				@set_time_limit( 0 ); // @codingStandardsIgnoreLine
-			}
+		ini_set( 'max_execution_time', HOUR_IN_SECONDS );
+		$result = array(
+			'result'   => 'fail',
+			'messages' => '',
+		);
 
+		try {
 			$lp_session = LearnPress::instance()->session;
 
 			do_action( 'learn-press/before-checkout' );
@@ -528,9 +534,8 @@ class LP_Checkout {
 							$result = apply_filters( 'learn-press/payment-successful-result', $result, $order_id );
 						}
 
-						if ( learn_press_is_ajax() ) {
-							learn_press_send_json( $result );
-						} else {
+						if ( ! learn_press_is_ajax() ) {
+							ini_set( 'max_execution_time', LearnPress::$time_limit_default_of_sever );
 							wp_redirect( $result['redirect'] );
 							exit;
 						}
@@ -563,9 +568,8 @@ class LP_Checkout {
 							'redirect' => $redirect,
 						);
 
-						if ( learn_press_is_ajax() ) {
-							learn_press_send_json( $result );
-						} else {
+						if ( ! learn_press_is_ajax() ) {
+							ini_set( 'max_execution_time', LearnPress::$time_limit_default_of_sever );
 							wp_redirect( $result['redirect'] );
 							exit;
 						}
@@ -573,12 +577,10 @@ class LP_Checkout {
 				}
 			}
 		} catch ( Throwable $e ) {
-			$result = array(
-				'result'   => 'fail',
-				'messages' => $e->getMessage(),
-			);
-			learn_press_send_json( $result );
+			$result['messages'] = $e->getMessage();
 		}
+
+		ini_set( 'max_execution_time', LearnPress::$time_limit_default_of_sever );
+		learn_press_send_json( $result );
 	}
 }
-

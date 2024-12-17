@@ -7,6 +7,7 @@
  * @version 4.0.1
  */
 
+use LearnPress\Models\CourseModel;
 use LearnPress\Models\CoursePostModel;
 
 defined( 'ABSPATH' ) || exit();
@@ -251,11 +252,14 @@ if ( ! class_exists( 'LP_Course' ) ) {
 		 * @author tungnx
 		 * @since 4.0.0
 		 * @modify 4.1.3
-		 * @version 1.0.1
+		 * @version 1.0.2
 		 * @return int
 		 */
 		public function get_first_item_id(): int {
 			$course_id = $this->get_id();
+
+			$courseModel = CourseModel::find( $course_id, true );
+			return $courseModel->get_first_item_id();
 
 			try {
 				// Get cache
@@ -307,6 +311,7 @@ if ( ! class_exists( 'LP_Course' ) ) {
 		 * @author tungnx
 		 * @version 1.0.0
 		 * @return LP_Course_Extra_Info_Fast_Query_Model
+		 * @deprecated 4.2.7.4
 		 */
 		public function get_info_extra_for_fast_query(): LP_Course_Extra_Info_Fast_Query_Model {
 			$extra_info = new LP_Course_Extra_Info_Fast_Query_Model();
@@ -352,47 +357,34 @@ if ( ! class_exists( 'LP_Course' ) ) {
 		 *
 		 * @param string $type
 		 * @param bool $include_preview
+		 *
+		 * @return int
+		 * @throws Exception
+		 * @version 1.0.1
 		 * @author tungnx
 		 * @since 4.1.4.1
-		 * @version 1.0.0
-		 * @return int
 		 */
 		public function count_items( string $type = '', bool $include_preview = true ): int {
-			$course_id = $this->get_id();
-
-			// Get cache
-			$lp_course_cache = LP_Course_Cache::instance();
-			$key_cache       = "$course_id/total_items";
-			$total_items     = $lp_course_cache->get_cache( $key_cache );
-			$count_items     = 0;
-
-			if ( ! $total_items ) {
-				$extra_info = $this->get_info_extra_for_fast_query();
-
-				if ( ! $extra_info->total_items ) {
-					$total_items             = LP_Course_DB::getInstance()->get_total_items( $course_id );
-					$extra_info->total_items = $total_items;
-
-					// Save post meta
-					$this->set_info_extra_for_fast_query( $extra_info );
-				} else {
-					$total_items = $extra_info->total_items;
-				}
-
-				$lp_course_cache->set_cache( $key_cache, $total_items );
+			$course_id   = $this->get_id();
+			$courseModel = CourseModel::find( $course_id, true );
+			if ( ! $courseModel ) {
+				return 0;
 			}
 
-			if ( ! empty( $total_items ) ) {
-				if ( ! empty( $type ) ) {
-					if ( isset( $total_items->{$type} ) ) {
-						$count_items = $total_items->{$type};
-					}
-				} else {
-					$count_items = $total_items->count_items;
-				}
+			$total_items = $courseModel->get_total_items();
+			if ( empty( $total_items ) ) {
+				return 0;
 			}
 
-			return apply_filters( 'learn-press/course/count-items', intval( $count_items ), $course_id );
+			if ( ! empty( $type ) ) {
+				if ( isset( $total_items->{$type} ) ) {
+					return $total_items->{$type};
+				}
+			} else {
+				return $total_items->count_items ?? 0;
+			}
+
+			return 0;
 		}
 
 		/**
@@ -438,7 +430,7 @@ if ( ! class_exists( 'LP_Course' ) ) {
 				$lp_courses_cache->clear_cache_on_group( LP_Courses_Cache::KEYS_COUNT_STUDENT_COURSES );
 				$lp_course_cache->clear_cache_on_group( LP_Courses_Cache::KEYS_COUNT_COURSES_FREE );
 				// Clear cache user course.
-				$lp_user_items_cache = new LP_User_Items_Cache( true );
+				$lp_user_items_cache = new LP_User_Items_Cache();
 				$lp_user_items_cache->clean_user_items_by_course( $this->get_id() );
 			} catch ( Throwable $e ) {
 				error_log( __FUNCTION__ . ':' . $e->getMessage() );
@@ -668,15 +660,15 @@ if ( ! class_exists( 'LP_Course' ) ) {
 				$filter  = apply_filters( 'lp/courses/filter', $filter );
 				$courses = LP_Course_DB::getInstance()->get_courses( $filter, $total_rows );
 
-//				$lp_courses_cache->set_cache( $key_cache, json_encode( $courses ) );
-//				$lp_courses_cache->set_cache( $key_cache_total_rows, $total_rows );
-//
-//				/**
-//				 * Save key cache to array to clear
-//				 * @see LP_Background_Single_Course::save_post() - clear cache when save post
-//				 */
-//				$lp_courses_cache->save_cache_keys_query_courses( $key_cache );
-//				$lp_courses_cache->save_cache_keys( LP_Courses_Cache::KEYS_QUERY_TOTAL_COURSES, $key_cache_total_rows );
+				//              $lp_courses_cache->set_cache( $key_cache, json_encode( $courses ) );
+				//              $lp_courses_cache->set_cache( $key_cache_total_rows, $total_rows );
+				//
+				//              /**
+				//               * Save key cache to array to clear
+				//               * @see LP_Background_Single_Course::save_post() - clear cache when save post
+				//               */
+				//              $lp_courses_cache->save_cache_keys_query_courses( $key_cache );
+				//              $lp_courses_cache->save_cache_keys( LP_Courses_Cache::KEYS_QUERY_TOTAL_COURSES, $key_cache_total_rows );
 			} catch ( Throwable $e ) {
 				$courses = [];
 				error_log( __FUNCTION__ . ': ' . $e->getMessage() );
@@ -690,7 +682,7 @@ if ( ! class_exists( 'LP_Course' ) ) {
 		 *
 		 * @return array
 		 * @since 4.1.6.9
-		 * @version 1.0.0
+		 * @version 1.0.1
 		 * @author tungnx
 		 */
 		public function get_full_sections_and_items_course() {
@@ -698,6 +690,9 @@ if ( ! class_exists( 'LP_Course' ) ) {
 			$course_id      = $this->get_id();
 
 			try {
+				$courseModel = CourseModel::find( $course_id, true );
+				return $courseModel->get_section_items();
+
 				// Get cache
 				$lp_course_cache = LP_Course_Cache::instance();
 				$key_cache       = "$course_id/sections_items";

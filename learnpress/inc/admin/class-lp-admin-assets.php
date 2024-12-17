@@ -16,7 +16,7 @@ class LP_Admin_Assets extends LP_Abstract_Assets {
 	 */
 	protected function __construct() {
 		add_action( 'admin_footer', array( $this, 'add_elements_global' ) );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_scripts_styles_on_head' ], - 1 );
+		add_action( 'admin_print_scripts', array( $this, 'load_scripts_styles_on_head' ), - 1 );
 		parent::__construct();
 	}
 
@@ -63,7 +63,15 @@ class LP_Admin_Assets extends LP_Abstract_Assets {
 					'select_page' => esc_html__( 'Select page', 'learnpress' ),
 				],
 				'current_screen'           => $screen ? $screen->id : '',
-				'show_search_author_field' => empty( $html_search_author_field ) ? 0 : $html_search_author_field
+				'show_search_author_field' => empty( $html_search_author_field ) ? 0 : $html_search_author_field,
+				'toast'                    => [
+					'gravity'     => 'bottom',
+					'position'    => 'center',
+					'duration'    => 3000,
+					'close'       => 1,
+					'stopOnFocus' => 1,
+					'classPrefix' => 'lp-toast',
+				],
 			]
 		);
 	}
@@ -315,7 +323,7 @@ class LP_Admin_Assets extends LP_Abstract_Assets {
 						'wp-url',
 						'wp-api-fetch',
 						'lodash',
-						'select2'
+						'select2',
 					),
 					array( 'widgets', 'elementor' ),
 					0,
@@ -407,7 +415,7 @@ class LP_Admin_Assets extends LP_Abstract_Assets {
 						//'select2',
 						//'jquery-ui',
 						//'jquery-ui-timepicker',
-//						'font-awesome',
+						//'font-awesome',
 						'jquery-tipsy',
 					),
 					array(),
@@ -469,12 +477,12 @@ class LP_Admin_Assets extends LP_Abstract_Assets {
 		global $post, $pagenow;
 
 		if ( empty( $post ) || ( get_post_type() !== LP_COURSE_CPT ) || ! in_array(
-				$pagenow,
-				array(
-					'post.php',
-					'post-new.php',
-				)
-			) ) {
+			$pagenow,
+			array(
+				'post.php',
+				'post-new.php',
+			)
+		) ) {
 			return [];
 		}
 

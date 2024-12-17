@@ -7,13 +7,14 @@
  * Another fields for query list courses faster
  *
  * @package LearnPress/Classes
- * @version 1.0.1
+ * @version 1.0.2
  * @since 4.2.6.9
  */
 
 namespace LearnPress\Models;
 
 use Exception;
+use LearnPress\Models\UserItems\UserCourseModel;
 use LP_Course_Cache;
 use LP_Course_DB;
 use LP_Course_Item;
@@ -21,12 +22,10 @@ use LP_Course_JSON_DB;
 use LP_Course_JSON_Filter;
 use LP_Datetime;
 use LP_Helper;
-use LP_Post_DB;
-use LP_User;
-use LP_User_Filter;
-use ReflectionClass;
+use LP_Settings;
 use stdClass;
 use Throwable;
+use WP_Error;
 
 class CourseModel {
 	/**
@@ -64,7 +63,7 @@ class CourseModel {
 	 * Because price can change by date if set schedule sale
 	 */
 	public $price_to_sort = 0;
-	public $is_sale = 0;
+	public $is_sale       = 0;
 	/**
 	 * @var string JSON Store all data a single course
 	 */
@@ -75,10 +74,6 @@ class CourseModel {
 	public $lang = null;
 	/********** Field not on table **********/
 	/**
-	 * @var UserModel author model
-	 */
-	public $author;
-	/**
 	 * @var stdClass all meta data
 	 */
 	public $meta_data = null;
@@ -86,9 +81,9 @@ class CourseModel {
 	public $permalink = '';
 	public $categories;
 	public $tags;
-	private $price = 0; // Not save in database, must auto reload calculate
+	private $price             = 0; // Not save in database, must auto reload calculate
 	private $passing_condition = '';
-	public $post_excerpt = '';
+	public $post_excerpt       = '';
 	/**
 	 * @var int ID of first item
 	 */
@@ -181,14 +176,19 @@ class CourseModel {
 	 * @return UserModel|false
 	 */
 	public function get_author_model() {
-		if ( isset( $this->author ) ) {
-			return $this->author;
-		}
+		$post = new CoursePostModel( $this );
+		return $post->get_author_model();
+	}
 
-		$post         = new CoursePostModel( $this );
-		$this->author = $post->get_author_model();
-
-		return $this->author;
+	/**
+	 * Get status of course
+	 *
+	 * @return string
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function get_status(): string {
+		return $this->post_status;
 	}
 
 	/**
@@ -223,7 +223,7 @@ class CourseModel {
 			return $this->tags;
 		}
 
-		$post       = new PostModel( $this );
+		$post = new PostModel( $this );
 		$tags = $post->get_tags();
 
 		$this->tags = $tags;
@@ -362,12 +362,23 @@ class CourseModel {
 	}
 
 	/**
+	 * Check option "Block course when expire" enable.
+	 *
+	 * @return bool
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function enable_block_when_expire(): bool {
+		return $this->get_meta_value_by_key( CoursePostModel::META_KEY_BLOCK_EXPIRE_DURATION, 'no' ) === 'yes';
+	}
+
+	/**
 	 * Get first item of course
 	 *
 	 * @return int
 	 */
 	public function get_first_item_id(): int {
-		if ( ! empty( $this->first_item_id ) ) {
+		if ( isset( $this->first_item_id ) ) {
 			return $this->first_item_id;
 		}
 
@@ -419,6 +430,28 @@ class CourseModel {
 	}
 
 	/**
+	 * Get course Evaluation type.
+	 *
+	 * @return string
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function get_evaluation_type(): string {
+		return (float) $this->get_meta_value_by_key( CoursePostModel::META_KEY_EVALUATION_TYPE, 'evaluate_lesson' );
+	}
+
+	/**
+	 * Get course passing condition value.
+	 *
+	 * @return float
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function get_passing_condition(): float {
+		return (float) $this->get_meta_value_by_key( CoursePostModel::META_KEY_PASSING_CONDITION, 80 );
+	}
+
+	/**
 	 * Get final quiz id
 	 *
 	 * @return int
@@ -434,9 +467,9 @@ class CourseModel {
 		// Not use array_reverse, it's make change object
 		$section_items = $this->get_section_items();
 		$found         = 0;
-		for ( $i = count( $section_items ); $i > 0; $i -- ) {
+		for ( $i = count( $section_items ); $i > 0; $i-- ) {
 			$section = $section_items[ $i - 1 ];
-			for ( $j = count( $section->items ); $j > 0; $j -- ) {
+			for ( $j = count( $section->items ); $j > 0; $j-- ) {
 				$item = $section->items[ $j - 1 ];
 				if ( learn_press_get_post_type( $item->id ) === LP_QUIZ_CPT ) {
 					$final_quiz = $item->id;
@@ -450,7 +483,7 @@ class CourseModel {
 			}
 		}
 
-		$evaluation_type = $this->meta_data->_lp_course_result ?? '';
+		$evaluation_type = $this->get_evaluation_type();
 		if ( $evaluation_type === 'evaluate_final_quiz' ) {
 			if ( isset( $final_quiz ) ) {
 				update_post_meta( $this->ID, $key, $final_quiz );
@@ -470,15 +503,13 @@ class CourseModel {
 	 *
 	 * @return array
 	 * @since 4.1.6.9
-	 * @version 1.0.0
+	 * @version 1.0.2
 	 * @author tungnx
 	 */
 	public function get_sections_and_items_course_from_db_and_sort(): array {
-		$sections_items  = [];
-		$course_id       = $this->get_id();
-		$lp_course_db    = LP_Course_DB::getInstance();
-		$lp_course_cache = LP_Course_Cache::instance();
-		$key_cache       = "$course_id/sections_items";
+		$sections_items = [];
+		$course_id      = $this->get_id();
+		$lp_course_db   = LP_Course_DB::getInstance();
 
 		try {
 			$sections_results       = $lp_course_db->get_sections( $course_id );
@@ -488,13 +519,16 @@ class CourseModel {
 			$section_current        = 0;
 
 			foreach ( $sections_items_results as $index => $sections_item ) {
-				$section_new   = $sections_item->section_id;
-				$section_order = $sections_item->section_order;
-				$item          = new stdClass();
-				$item->id      = $sections_item->item_id;
-				$item->order   = $sections_item->item_order;
-				$item->type    = $sections_item->item_type;
-				$item_tmp      = LP_Course_Item::get_item( $item->id );
+				$section_new      = $sections_item->section_id;
+				$section_order    = $sections_item->section_order;
+				$item             = new stdClass();
+				$item->id         = $sections_item->item_id;
+				$item->item_id    = $sections_item->item_id;
+				$item->order      = $sections_item->item_order;
+				$item->item_order = $sections_item->item_order;
+				$item->type       = $sections_item->item_type;
+				$item->item_type  = $sections_item->item_type;
+				$item_tmp         = LP_Course_Item::get_item( $item->id );
 				if ( $item_tmp ) {
 					$item->title   = html_entity_decode( $item_tmp->get_title() );
 					$item->preview = $item_tmp->is_preview();
@@ -564,8 +598,6 @@ class CourseModel {
 					return $section1->order - $section2->order;
 				}
 			);
-
-			$lp_course_cache->set_cache( $key_cache, $sections_items );
 		} catch ( Throwable $e ) {
 			error_log( $e->getMessage() );
 		}
@@ -633,16 +665,22 @@ class CourseModel {
 		return $this->get_no_enroll_requirement() === 'yes';
 	}
 
-	public function get_meta_value_by_key( string $key, $default = false ) {
-		if ( ! empty( $this->meta_data ) && isset( $this->meta_data->{$key} ) ) {
-			$value = $this->meta_data->{$key};
+	/**
+	 * Get value from meta data by key
+	 *
+	 * @param string $key
+	 * @param mixed|false $default_value
+	 *
+	 * @return false|mixed
+	 * @since 4.2.6.9
+	 * @version 1.0.1
+	 */
+	public function get_meta_value_by_key( string $key, $default_value = false ) {
+		if ( $this->meta_data instanceof stdClass && isset( $this->meta_data->{$key} ) ) {
+			$value = maybe_unserialize( $this->meta_data->{$key} );
 		} else {
 			$coursePost = new CoursePostModel( $this );
-			$value      = $coursePost->get_meta_value_by_key( $key );
-		}
-
-		if ( empty( $value ) ) {
-			$value = $default;
+			$value      = $coursePost->get_meta_value_by_key( $key, $default_value );
 		}
 
 		$this->meta_data->{$key} = $value;
@@ -652,6 +690,7 @@ class CourseModel {
 
 	/**
 	 * Check course is in stock
+	 * True is in stock, False is out of stock
 	 *
 	 * @return mixed
 	 * @since 3.0.0
@@ -669,16 +708,27 @@ class CourseModel {
 	}
 
 	/**
-	 * Check course is in stock
+	 * Check course is enable repurchase
 	 *
 	 * @return bool
 	 * @since 4.2.7.2
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
-	public function is_allow_repurchase():bool {
+	public function enable_allow_repurchase(): bool {
 		$enable = $this->get_meta_value_by_key( CoursePostModel::META_KEY_ALLOW_COURSE_REPURCHASE, 'no' );
 
 		return 'yes' === $enable;
+	}
+
+	/**
+	 * Type repurchase
+	 *
+	 * @return string
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function get_type_repurchase(): string {
+		return $this->get_meta_value_by_key( CoursePostModel::META_KEY_COURSE_REPURCHASE_OPTION, 'reset' );
 	}
 
 	/**
@@ -690,6 +740,36 @@ class CourseModel {
 		return esc_url_raw(
 			$this->get_meta_value_by_key( CoursePostModel::META_KEY_EXTERNAL_LINK_BY_COURSE, '' )
 		);
+	}
+
+	/**
+	 * Get item's link
+	 * @move from LP_Abstract_Course
+	 *
+	 * @param int $item_id
+	 *
+	 * @since 3.0.0
+	 * @version 1.0.1
+	 * @return string
+	 */
+	public function get_item_link( int $item_id ): string {
+		$item_type        = get_post_type( $item_id );
+		$course_permalink = trailingslashit( $this->get_permalink() );
+		$item_slug        = get_post_field( 'post_name', $item_id );
+
+		$slug_prefixes = apply_filters(
+			'learn-press/course/custom-item-prefixes',
+			array(
+				LP_QUIZ_CPT   => sanitize_title_with_dashes( LP_Settings::get_option( 'quiz_slug', 'quizzes' ) ),
+				LP_LESSON_CPT => sanitize_title_with_dashes( LP_Settings::get_option( 'lesson_slug', 'lessons' ) ),
+			),
+			$this->get_id()
+		);
+
+		$slug_prefix = trailingslashit( $slug_prefixes[ $item_type ] ?? '' );
+		$item_link   = trailingslashit( $course_permalink . $slug_prefix . $item_slug );
+
+		return apply_filters( 'learn-press/course/item-link', $item_link, $item_id, $this );
 	}
 
 	/**
@@ -721,6 +801,15 @@ class CourseModel {
 	}
 
 	/**
+	 * Get fake students.
+	 *
+	 * @return int
+	 */
+	public function get_fake_students(): int {
+		return (int) $this->get_meta_value_by_key( CoursePostModel::META_KEY_STUDENTS, 0 );
+	}
+
+	/**
 	 * Count number of students enrolled course.
 	 * Check global settings `enrolled_students_number`
 	 * and add the fake value if both are set.
@@ -730,9 +819,238 @@ class CourseModel {
 	 */
 	public function count_students(): int {
 		$total  = $this->get_total_user_enrolled_or_purchased();
-		$total += (int) $this->get_meta_value_by_key( CoursePostModel::META_KEY_STUDENTS, 0 );
+		$total += $this->get_fake_students();
 
 		return $total;
+	}
+
+	/**
+	 * Count total items in Course
+	 *
+	 * @param $item_type
+	 *
+	 * @return int
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function count_items( $item_type ): int {
+		$count = 0;
+
+		$total_items = $this->get_total_items();
+		if ( isset( $total_items->{$item_type} ) ) {
+			return $total_items->{$item_type};
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Get Duration of course
+	 * Timestamp in second
+	 *
+	 * @return int
+	 */
+	public function get_duration(): string {
+		return $this->get_meta_value_by_key( CoursePostModel::META_KEY_DURATION, '0' );
+	}
+
+	/**
+	 * Check user can enroll course.
+	 * @move from can_enroll_course method of LP_User class, since 4.1.1
+	 *
+	 * @param UserModel|false $user
+	 *
+	 * @return bool|WP_Error
+	 * @since 4.2.7.3
+	 * @version 1.0.1
+	 */
+	public function can_enroll( $user ) {
+		$can_enroll = true;
+		$error_code = '';
+
+		$user_id = 0;
+		if ( $user instanceof UserModel ) {
+			$user_id = $user->get_id();
+		}
+
+		try {
+			if ( ! in_array( $this->post_status, [ 'publish', 'private' ] ) ) {
+				$error_code = 'course_not_publish';
+				throw new Exception( __( 'The course is not public', 'learnpress' ) );
+			}
+
+			$userCourseModel           = UserCourseModel::find( $user_id, $this->get_id(), true );
+			$enable_no_required_enroll = $this->has_no_enroll_requirement();
+			$out_of_stock              = ! $this->is_in_stock();
+
+			// Case user can retake course.
+			if ( $userCourseModel && $userCourseModel->can_retake() ) {
+				$error_code = 'course_can_retry';
+				throw new Exception( esc_html__( 'Course can retake.', 'learnpress' ) );
+			}
+
+			// Case course is out of stock, show message when user is not login or user_item not exits
+			if ( $out_of_stock &&
+				( ! $user || ! $userCourseModel || ! $userCourseModel->has_enrolled_or_finished() ) ) {
+				$error_code = 'course_out_of_stock';
+				throw new Exception( __( 'The course is full of students.', 'learnpress' ) );
+			}
+
+			// Case user is logged in and user_item exists
+			if ( $userCourseModel && $user ) {
+				if ( $userCourseModel->has_enrolled() ) {
+					$error_code = 'course_is_enrolled';
+					throw new Exception( __( 'This course is already enrolled!', 'learnpress' ) );
+				} elseif ( $userCourseModel->has_finished() ) {
+					$error_code = 'course_is_finished';
+					throw new Exception( __( 'The course is finished.', 'learnpress' ) );
+				}
+			}
+
+			if ( $enable_no_required_enroll ) {
+				if ( ! $user ) {
+					$error_code = 'course_is_no_required_enroll_not_login';
+					throw new Exception(
+						__( 'Enrollment in the course is not mandatory. You can access course for learning now.', 'learnpress' )
+					);
+				} else {
+
+				}
+			} else {
+				if ( ! empty( $this->get_external_link() )
+					&& ( ! $userCourseModel || $userCourseModel->get_status() === LP_USER_COURSE_CANCEL )
+					&& ! $this->is_offline() ) {
+					$error_code = 'course_is_external';
+					throw new Exception( __( 'The course is external', 'learnpress' ) );
+				}
+
+				if ( ! $this->is_free() ) {
+					if ( ! $user ) {
+						$error_code = 'course_is_not_purchased_not_login';
+						throw new Exception( __( 'The course is not purchased.', 'learnpress' ) );
+					} elseif ( ! $userCourseModel || ! $userCourseModel->has_purchased() ) {
+						$error_code = 'course_is_not_purchased';
+						throw new Exception( __( 'The course is not purchased.', 'learnpress' ) );
+					}
+				}
+			}
+		} catch ( Throwable $e ) {
+			if ( empty( $error_code ) ) {
+				$error_code = 'course_can_not_enroll';
+			}
+			$can_enroll = new WP_Error( $error_code, $e->getMessage() );
+		}
+
+		// Hook old
+		if ( has_filter( 'learn-press/user/can-enroll-course' ) ) {
+			$output          = new stdClass();
+			$output->check   = true;
+			$output->message = '';
+			if ( $can_enroll instanceof WP_Error ) {
+				$output->check   = false;
+				$output->message = $can_enroll->get_error_message();
+			}
+
+			$course_old = learn_press_get_course( $this->get_id() );
+			$user_old   = learn_press_get_user( $user_id );
+			$output     = apply_filters( 'learn-press/user/can-enroll-course', $output, $course_old, false, $user_old );
+			if ( $output === false ) {
+				$can_enroll = new WP_Error( '', '' );
+			} elseif ( ! $output->check && $output->message ) {
+				$can_enroll = new WP_Error( 'error_custom', $output->message );
+			}
+			//_deprecated_function( 'The learn-press/user/can-enroll-course filter', '4.2.7.3', 'learn-press/user/can-enroll/course' );
+		}
+
+		return apply_filters( 'learn-press/user/can-enroll/course', $can_enroll, $this, $user );
+	}
+
+	/**
+	 * Check user can purchase course.
+	 * @move from can_purchase_course method of LP_User class, since 4.0.8
+	 * @use LP_User::can_purchase_course
+	 *
+	 * @param UserModel|false $user
+	 *
+	 * @return bool|WP_Error
+	 * @since 4.2.7.3
+	 * @version 1.0.0
+	 */
+	public function can_purchase( $user ) {
+		$can_purchase = true;
+		$error_code   = '';
+
+		$user_id = 0;
+		if ( $user instanceof UserModel ) {
+			$user_id = $user->get_id();
+		}
+
+		try {
+			$can_enroll = $this->can_enroll( $user );
+			if ( $can_enroll instanceof WP_Error ) {
+				$error_code_return = [
+					'course_is_not_purchased_not_login',
+					'course_is_not_purchased',
+					'course_is_enrolled',
+					'course_is_finished',
+				];
+				if ( ! in_array( $can_enroll->get_error_code(), $error_code_return ) ) {
+					$error_code = $can_enroll->get_error_code();
+					throw new Exception( $can_enroll->get_error_message() );
+				}
+			}
+
+			if ( $this->is_free() ) {
+				$error_code = 'course_is_free';
+				throw new Exception( __( 'The course is free.', 'learnpress' ) );
+			}
+
+			$enable_no_required_enroll = $this->has_no_enroll_requirement();
+			if ( $enable_no_required_enroll ) {
+				$error_code = 'course_is_no_required_enroll';
+				throw new Exception(
+					__( 'Enrollment in the course is not mandatory. You can access course for learning now.', 'learnpress' )
+				);
+			}
+
+			$userCourseModel = UserCourseModel::find( $user_id, $this->get_id(), true );
+			if ( $user ) {
+				if ( $userCourseModel ) {
+					if ( $userCourseModel->has_purchased() ) {
+						$error_code = 'course_purchased';
+						throw new Exception( __( 'Course is purchased', 'learnpress' ) );
+					}
+
+					if ( $this->enable_allow_repurchase() ) {
+						if ( $userCourseModel->has_enrolled() && $userCourseModel->timestamp_remaining_duration() !== 0 ) {
+							$error_code = 'course_is_enrolled';
+							throw new Exception( 'This course is already enrolled!' );
+						}
+					} else {
+						if ( $userCourseModel->has_enrolled_or_finished() ) {
+							$error_code = 'course_is_enrolled_or_finished';
+							throw new Exception( __( 'Course is enrolled or finished', 'learnpress' ) );
+						}
+					}
+				}
+			}
+		} catch ( Throwable $e ) {
+			if ( empty( $error_code ) ) {
+				$error_code = 'course_can_not_purchase';
+			}
+			$can_purchase = new WP_Error( $error_code, $e->getMessage() );
+		}
+
+		// Hook old
+		if ( has_filter( 'learn-press/user/can-purchase-course' ) ) {
+			$can_purchase = apply_filters( 'learn-press/user/can-purchase-course', $can_purchase, $user_id, $this->get_id() );
+			if ( $can_purchase === false ) {
+				$can_purchase = new WP_Error( '', '' );
+			}
+			//_deprecated_function( 'The learn-press/user/can-purchase-course filter', '4.2.7.3', 'learn-press/user/can-purchase/course' );
+		}
+
+		return apply_filters( 'learn-press/user/can-purchase/course', $can_purchase, $this, $user );
 	}
 
 	/**
@@ -741,7 +1059,7 @@ class CourseModel {
 	 * If exists, return PostModel.
 	 *
 	 * @param LP_Course_JSON_Filter $filter
-	 * @param bool $no_cache
+	 * @param bool $check_cache
 	 *
 	 * @return CourseModel|false|static
 	 */
@@ -768,9 +1086,7 @@ class CourseModel {
 				$course_model = new static( $course_obj );
 				//$course_model->json         = $course_rs->json;
 				$course_model->post_content = $course_rs->post_content;
-				if ( $course_model->author instanceof stdClass ) {
-					$course_model->author = new UserModel( $course_model->author );
-				}
+				$course_model->get_author_model();
 			}
 		} catch ( Throwable $e ) {
 			error_log( __METHOD__ . ': ' . $e->getMessage() );
@@ -783,14 +1099,14 @@ class CourseModel {
 	 * Get course by ID
 	 *
 	 * @param int $course_id
-	 * @param bool $no_cache
+	 * @param bool $check_cache
 	 *
 	 * @return false|CourseModel|static
 	 */
 	public static function find( int $course_id, bool $check_cache = false ) {
 		$filter_course     = new LP_Course_JSON_Filter();
 		$filter_course->ID = $course_id;
-		$key_cache         = "course-model/find/id/{$course_id}";
+		$key_cache         = "courseModel/find/id/{$course_id}";
 		$lp_course_cache   = new LP_Course_Cache();
 
 		// Check cache
@@ -836,6 +1152,8 @@ class CourseModel {
 	 * Save course data to table learnpress_courses.
 	 *
 	 * @throws Exception
+	 * @since 4.2.6.9
+	 * @version 1.0.1
 	 */
 	public function save(): CourseModel {
 		$lp_course_json_db = LP_Course_JSON_DB::getInstance();
@@ -865,11 +1183,8 @@ class CourseModel {
 			$lp_course_json_db->update_data( $data );
 		}
 
-		// Set cache single course when save done.
-		$key_cache       = "course-model/find/id/{$this->ID}";
-		$lp_course_cache = new LP_Course_Cache();
-		$lp_course_cache->clear( $this->ID );
-		$lp_course_cache->set_cache( $key_cache, $this->ID );
+		// Clear cache
+		$this->clean_caches();
 
 		return $this;
 	}
@@ -882,8 +1197,41 @@ class CourseModel {
 	public function delete() {
 		$lp_course_json_db  = LP_Course_JSON_DB::getInstance();
 		$filter             = new LP_Course_JSON_Filter();
-		$filter->where[]    = $lp_course_json_db->wpdb->prepare( "AND ID = %d", $this->ID );
+		$filter->where[]    = $lp_course_json_db->wpdb->prepare( 'AND ID = %d', $this->ID );
 		$filter->collection = $lp_course_json_db->tb_lp_courses;
 		$lp_course_json_db->delete_execute( $filter );
+
+		// Clear cache
+		$this->clean_caches();
+	}
+
+	/**
+	 * Clean caches
+	 *
+	 * @since 4.2.7.4
+	 * @version 1.0.0
+	 * @return void
+	 */
+	public function clean_caches() {
+		$key_cache       = "courseModel/find/id/{$this->ID}";
+		$lp_course_cache = new LP_Course_Cache();
+		$lp_course_cache->clear( $key_cache );
+	}
+
+	/**
+	 * Return course's items support.
+	 * To replace learn_press_course_get_support_item_types()
+	 * Should add hook on addons before use this function.
+	 *
+	 * @return array
+	 * @since 4.2.7.4
+	 */
+	public static function item_types_support(): array {
+		$item_types = [
+			LP_LESSON_CPT,
+			LP_QUIZ_CPT,
+		];
+
+		return apply_filters( 'learn-press/course/item-types-support', $item_types );
 	}
 }

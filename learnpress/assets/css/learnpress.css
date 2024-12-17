@@ -79,6 +79,10 @@
   background-color: #EBF8E5;
   color: #3AB500;
 }
+.learn-press-message.info {
+  background-color: rgba(0, 122, 255, 0.1019607843);
+  color: #007AFF;
+}
 .learn-press-message a {
   text-decoration: underline;
 }
@@ -243,10 +247,9 @@ input, button, select, textarea {
   outline: none;
 }
 
-html {
-  overflow-x: hidden;
-}
-
+/*html {
+	overflow-x: hidden;
+}*/
 a {
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
@@ -295,6 +298,13 @@ p:last-child {
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
   margin-right: 5px;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 
 .lp-hidden {
@@ -1306,6 +1316,9 @@ input[type=password] {
   }
 }
 
+.lp-user-cover-image__display {
+  width: 100%;
+}
 @media (max-width: 767px) {
   .lp-user-cover-image {
     position: relative;
@@ -1421,6 +1434,13 @@ input[type=password] {
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
   margin-right: 5px;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 
 button.learnpress_avatar__button {
@@ -1562,6 +1582,10 @@ button.learnpress_avatar__button + button {
   position: relative;
   --lp-item-padding: 40px;
 }
+.lp-user-profile img {
+  max-width: 100%;
+  height: auto;
+}
 .lp-user-profile .lp-user-profile-avatar img {
   display: block;
   border-radius: var(--lp-border-radius-avatar, 50%);
@@ -1685,7 +1709,7 @@ button.learnpress_avatar__button + button {
 .lp-user-profile .lp-profile-nav-tabs > li.active > a, .lp-user-profile .lp-profile-nav-tabs > li.active > a i {
   color: #fff;
 }
-.lp-user-profile .lp-profile-nav-tabs > li:hover {
+.lp-user-profile .lp-profile-nav-tabs > li:not(.active):hover {
   background: var(--lp-white-grey, #F7F7FB);
 }
 .lp-user-profile .lp-profile-nav-tabs > li.has-child > a:after {
@@ -1949,11 +1973,11 @@ button.learnpress_avatar__button + button {
   font-style: italic;
 }
 
-div.order-recover {
+.lp-order-recover {
   display: flex;
   gap: 10px;
 }
-div.order-recover input[type=text] {
+.lp-order-recover input[type=text] {
   font-style: italic;
   flex: 1 1 auto;
 }
@@ -2439,9 +2463,6 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-bottom: 10px;
 }
 .course-summary .course-price .origin-price,
-.course-summary .course-price .price {
-  vertical-align: middle;
-}
 .course-summary .course-price .origin-price {
   margin-right: 10px;
   font-size: 1.125em;
@@ -2558,6 +2579,13 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
   margin-right: 5px;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 .course-curriculum .section-header {
   display: table;
@@ -2785,6 +2813,13 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
   margin-right: 5px;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 
 body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .form-button-finish-course {
@@ -5215,15 +5250,20 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 /**
  *  End Archive courses page.
  */
-.lp_allow_repuchase_select {
+.lp_allow_repurchase_select {
   padding: 20px;
   background: #f7f7f7;
 }
-.lp_allow_repuchase_select > ul {
+.lp_allow_repurchase_select > ul {
   padding: 0;
   list-style: none;
 }
-.lp_allow_repuchase_select > a {
+.lp_allow_repurchase_select > ul li label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lp_allow_repurchase_select > a {
   display: inline-block;
   margin-top: 10px;
   color: var(--lp-color-white, #fff);
@@ -5723,17 +5763,6 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 }
 .course-summary-sidebar .lp-course-buttons button:hover {
   border-color: var(--lp-primary-color);
-}
-.course-summary-sidebar .lp-course-buttons button ~ .lp-enroll-notice {
-  margin-top: 20px;
-  padding: 20px;
-  border: 2px solid #EBF8E5;
-  border-radius: 9px;
-  font-size: 0.93em;
-  line-height: 1.4;
-}
-.course-summary-sidebar .lp-course-buttons button ~ .lp-enroll-notice.error {
-  border-color: #FEE5E5;
 }
 .course-summary-sidebar .course-results-progress .items-progress,
 .course-summary-sidebar .course-results-progress .course-progress {
@@ -6349,7 +6378,7 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 
 #popup-footer {
   position: fixed;
-  z-index: 999;
+  z-index: 99999;
   right: 0;
   bottom: 0;
   left: 475px;
@@ -6623,7 +6652,7 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
 }
 .content-item-wrap .quiz-buttons.align-center .button-left.fixed {
   position: fixed;
-  z-index: 99999;
+  z-index: 999991;
   bottom: 0;
   left: 50%;
   width: 100%;
