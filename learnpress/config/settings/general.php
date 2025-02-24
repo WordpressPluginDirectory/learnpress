@@ -148,6 +148,13 @@ return apply_filters(
 			'type'    => 'checkbox',
 		),
 		array(
+			'title'   => esc_html__( 'Store IP Guest to handle checkout', 'learnpress' ),
+			'desc'    => esc_html__( 'Enable the option, IP of client is identifier user instead $_COOKIE', 'learnpress' ),
+			'id'      => 'store_ip_customer_session',
+			'default' => 'no',
+			'type'    => 'checkbox',
+		),
+		array(
 			'type' => 'sectionend',
 		),
 	)

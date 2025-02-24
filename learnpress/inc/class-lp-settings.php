@@ -354,6 +354,15 @@ class LP_Settings {
 	}
 
 	/**
+	 * Check enable option "Store data in $_SESSION PHP" instead of $_COOKIE
+	 *
+	 * @return bool
+	 */
+	public static function is_store_ip_customer(): bool {
+		return self::get_option( 'store_ip_customer_session', 'no' ) === 'yes';
+	}
+
+	/**
 	 * Check table learnpress_files is created
 	 * @return boolean
 	 */
