@@ -16,11 +16,13 @@ __webpack_require__.r(__webpack_exports__);
  * List API on backend
  *
  * @since 4.2.6
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 const lplistAPI = {};
+let lp_rest_url;
 if ('undefined' !== typeof lpDataAdmin) {
+  lp_rest_url = lpDataAdmin.lp_rest_url;
   lplistAPI.admin = {
     apiAdminNotice: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/admin-notices',
     apiAdminOrderStatic: lpDataAdmin.lp_rest_url + 'lp/v1/orders/statistic',
@@ -30,17 +32,21 @@ if ('undefined' !== typeof lpDataAdmin) {
     apiSearchCourses: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/search-course',
     apiSearchUsers: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/search-user',
     apiAssignUserCourse: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/assign-user-course',
-    apiUnAssignUserCourse: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/unassign-user-course',
-    apiAJAX: lpDataAdmin.lp_rest_url + 'lp/v1/load_content_via_ajax/'
+    apiUnAssignUserCourse: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/unassign-user-course'
   };
 }
 if ('undefined' !== typeof lpData) {
+  lp_rest_url = lpData.lp_rest_url;
   lplistAPI.frontend = {
     apiWidgets: lpData.lp_rest_url + 'lp/v1/widgets/api',
     apiCourses: lpData.lp_rest_url + 'lp/v1/courses/archive-course',
     apiAJAX: lpData.lp_rest_url + 'lp/v1/load_content_via_ajax/',
     apiProfileCoverImage: lpData.lp_rest_url + 'lp/v1/profile/cover-image'
   };
+}
+if (lp_rest_url) {
+  lplistAPI.apiAJAX = lp_rest_url + 'lp/v1/load_content_via_ajax/';
+  lplistAPI.apiCourses = lp_rest_url + 'lp/v1/courses/';
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
@@ -298,13 +304,14 @@ var __webpack_exports__ = {};
   !*** ./assets/src/js/frontend/widgets.js ***!
   \*******************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./assets/src/js/utils.js");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils.js */ "./assets/src/js/utils.js");
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api */ "./assets/src/js/api.js");
 
 
 function widgetRestAPI() {
   const widgets = document.querySelectorAll('.learnpress-widget-wrapper:not(.loaded)');
-  if (!widgets.length) {
+  const widgetBlocks = document.querySelectorAll('.learnpress-block-widget-wrapper:not(.loaded)');
+  if (!widgets.length && !widgetBlocks.length) {
     return;
   }
   const getResponse = ele => {
@@ -339,6 +346,14 @@ function widgetRestAPI() {
         } else if (message) {
           ele.insertAdjacentHTML('afterbegin', `<div class="lp-ajax-message error" style="display:block">${message}</div>`);
         }
+        const elBtnDone = ele.querySelector('.course-filter-submit.lp-btn-done');
+        if (elBtnDone) {
+          if (window.outerWidth <= 991) {
+            (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl)(elBtnDone, 1);
+          } else {
+            (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl)(elBtnDone, 0);
+          }
+        }
       },
       error: error => {},
       completed: () => {
@@ -358,14 +373,24 @@ function widgetRestAPI() {
     };
 
     // Call API load widget
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI)(url, paramsFetch, callBack);
+    (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI)(url, paramsFetch, callBack);
   };
-  widgets.forEach(ele => {
-    ele.classList.add('loaded');
-    if (ele.classList.contains('learnpress-widget-wrapper__restapi')) {
-      getResponse(ele);
-    }
-  });
+  if (widgets.length) {
+    widgets.forEach(ele => {
+      ele.classList.add('loaded');
+      if (ele.classList.contains('learnpress-widget-wrapper__restapi')) {
+        getResponse(ele);
+      }
+    });
+  }
+  if (widgetBlocks.length) {
+    widgetBlocks.forEach(ele => {
+      ele.classList.add('loaded');
+      if (ele.classList.contains('learnpress-widget-wrapper__restapi')) {
+        getResponse(ele);
+      }
+    });
+  }
 }
 widgetRestAPI();
 

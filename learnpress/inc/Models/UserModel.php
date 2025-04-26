@@ -1,19 +1,21 @@
 <?php
+namespace LearnPress\Models;
 
 /**
  * Class UserModel
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @since 4.2.6.9
  */
 
-namespace LearnPress\Models;
-
 use Exception;
 use LearnPress\Models\UserItems\UserCourseModel;
+use LearnPress\Models\UserItems\UserItemModel;
+use LearnPress\Models\UserItems\UserQuizModel;
 use LP_Cache;
 use LP_Course_DB;
 use LP_Course_Filter;
+use LP_Database;
 use LP_Profile;
 use LP_User;
 use LP_User_DB;
@@ -314,8 +316,8 @@ class UserModel {
 	 *
 	 * Hook from function get_the_author_meta of WP
 	 *
-	 * @uses get_the_author_meta
 	 * @return string
+	 * @uses get_the_author_meta
 	 * @version 1.0.1
 	 * @since 4.2.7
 	 */
@@ -532,7 +534,7 @@ class UserModel {
 	 *
 	 * @return array
 	 * @since 4.1.6
-	 * @version 1.0.3
+	 * @version 1.0.4
 	 */
 	public function get_instructor_statistic( array $params = [] ): array {
 		$statistic = array(
@@ -559,7 +561,7 @@ class UserModel {
 			$filter_course                      = new LP_Course_Filter();
 			$filter_course->only_fields         = array( 'ID' );
 			$filter_course->post_author         = $user_id;
-			$filter_course->post_status         = 'publish';
+			$filter_course->post_status         = [ 'publish', 'private' ];
 			$filter_course->return_string_query = true;
 			$query_courses_str                  = LP_Course_DB::getInstance()->get_courses( $filter_course );
 
@@ -610,5 +612,27 @@ class UserModel {
 	 */
 	public function is_instructor(): bool {
 		return user_can( $this->get_id(), LP_TEACHER_ROLE ) || user_can( $this->get_id(), 'administrator' );
+	}
+
+	/**
+	 * Get quizzes attend of user.
+	 *
+	 * @param LP_User_Items_Filter $filter
+	 * @param int $total_rows
+	 *
+	 * @return array|int|string|null
+	 * @throws Exception
+	 * @since 4.2.8.2
+	 * @version 1.0.0
+	 */
+	public function get_quizzes_attend( LP_User_Items_Filter $filter, int &$total_rows = 0 ) {
+		$lp_db_user_items  = LP_User_Items_DB::getInstance();
+		$filter->order_by  = 'user_item_id';
+		$filter->order     = 'DESC';
+		$filter->user_id   = $this->get_id();
+		$filter->item_type = LP_QUIZ_CPT;
+		$filter->ref_type  = LP_COURSE_CPT;
+
+		return $lp_db_user_items->get_user_items( $filter, $total_rows );
 	}
 }

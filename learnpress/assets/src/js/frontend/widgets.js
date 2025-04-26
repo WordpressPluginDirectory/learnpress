@@ -1,10 +1,11 @@
-import { lpFetchAPI } from '../utils';
+import { lpFetchAPI, lpShowHideEl } from '../utils.js';
 import API from '../api';
 
 function widgetRestAPI() {
 	const widgets = document.querySelectorAll( '.learnpress-widget-wrapper:not(.loaded)' );
+	const widgetBlocks = document.querySelectorAll( '.learnpress-block-widget-wrapper:not(.loaded)' );
 
-	if ( ! widgets.length ) {
+	if ( ! widgets.length && ! widgetBlocks.length ) {
 		return;
 	}
 
@@ -36,6 +37,15 @@ function widgetRestAPI() {
 				} else if ( message ) {
 					ele.insertAdjacentHTML( 'afterbegin', `<div class="lp-ajax-message error" style="display:block">${ message }</div>` );
 				}
+
+				const elBtnDone = ele.querySelector( '.course-filter-submit.lp-btn-done' );
+				if ( elBtnDone ) {
+					if ( window.outerWidth <= 991 ) {
+						lpShowHideEl( elBtnDone, 1 );
+					} else {
+						lpShowHideEl( elBtnDone, 0 );
+					}
+				}
 			},
 			error: ( error ) => {
 
@@ -60,12 +70,23 @@ function widgetRestAPI() {
 		lpFetchAPI( url, paramsFetch, callBack );
 	};
 
-	widgets.forEach( ( ele ) => {
-		ele.classList.add( 'loaded' );
-		if ( ele.classList.contains( 'learnpress-widget-wrapper__restapi' ) ) {
-			getResponse( ele );
-		}
-	} );
+	if ( widgets.length ) {
+		widgets.forEach( ( ele ) => {
+			ele.classList.add( 'loaded' );
+			if ( ele.classList.contains( 'learnpress-widget-wrapper__restapi' ) ) {
+				getResponse( ele );
+			}
+		} );
+	}
+
+	if ( widgetBlocks.length ) {
+		widgetBlocks.forEach( ( ele ) => {
+			ele.classList.add( 'loaded' );
+			if ( ele.classList.contains( 'learnpress-widget-wrapper__restapi' ) ) {
+				getResponse( ele );
+			}
+		} );
+	}
 }
 
 widgetRestAPI();

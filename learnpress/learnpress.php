@@ -4,7 +4,7 @@
  * Plugin URI: http://thimpress.com/learnpress
  * Description: LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create courses, lessons and quizzes.
  * Author: ThimPress
- * Version: 4.2.8.1
+ * Version: 4.2.8.3
  * Author URI: http://thimpress.com
  * Requires at least: 6.0
  * Requires PHP: 7.0
@@ -19,6 +19,7 @@ use LearnPress\Ajax\LoadContentViaAjax;
 use LearnPress\ExternalPlugin\Elementor\LPElementor;
 use LearnPress\ExternalPlugin\RankMath\LPRankMath;
 use LearnPress\ExternalPlugin\YoastSeo\LPYoastSeo;
+use LearnPress\Gutenberg\GutenbergHandleMain;
 use LearnPress\Models\UserModel;
 use LearnPress\Shortcodes\Course\FilterCourseShortcode;
 
@@ -37,6 +38,7 @@ use LearnPress\TemplateHooks\Instructor\ListInstructorsTemplate;
 use LearnPress\TemplateHooks\Instructor\SingleInstructorTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileGeneralInfoTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileInstructorStatisticsTemplate;
+use LearnPress\TemplateHooks\Profile\ProfileQuizzesTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileOrdersTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileOrderTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileStudentStatisticsTemplate;
@@ -322,6 +324,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			ProfileOrderTemplate::instance();
 			ProfileGeneralInfoTemplate::instance();
 			FilterCourseTemplate::instance();
+			ProfileQuizzesTemplate::instance();
 
 			CourseMaterialTemplate::instance();
 
@@ -452,8 +455,9 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			include_once 'inc/cart/lp-cart-functions.php';
 
 			// Block Templates
-			include_once 'inc/block-template/class-abstract-block-template.php';
-			include_once 'inc/block-template/class-block-template-handle.php';
+			//include_once 'inc/block-template/class-abstract-block-template.php';
+			//include_once 'inc/block-template/class-block-template-handle.php';
+			GutenbergHandleMain::instance();
 
 			// API
 			include_once 'inc/abstracts/abstract-rest-api.php';
