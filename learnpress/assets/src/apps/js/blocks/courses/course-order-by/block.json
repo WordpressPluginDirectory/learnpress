@@ -4,17 +4,17 @@
 	"name": "learnpress/course-order-by",
 	"title": "Course Sorting",
 	"category": "learnpress-course-elements",
-	"icon": "search",
-	"description": "Renders Template Order By Course PHP templates.",
+	"icon": "editor-alignleft",
+	"description": "Show sorting select box for courses.",
 	"textdomain": "learnpress",
-	"keywords": ["Sorting archive course", "learnpress"],
+	"keywords": ["sort", "learnpress"],
 	"usesContext": [ "lpCourseQuery" ],
+	"ancestor": [ "learnpress/list-courses" ],
 	"supports": {
 		"inserter": true,
 		"reusable": true,
 		"reorder": true,
 		"html": false,
 		"multiple": true
-	},
-	"ancestor": ["learnpress/list-courses"]
+	}
 }

@@ -1,7 +1,7 @@
 <?php
-namespace LearnPress\Gutenberg\Blocks\ArchiveCourseElements;
+namespace LearnPress\Gutenberg\Blocks\CourseFilter;
 
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\AbstractArchiveCourseBlockType;
+use LearnPress\Gutenberg\Blocks\AbstractBlockType;
 use LearnPress\TemplateHooks\Course\FilterCourseTemplate;
 use LP_Debug;
 use Throwable;
@@ -10,7 +10,7 @@ use Throwable;
  *
  * Handle register, render block template
  */
-class CourseFilterBlockType extends AbstractArchiveCourseBlockType {
+class CourseFilterBlockType extends AbstractBlockType {
 	public $block_name = 'course-filter';
 
 	/**
@@ -31,7 +31,7 @@ class CourseFilterBlockType extends AbstractArchiveCourseBlockType {
 			$fields         = array_values( array_intersect( $fields, $allowed_fields ) );
 			apply_filters( 'learnpress/course-filter/fields', $fields );
 
-			$class                     = 'learnpress-block-widget-wrapper';
+			$class                     = 'learnpress-block-widget-wrapper learnpress-widget-wrapper';
 			$show_in_rest              = isset( $attributes['showInRest'] ) ? ( $attributes['showInRest'] === false ? 0 : 1 ) : 1;
 			$title                     = $attributes['title'] ?? 'Course Filter';
 			$widget_content            = '';
@@ -48,7 +48,7 @@ class CourseFilterBlockType extends AbstractArchiveCourseBlockType {
 				'hide_count_zero'           => $hide_count_zero,
 				'search_suggestion'         => $search_suggestion,
 				'fields'                    => $fields,
-				'class_wrapper_form'        => 'lp-form-block-course-filter',
+				'class_wrapper_form'        => 'lp-form-course-filter',
 			];
 
 			$data = [
@@ -89,7 +89,7 @@ class CourseFilterBlockType extends AbstractArchiveCourseBlockType {
 				$title,
 				$class,
 				htmlentities( wp_json_encode( $data ) ),
-				$widget_content,
+				$widget_content
 			);
 
 			$html = $this->get_output( $html_course_filter );

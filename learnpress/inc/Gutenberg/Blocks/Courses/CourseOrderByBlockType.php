@@ -1,19 +1,20 @@
 <?php
 
-namespace LearnPress\Gutenberg\Blocks\ArchiveCourseElements;
+namespace LearnPress\Gutenberg\Blocks\Courses;
 
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\AbstractArchiveCourseBlockType;
+use LearnPress\Gutenberg\Blocks\AbstractBlockType;
+use LearnPress\TemplateHooks\Course\FilterCourseTemplate;
 use LearnPress\TemplateHooks\Course\ListCoursesTemplate;
 use LP_Debug;
 use Throwable;
 
 /**
- * Class CourseSearchBlockType
+ * Class CourseOrderByBlockType
  *
  * Handle register, render block template
  */
-class CourseSearchBlockType extends AbstractArchiveCourseBlockType {
-	public $block_name = 'course-search';
+class CourseOrderByBlockType extends AbstractBlockType {
+	public $block_name = 'course-order-by';
 
 	public function get_supports(): array {
 		return [
@@ -39,10 +40,6 @@ class CourseSearchBlockType extends AbstractArchiveCourseBlockType {
 		];
 	}
 
-	public function get_ancestor() {
-		return [ 'learnpress/list-courses' ];
-	}
-
 	/**
 	 * Render content of block tag
 	 *
@@ -54,10 +51,17 @@ class CourseSearchBlockType extends AbstractArchiveCourseBlockType {
 		$html = '';
 
 		try {
-			$settings          = lp_archive_skeleton_get_args();
-			$settings['class'] = 'block-search-courses';
-			$html_search       = ListCoursesTemplate::instance()->html_search_form( $settings );
-			$html              = $this->get_output( $html_search );
+			$settings         = $block->context['settings'] ?? [];
+			$order_by         = $block->context['order_by'] ?? 'post_date';
+			$order_by_current = isset( $settings['order_by'] ) ? sanitize_text_field( $settings['order_by'] ) : '';
+			if ( ! empty( $order_by_current ) ) {
+				$order_by = $order_by_current;
+			}
+
+			$listCoursesTemplate = ListCoursesTemplate::instance();
+
+			$html  = $listCoursesTemplate->html_order_by( $order_by );
+			$html .= FilterCourseTemplate::instance()->html_btn_filter_mobile( $settings );
 		} catch ( Throwable $e ) {
 			LP_Debug::error_log( $e );
 		}
