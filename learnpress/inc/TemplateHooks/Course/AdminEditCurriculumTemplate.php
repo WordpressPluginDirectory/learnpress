@@ -7,6 +7,7 @@ use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\CourseModel;
 use LearnPress\Models\PostModel;
+use LearnPress\Models\UserModel;
 use LearnPress\TemplateHooks\TemplateAJAX;
 use LP_Database;
 use LP_Post_DB;
@@ -195,9 +196,16 @@ class AdminEditCurriculumTemplate {
 				$is_clone ? 'clone lp-hidden' : ''
 			),
 			'head'                 => '<div class="section-head">',
-			'drag'                 => '<span class="drag lp-icon-drag"></span>',
+			'drag'                 => sprintf(
+				'<span class="drag lp-icon-drag" title="%s"></span>',
+				__( 'Drag to reorder section', 'learnpress' )
+			),
 			'loading'              => '<span class="lp-icon-spinner"></span>',
 			'title'                => $this->html_input_section_title( $section_name ),
+			'btn-edit'             => sprintf(
+				'<span class="lp-btn-edit-section-title lp-icon-edit" title="%s"></span>',
+				__( 'Edit section title', 'learnpress' )
+			),
 			'btn-delete'           => sprintf(
 				'<button type="button" class="lp-btn-delete-section button" data-title="%s" data-content="%s">%s</button>',
 				__( 'Are you sure?', 'learnpress' ),
@@ -282,12 +290,12 @@ class AdminEditCurriculumTemplate {
 	 */
 	public function html_edit_section_description( string $section_description = '' ): string {
 		return sprintf(
-			'<input class="lp-section-description-input"
+			'<textarea class="lp-section-description-input"
 				name="lp-section-description-input"
 				type="text"
 				value="%1$s"
 				data-old="%1$s"
-				placeholder="%2$s">',
+				placeholder="%2$s">%1$s</textarea>',
 			esc_attr( $section_description ),
 			esc_attr__( '+ Add Description', 'learnpress' )
 		);
@@ -359,7 +367,7 @@ class AdminEditCurriculumTemplate {
 					data-title="%s" data-content="%s">%s</li>',
 				__( 'Are you sure?', 'learnpress' ),
 				__( 'This item will be removed from this section. This item will no longer be assigned to this course. It will not be permanently deleted from the system.', 'learnpress' ),
-				'<a class="lp-icon-trash-o"></a>'
+				sprintf( '<a class="lp-icon-trash-o" title="%s"></a>', __( 'Remove item', 'learnpress' ) )
 			),
 			'wrap_end' => '</ul>',
 		];
@@ -372,7 +380,10 @@ class AdminEditCurriculumTemplate {
 				$item_type,
 				$is_clone ? 'clone lp-hidden' : ''
 			),
-			'drag'         => '<span class="drag lp-icon-drag"></span>',
+			'drag'         => sprintf(
+				'<span class="drag lp-icon-drag" title="%s"></span>',
+				__( 'Drag to reorder item', 'learnpress' )
+			),
 			'icon'         => '<div class="item-ico-type"></div>',
 			'loading'      => '<span class="lp-icon-spinner"></span>',
 			'input-title'  => sprintf(
@@ -562,9 +573,17 @@ class AdminEditCurriculumTemplate {
 	}
 
 	/**
+	 * Render list items not assign to course.
+	 * Get all items not assigned to any course, use old logic.
+	 * If user current is Admin, get all items.
+	 * Else get all items created by user current.
+	 *
 	 * @throws Exception
+	 * @since 4.2.8.6
+	 * @version 1.0.1
 	 */
 	public static function render_list_items_not_assign( $data ): stdClass {
+		$user                   = wp_get_current_user();
 		$content                = new stdClass();
 		$course_id              = $data['course_id'] ?? 0;
 		$item_type              = $data['item_type'] ?? LP_LESSON_CPT;
@@ -589,6 +608,9 @@ class AdminEditCurriculumTemplate {
 		$filter->post_status = 'publish';
 		$filter->order_by    = 'p.ID';
 		$filter->page        = $paged;
+		if ( ! user_can( $user, UserModel::ROLE_ADMINISTRATOR ) ) {
+			$filter->post_author = $user->ID;
+		}
 
 		if ( ! empty( $search_title ) ) {
 			$filter->post_title = $search_title;
@@ -602,6 +624,12 @@ class AdminEditCurriculumTemplate {
 
 		$lp_posts_db = LP_Post_DB::getInstance();
 		$total_rows  = 0;
+		$filter      = apply_filters(
+			'learn-press/filter-list-items-not-assign-course',
+			$filter,
+			$data,
+			$courseModel
+		);
 		$posts       = $lp_posts_db->get_posts( $filter, $total_rows );
 		$total_pages = LP_Database::get_total_pages( $filter->limit, $total_rows );
 

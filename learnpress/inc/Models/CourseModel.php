@@ -15,6 +15,7 @@ namespace LearnPress\Models;
 
 use Exception;
 use LearnPress\Models\UserItems\UserCourseModel;
+use LearnPress\Models\UserItems\UserItemModel;
 use LP_Admin_Editor_Course;
 use LP_Course_Cache;
 use LP_Course_DB;
@@ -1000,7 +1001,7 @@ class CourseModel {
 				}
 			} else {
 				if ( ! empty( $this->get_external_link() )
-					&& ( ! $userCourseModel || $userCourseModel->get_status() === LP_USER_COURSE_CANCEL )
+					&& ( ! $userCourseModel || $userCourseModel->get_status() === UserItemModel::STATUS_CANCEL )
 					&& ! $this->is_offline() ) {
 					$error_code = 'course_is_external';
 					throw new Exception( __( 'The course is external', 'learnpress' ) );
@@ -1138,16 +1139,17 @@ class CourseModel {
 	/**
 	 * Check user is author or co-in of course.
 	 *
-	 * @param UserModel $userModel
+	 * @param UserModel|false $userModel
 	 *
 	 * @return bool
 	 * @since 4.2.7.6
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
-	public function check_user_is_author( UserModel $userModel ): bool {
+	public function check_user_is_author( $userModel ): bool {
 		$is_author = false;
 
-		if ( $userModel->get_id() === $this->post_author ) {
+		if ( $userModel instanceof UserModel
+			&& $userModel->get_id() === $this->post_author ) {
 			$is_author = true;
 		}
 

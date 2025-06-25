@@ -46,7 +46,7 @@ const edit = props => {
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the instrucotr a link', 'learnpress'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the instructor a link', 'learnpress'),
     checked: props.attributes.isLink ? true : false,
     onChange: value => {
       props.setAttributes({
@@ -310,7 +310,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const templatesName = ['learnpress/learnpress//single-lp_course'];
+const templatesName = ['learnpress/learnpress//single-lp_course', 'learnpress/learnpress//single-lp_course-offline'];
 (0,_utilBlock_js__WEBPACK_IMPORTED_MODULE_4__.checkTemplatesCanLoadBlock)(templatesName, _block_json__WEBPACK_IMPORTED_MODULE_2__, metadataNew => {
   (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)(metadataNew.name, {
     ...metadataNew,
