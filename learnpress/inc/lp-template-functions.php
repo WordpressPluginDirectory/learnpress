@@ -61,8 +61,7 @@ if ( ! function_exists( 'learn_press_get_course_tabs' ) ) {
 		}
 
 		$userModel = UserModel::find( get_current_user_id(), true );
-		$course = learn_press_get_course();
-		$user   = learn_press_get_current_user();
+
 		$defaults               = [];
 		$defaults['overview']   = [
 			'title'    => esc_html__( 'Overview', 'learnpress' ),
@@ -95,31 +94,24 @@ if ( ! function_exists( 'learn_press_get_course_tabs' ) ) {
 			];
 		}
 
-		$can_show_tab_material = false;
-		if ( $course->is_no_required_enroll()
-			|| $user->has_enrolled_or_finished( $course->get_id() )
-			|| $user->has_purchased_course( $course->get_id() )
-			|| $user->is_instructor() || $user->is_admin() ) {
-			$can_show_tab_material = true;
-		}
-
-		$file_per_page = LP_Settings::get_option( 'material_file_per_page', - 1 );
-		$count_files   = LP_Material_Files_DB::getInstance()->get_total( $courseModel->get_id() );
-		if ( $can_show_tab_material && (int) $file_per_page != 0 && $count_files > 0 ) {
-			$defaults['materials'] = array(
+		$singleCourseTemplate = SingleCourseTemplate::instance();
+		$html_material        = $singleCourseTemplate->html_material( $courseModel, $userModel, [ 'show_heading' => false ] );
+		if ( ! empty( $html_material ) ) {
+			$defaults['materials'] = [
 				'title'    => esc_html__( 'Materials', 'learnpress' ),
 				'priority' => 45,
-				'callback' => function () {
-					do_action( 'learn-press/course-material/layout', [] );
+				'callback' => function () use ( $html_material ) {
+					echo $html_material;
 				},
-			);
+			];
 		}
 
 		// @since 4.2.8.7.1 update new parameter $courseModel
 		$tabs = apply_filters( 'learn-press/course-tabs', $defaults, $courseModel );
-		unset( $tabs['overview']['active'] );
 
 		if ( ! empty( $tabs ) ) {
+			$has_tab_active = false;
+
 			// sort tabs by priority, from low to high
 			uasort(
 				$tabs,
@@ -130,15 +122,23 @@ if ( ! function_exists( 'learn_press_get_course_tabs' ) ) {
 					return ( $priority1 < $priority2 ) ? - 1 : 1;
 				}
 			);
-			$request_tab = LP_Request::get_param( 'tab', 'tab-overview' );
 
 			foreach ( $tabs as $k => $v ) {
 				$v['id'] = $v['id'] ?? 'tab-' . $k;
-				if ( $request_tab === $v['id'] ) {
-					$v['active'] = true;
+				if ( ! empty( $v['active'] ) ) {
+					$has_tab_active = true;
 				}
 
 				$tabs[ $k ] = $v;
+			}
+
+			// Check if there is no tab active, set first tab active
+			if ( ! $has_tab_active ) {
+				// set first tab active
+				$first_key = array_key_first( $tabs );
+				if ( $first_key ) {
+					$tabs[ $first_key ]['active'] = true;
+				}
 			}
 		}
 
