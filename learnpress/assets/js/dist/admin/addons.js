@@ -25,7 +25,6 @@ if ('undefined' !== typeof lpDataAdmin) {
   lp_rest_url = lpDataAdmin.lp_rest_url;
   lplistAPI.admin = {
     apiAdminNotice: lp_rest_url + 'lp/v1/admin/tools/admin-notices',
-    apiAdminOrderStatic: lp_rest_url + 'lp/v1/orders/statistic',
     apiAddons: lp_rest_url + 'lp/v1/addon/all',
     apiAddonAction: lp_rest_url + 'lp/v1/addon/action-n',
     apiAddonsPurchase: lp_rest_url + 'lp/v1/addon/info-addons-purchase',
@@ -41,6 +40,7 @@ if ('undefined' !== typeof lpData) {
     apiWidgets: lp_rest_url + 'lp/v1/widgets/api',
     apiCourses: lp_rest_url + 'lp/v1/courses/archive-course',
     apiAJAX: lp_rest_url + 'lp/v1/load_content_via_ajax/',
+    // Deprecated since 4.3.0
     apiProfileCoverImage: lp_rest_url + 'lp/v1/profile/cover-image'
   };
 }
@@ -251,6 +251,10 @@ const loadElData = setInterval(() => {
     elAddonsPage.innerHTML = dataHtml;
     elLPAddons = elAddonsPage.querySelector('#lp-addons');
     const elNavTabWrapper = document.querySelector('.lp-nav-tab-wrapper');
+    if (!elNavTabWrapper) {
+      clearInterval(loadElData);
+      return;
+    }
     const elNavTabWrapperClone = elNavTabWrapper.cloneNode(true);
     elAddonsPage.insertBefore(elNavTabWrapperClone, elAddonsPage.children[0]);
     elNavTabWrapperClone.style.display = 'flex';

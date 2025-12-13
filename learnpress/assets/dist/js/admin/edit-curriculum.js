@@ -1581,6 +1581,8 @@ const setVariable = (variable, value) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getDataOfForm: () => (/* binding */ getDataOfForm),
+/* harmony export */   getFieldKeysOfForm: () => (/* binding */ getFieldKeysOfForm),
 /* harmony export */   listenElementCreated: () => (/* binding */ listenElementCreated),
 /* harmony export */   listenElementViewed: () => (/* binding */ listenElementViewed),
 /* harmony export */   lpAddQueryArgs: () => (/* binding */ lpAddQueryArgs),
@@ -1591,6 +1593,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
 /* harmony export */   lpSetLoadingEl: () => (/* binding */ lpSetLoadingEl),
 /* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl),
+/* harmony export */   mergeDataWithDatForm: () => (/* binding */ mergeDataWithDatForm),
 /* harmony export */   toggleCollapse: () => (/* binding */ toggleCollapse)
 /* harmony export */ });
 /**
@@ -1600,7 +1603,7 @@ __webpack_require__.r(__webpack_exports__);
  * @param data
  * @param functions
  * @since 4.2.5.1
- * @version 1.0.3
+ * @version 1.0.4
  */
 const lpClassName = {
   hidden: 'lp-hidden',
@@ -1796,6 +1799,51 @@ const toggleCollapse = (e, target, elTriggerClassName = '', elsExclude = [], cal
   }
 };
 
+// Get data of form
+const getDataOfForm = form => {
+  const dataSend = {};
+  const formData = new FormData(form);
+  for (const pair of formData.entries()) {
+    const key = pair[0];
+    const value = formData.getAll(key);
+    if (!dataSend.hasOwnProperty(key)) {
+      dataSend[key] = value;
+    }
+  }
+  return dataSend;
+};
+
+// Get field keys of form
+const getFieldKeysOfForm = form => {
+  const keys = [];
+  const elements = form.elements;
+  for (let i = 0; i < elements.length; i++) {
+    const name = elements[i].name;
+    if (name && !keys.includes(name)) {
+      keys.push(name);
+    }
+  }
+  return keys;
+};
+
+// Merge data handle with data form.
+const mergeDataWithDatForm = (elForm, dataHandle) => {
+  const dataForm = getDataOfForm(elForm);
+  const keys = getFieldKeysOfForm(elForm);
+  keys.forEach(key => {
+    if (!dataForm.hasOwnProperty(key)) {
+      delete dataHandle[key];
+    } else if (dataForm[key][0] === '') {
+      delete dataForm[key];
+      delete dataHandle[key];
+    }
+  });
+  dataHandle = {
+    ...dataHandle,
+    ...dataForm
+  };
+  return dataHandle;
+};
 
 /***/ }),
 
