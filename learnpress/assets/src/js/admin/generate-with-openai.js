@@ -35,7 +35,7 @@ export class GenerateWithOpenai {
 			el.insertAdjacentHTML(
 				'afterend',
 				`<button type="button"
-					class="lp-btn-generate-with-ai"
+					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-title-ai">
 					<i class="lp-ico-ai"></i><span>${ lpData.i18n.generate_with_ai }</span>
 				</button>`
@@ -45,7 +45,7 @@ export class GenerateWithOpenai {
 			el.insertAdjacentHTML(
 				'beforeend',
 				`<button type="button"
-					class="lp-btn-generate-with-ai"
+					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-description-ai">
 					<i class="lp-ico-ai"></i><span>${ lpData.i18n.generate_with_ai }</span>
 				</button>`
@@ -57,7 +57,7 @@ export class GenerateWithOpenai {
 				'afterend',
 				`<button type="button"
 					style="margin: 12px 12px 0 12px;"
-					class="lp-btn-generate-with-ai"
+					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-image-ai">
 					<i class="lp-ico-ai"></i><span>${ lpData.i18n.generate_with_ai }</span>
 				</button>`
@@ -410,13 +410,6 @@ export class GenerateWithOpenai {
 
 		const btnPrev = form.querySelector( '.lp-btn-step[data-action=prev]' );
 		lpUtils.lpShowHideEl( btnPrev, 0 );
-
-		setTimeout( () => {
-			lpToastify.show(
-				'Generating course data. This may take a few moments...',
-				'info'
-			);
-		}, 1000 );
 
 		// Ajax to generate prompt
 		const callBack = {

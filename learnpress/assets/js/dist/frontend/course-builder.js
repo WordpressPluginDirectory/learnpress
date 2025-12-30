@@ -1,42 +1,22 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/admin/edit-curriculum/edit-section.js":
-/*!*************************************************************!*\
-  !*** ./assets/src/js/admin/edit-curriculum/edit-section.js ***!
-  \*************************************************************/
+/***/ "./assets/src/js/admin/edit-course/edit-curriculum.js":
+/*!************************************************************!*\
+  !*** ./assets/src/js/admin/edit-course/edit-curriculum.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addSection: () => (/* binding */ addSection),
-/* harmony export */   cancelSectionDescription: () => (/* binding */ cancelSectionDescription),
-/* harmony export */   cancelSectionTitle: () => (/* binding */ cancelSectionTitle),
-/* harmony export */   changeDescription: () => (/* binding */ changeDescription),
-/* harmony export */   changeTitle: () => (/* binding */ changeTitle),
-/* harmony export */   changeTitleBeforeAdd: () => (/* binding */ changeTitleBeforeAdd),
-/* harmony export */   className: () => (/* binding */ className),
-/* harmony export */   deleteSection: () => (/* binding */ deleteSection),
-/* harmony export */   focusTitleInput: () => (/* binding */ focusTitleInput),
-/* harmony export */   focusTitleNewInput: () => (/* binding */ focusTitleNewInput),
-/* harmony export */   init: () => (/* binding */ init),
-/* harmony export */   setFocusTitleInput: () => (/* binding */ setFocusTitleInput),
-/* harmony export */   sortAbleSection: () => (/* binding */ sortAbleSection),
-/* harmony export */   toggleSection: () => (/* binding */ toggleSection),
-/* harmony export */   updateSectionDescription: () => (/* binding */ updateSectionDescription),
-/* harmony export */   updateSectionTitle: () => (/* binding */ updateSectionTitle)
+/* harmony export */   EditCourseCurriculum: () => (/* binding */ EditCourseCurriculum)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _share_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./share.js */ "./assets/src/js/admin/edit-curriculum/share.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
-
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+/* harmony import */ var _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-curriculum/edit-section.js */ "./assets/src/js/admin/edit-course/edit-curriculum/edit-section.js");
+/* harmony import */ var _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit-curriculum/edit-section-item.js */ "./assets/src/js/admin/edit-course/edit-curriculum/edit-section-item.js");
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
 /**
- * Edit Section Script on Curriculum
+ * Edit Curriculum JS handler.
  *
  * @since 4.2.8.6
  * @version 1.0.2
@@ -44,646 +24,6989 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 
 
-var className = _objectSpread(_objectSpread({}, _share_js__WEBPACK_IMPORTED_MODULE_1__.className), {}, {
-  elDivAddNewSection: '.add-new-section',
-  elSectionClone: '.section.clone',
-  elSectionTitleNewInput: '.lp-section-title-new-input',
-  elSectionTitleInput: '.lp-section-title-input',
-  etBtnEditTitle: '.lp-btn-edit-section-title',
-  elSectionDesInput: '.lp-section-description-input',
-  elBtnAddSection: '.lp-btn-add-section',
-  elBtnUpdateTitle: '.lp-btn-update-section-title',
-  elBtnUpdateDes: '.lp-btn-update-section-description',
-  elBtnCancelUpdateTitle: '.lp-btn-cancel-update-section-title',
-  elBtnCancelUpdateDes: '.lp-btn-cancel-update-section-description',
-  elBtnDeleteSection: '.lp-btn-delete-section',
-  elSectionDesc: '.section-description',
-  elSectionToggle: '.section-toggle',
-  elCountSections: '.count-sections'
-});
-var courseId = _share_js__WEBPACK_IMPORTED_MODULE_1__.courseId,
-  elEditCurriculum = _share_js__WEBPACK_IMPORTED_MODULE_1__.elEditCurriculum,
-  elCurriculumSections = _share_js__WEBPACK_IMPORTED_MODULE_1__.elCurriculumSections,
-  showToast = _share_js__WEBPACK_IMPORTED_MODULE_1__.showToast,
-  lpUtils = _share_js__WEBPACK_IMPORTED_MODULE_1__.lpUtils,
-  updateCountItems = _share_js__WEBPACK_IMPORTED_MODULE_1__.updateCountItems;
-var idUrlHandle = 'edit-course-curriculum';
-var init = function init() {
-  courseId = _share_js__WEBPACK_IMPORTED_MODULE_1__.courseId;
-  elEditCurriculum = _share_js__WEBPACK_IMPORTED_MODULE_1__.elEditCurriculum;
-  elCurriculumSections = _share_js__WEBPACK_IMPORTED_MODULE_1__.elCurriculumSections;
-  showToast = _share_js__WEBPACK_IMPORTED_MODULE_1__.showToast;
-  lpUtils = _share_js__WEBPACK_IMPORTED_MODULE_1__.lpUtils;
-  updateCountItems = _share_js__WEBPACK_IMPORTED_MODULE_1__.updateCountItems;
-};
-
-// Typing in new section title input
-var changeTitleBeforeAdd = function changeTitleBeforeAdd(e, target) {
-  var elSectionTitleNewInput = target.closest("".concat(className.elSectionTitleNewInput));
-  if (!elSectionTitleNewInput) {
-    return;
+const sectionEdit = new _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_0__.EditSection();
+const sectionItemEdit = new _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_1__.EditSectionItem();
+class EditCourseCurriculum {
+  constructor() {
+    this.init();
   }
-  var elAddNewSection = elSectionTitleNewInput.closest("".concat(className.elDivAddNewSection));
-  if (!elAddNewSection) {
-    return;
-  }
-  var elBtnAddSection = elAddNewSection.querySelector("".concat(className.elBtnAddSection));
-  var titleValue = elSectionTitleNewInput.value.trim();
-  if (titleValue.length === 0) {
-    elBtnAddSection.classList.remove('active');
-    delete _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.titleNew;
-  } else {
-    elBtnAddSection.classList.add('active');
-    _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.titleNew = 1;
-  }
-};
-
-// Focus on new section title input
-var focusTitleNewInput = function focusTitleNewInput(e, target) {
-  var focusIn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  var elSectionTitleNewInput = target.closest("".concat(className.elSectionTitleNewInput));
-  if (!elSectionTitleNewInput) {
-    return;
-  }
-  var elAddNewSection = elSectionTitleNewInput.closest("".concat(className.elDivAddNewSection));
-  if (!elAddNewSection) {
-    return;
-  }
-  if (focusIn) {
-    elAddNewSection.classList.add('focus');
-  } else {
-    elAddNewSection.classList.remove('focus');
-  }
-};
-
-// Add new section
-var addSection = function addSection(e, target, callBackNest) {
-  var canHandle = false;
-  if (target.closest("".concat(className.elBtnAddSection))) {
-    canHandle = true;
-  } else if (target.closest("".concat(className.elSectionTitleNewInput)) && e.key === 'Enter') {
-    canHandle = true;
-  }
-  if (!canHandle) {
-    return;
-  }
-  var elAddNewSection = target.closest("".concat(className.elDivAddNewSection));
-  if (!elAddNewSection) {
-    return;
-  }
-  e.preventDefault();
-  var elSectionTitleNewInput = elAddNewSection.querySelector("".concat(className.elSectionTitleNewInput));
-  var titleValue = elSectionTitleNewInput.value.trim();
-  var message = elSectionTitleNewInput.dataset.messEmptyTitle;
-  if (titleValue.length === 0) {
-    showToast(message, 'error');
-    return;
-  }
-
-  // Clear input after add
-  elSectionTitleNewInput.value = '';
-  elSectionTitleNewInput.blur();
-
-  // Add and set data for new section
-  var elSectionClone = elCurriculumSections.querySelector("".concat(className.elSectionClone));
-  var newSection = elSectionClone.cloneNode(true);
-  newSection.classList.remove('clone');
-  lpUtils.lpShowHideEl(newSection, 1);
-  lpUtils.lpSetLoadingEl(newSection, 1);
-  var elSectionTitleInput = newSection.querySelector("".concat(className.elSectionTitleInput));
-  elSectionTitleInput.value = titleValue;
-  elCurriculumSections.insertAdjacentElement('beforeend', newSection);
-  // End
-
-  // Call ajax to add new section
-  var callBack = {
-    success: function success(response) {
-      var message = response.message,
-        status = response.status,
-        data = response.data;
-      if (status === 'error') {
-        newSection.remove();
-        throw message;
-      } else if (status === 'success') {
-        var section = data.section;
-        newSection.dataset.sectionId = section.section_id || '';
-        if (_share_js__WEBPACK_IMPORTED_MODULE_1__.sortAbleItem) {
-          _share_js__WEBPACK_IMPORTED_MODULE_1__.sortAbleItem();
-        }
-        if (callBackNest && typeof callBackNest.success === 'function') {
-          callBackNest.success(newSection, response);
-        }
-      }
-      showToast(message, status);
-    },
-    error: function error(_error) {
-      newSection.remove();
-      showToast(_error, 'error');
-      if (callBackNest && typeof callBackNest.error === 'function') {
-        callBackNest.error(newSection, _error);
-      }
-    },
-    completed: function completed() {
-      lpUtils.lpSetLoadingEl(newSection, 0);
-      newSection.classList.remove("".concat(className.elCollapse));
-      var elSectionDesInput = newSection.querySelector("".concat(className.elSectionDesInput));
-      elSectionDesInput.focus();
-      updateCountSections();
-      delete _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.titleNew;
-      if (callBackNest && typeof callBackNest.completed === 'function') {
-        callBackNest.completed(newSection);
-      }
-    }
+  static selectors = {
+    idElEditCurriculum: '#lp-course-edit-curriculum',
+    elCurriculumSections: '.curriculum-sections',
+    elToggleAllSections: '.course-toggle-all-sections',
+    LPTarget: '.lp-target',
+    elCollapse: 'lp-collapse'
   };
-  addSectionAPI({
-    section_name: titleValue
-  }, callBack);
-};
-var addSectionAPI = function addSectionAPI(data, callBack) {
-  var dataSend = _objectSpread({
-    action: 'add_section',
-    course_id: courseId,
-    section_name: data.section_name || '',
-    args: {
-      id_url: idUrlHandle
-    }
-  }, data);
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
+  init() {
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpOnElementReady(`${EditCourseCurriculum.selectors.idElEditCurriculum}`, elEditCurriculum => {
+      // Set variables use for section edit
+      sectionEdit.init();
 
-// Delete section
-var deleteSection = function deleteSection(e, target) {
-  var elBtnDeleteSection = target.closest("".concat(className.elBtnDeleteSection));
-  if (!elBtnDeleteSection) {
-    return;
+      // Set variables use for edit section item
+      sectionItemEdit.init();
+    });
   }
-  sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
-    title: elBtnDeleteSection.dataset.title,
-    text: elBtnDeleteSection.dataset.content,
-    icon: 'warning',
-    showCloseButton: true,
-    showCancelButton: true,
-    cancelButtonText: lpDataAdmin.i18n.cancel,
-    confirmButtonText: lpDataAdmin.i18n.yes,
-    reverseButtons: true
-  }).then(function (result) {
-    if (result.isConfirmed) {
-      var elSection = elBtnDeleteSection.closest('.section');
-      var sectionId = elSection.dataset.sectionId;
-      lpUtils.lpSetLoadingEl(elSection, 1);
-
-      // Call ajax to delete section
-      var callBack = {
-        success: function success(response) {
-          var message = response.message,
-            status = response.status;
-          var content = response.data.content;
-          showToast(message, status);
-        },
-        error: function error(_error2) {
-          showToast(_error2, 'error');
-        },
-        completed: function completed() {
-          lpUtils.lpSetLoadingEl(elSection, 0);
-          elSection.remove();
-          updateCountItems(elSection);
-          updateCountSections();
-        }
-      };
-      var dataSend = {
-        action: 'delete_section',
-        course_id: courseId,
-        section_id: sectionId,
-        args: {
-          id_url: idUrlHandle
-        }
-      };
-      window.lpAJAXG.fetchAJAX(dataSend, callBack);
-    }
-  });
-};
-
-// Focus on new section title input
-var focusTitleInput = function focusTitleInput(e, target) {
-  var focusIn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  var elSectionTitleInput = target.closest("".concat(className.elSectionTitleInput));
-  if (!elSectionTitleInput) {
-    return;
-  }
-  var elSection = elSectionTitleInput.closest("".concat(className.elSection));
-  if (!elSection) {
-    return;
-  }
-  if (focusIn) {
-    elSection.classList.add('focus');
-  } else {
-    elSection.classList.remove('focus');
-  }
-};
-
-// Set focus on section title input
-var setFocusTitleInput = function setFocusTitleInput(e, target) {
-  var etBtnEditTitle = target.closest("".concat(className.etBtnEditTitle));
-  if (!etBtnEditTitle) {
-    return;
-  }
-  var elSection = etBtnEditTitle.closest("".concat(className.elSection));
-  if (!elSection) {
-    return;
-  }
-  var elSectionTitleInput = elSection.querySelector("".concat(className.elSectionTitleInput));
-  elSectionTitleInput.setSelectionRange(elSectionTitleInput.value.length, elSectionTitleInput.value.length);
-  elSectionTitleInput.focus();
-};
-
-// Typing in description input
-var changeTitle = function changeTitle(e, target) {
-  var elSectionTitleInput = target.closest("".concat(className.elSectionTitleInput));
-  if (!elSectionTitleInput) {
-    return;
-  }
-  var elSection = elSectionTitleInput.closest("".concat(className.elSection));
-  var titleValue = elSectionTitleInput.value.trim();
-  var titleValueOld = elSectionTitleInput.dataset.old || '';
-  if (titleValue === titleValueOld) {
-    elSection.classList.remove('editing');
-    delete _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.title;
-  } else {
-    elSection.classList.add('editing');
-    _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.title = 1;
-  }
-};
-
-// Update section title to server
-var updateSectionTitle = function updateSectionTitle(e, target) {
-  var canHandle = false;
-  if (target.closest("".concat(className.elBtnUpdateTitle))) {
-    canHandle = true;
-  } else if (target.closest("".concat(className.elSectionTitleInput)) && e.key === 'Enter') {
-    canHandle = true;
-  }
-  if (!canHandle) {
-    return;
-  }
-  e.preventDefault();
-  var elSection = target.closest("".concat(className.elSection));
-  if (!elSection) {
-    return;
-  }
-  var elSectionTitleInput = elSection.querySelector("".concat(className.elSectionTitleInput));
-  if (!elSectionTitleInput) {
-    return;
-  }
-  var sectionId = elSection.dataset.sectionId;
-  var titleValue = elSectionTitleInput.value.trim();
-  var titleValueOld = elSectionTitleInput.dataset.old || '';
-  var message = elSectionTitleInput.dataset.messEmptyTitle;
-  if (titleValue.length === 0) {
-    showToast(message, 'error');
-    return;
-  }
-  if (titleValue === titleValueOld) {
-    return;
-  }
-  elSectionTitleInput.blur();
-  lpUtils.lpSetLoadingEl(elSection, 1);
-
-  // Call ajax to update section title
-  var callBack = {
-    success: function success(response) {
-      var message = response.message,
-        status = response.status;
-      showToast(message, status);
-      if (status === 'success') {
-        elSectionTitleInput.dataset.old = titleValue;
-      }
-    },
-    error: function error(_error3) {
-      showToast(_error3, 'error');
-    },
-    completed: function completed() {
-      lpUtils.lpSetLoadingEl(elSection, 0);
-      elSection.classList.remove('editing');
-      delete _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.title;
-    }
-  };
-  var dataSend = {
-    action: 'update_section',
-    course_id: courseId,
-    section_id: sectionId,
-    section_name: titleValue,
-    args: {
-      id_url: idUrlHandle
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
-
-// Cancel updating section description
-var cancelSectionTitle = function cancelSectionTitle(e, target) {
-  var elBtnCancelUpdateTitle = target.closest("".concat(className.elBtnCancelUpdateTitle));
-  if (!elBtnCancelUpdateTitle) {
-    return;
-  }
-  var elSection = elBtnCancelUpdateTitle.closest("".concat(className.elSection));
-  var elSectionTitleInput = elSection.querySelector("".concat(className.elSectionTitleInput));
-  elSectionTitleInput.value = elSectionTitleInput.dataset.old || ''; // Reset to old value
-  elSection.classList.remove('editing'); // Remove editing class
-  delete _share_js__WEBPACK_IMPORTED_MODULE_1__.hasChange.title;
-};
-
-// Update section description to server
-var updateSectionDescription = function updateSectionDescription(e, target, callBackNest) {
-  var canHandle = false;
-  if (target.closest("".concat(className.elBtnUpdateDes))) {
-    canHandle = true;
-  } else if (target.closest("".concat(className.elSectionDesInput)) && e.key === 'Enter') {
-    canHandle = true;
-  }
-  if (!canHandle) {
-    return;
-  }
-  e.preventDefault();
-  var elSectionDesc = target.closest("".concat(className.elSectionDesc));
-  if (!elSectionDesc) {
-    return;
-  }
-  var elSectionDesInput = elSectionDesc.querySelector("".concat(className.elSectionDesInput));
-  if (!elSectionDesInput) {
-    return;
-  }
-  var elSection = elSectionDesInput.closest("".concat(className.elSection));
-  var sectionId = elSection.dataset.sectionId;
-  var descValue = elSectionDesInput.value.trim();
-  var descValueOld = elSectionDesInput.dataset.old || '';
-  if (descValue === descValueOld) {
-    return;
-  }
-  lpUtils.lpSetLoadingEl(elSection, 1);
-
-  // Call ajax to update section description
-  var callBack = {
-    success: function success(response) {
-      var message = response.message,
-        status = response.status;
-      if (callBackNest && typeof callBackNest.success === 'function') {
-        callBackNest.success(elSection, response);
-      }
-      showToast(message, status);
-    },
-    error: function error(_error4) {
-      showToast(_error4, 'error');
-      if (callBackNest && typeof callBackNest.error === 'function') {
-        callBackNest.error(elSection, _error4);
-      }
-    },
-    completed: function completed() {
-      lpUtils.lpSetLoadingEl(elSection, 0);
-      var elSectionDesc = elSectionDesInput.closest("".concat(className.elSectionDesc));
-      elSectionDesc.classList.remove('editing');
-      elSectionDesInput.dataset.old = descValue; // Update old value
-      if (callBackNest && typeof callBackNest.completed === 'function') {
-        callBackNest.completed(elSection);
-      }
-    }
-  };
-  var dataSend = {
-    action: 'update_section',
-    course_id: courseId,
-    section_id: sectionId,
-    section_description: descValue,
-    args: {
-      id_url: idUrlHandle
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
-
-// Cancel updating section description
-var cancelSectionDescription = function cancelSectionDescription(e, target) {
-  var elBtnCancelUpdateDes = target.closest("".concat(className.elBtnCancelUpdateDes));
-  if (!elBtnCancelUpdateDes) {
-    return;
-  }
-  var elSectionDesc = elBtnCancelUpdateDes.closest("".concat(className.elSectionDesc));
-  var elSectionDesInput = elSectionDesc.querySelector("".concat(className.elSectionDesInput));
-  elSectionDesInput.value = elSectionDesInput.dataset.old || ''; // Reset to old value
-  elSectionDesc.classList.remove('editing'); // Remove editing class
-};
-
-// Typing in description input
-var changeDescription = function changeDescription(e, target) {
-  var elSectionDesInput = target.closest("".concat(className.elSectionDesInput));
-  if (!elSectionDesInput) {
-    return;
-  }
-  var elSectionDesc = elSectionDesInput.closest("".concat(className.elSectionDesc));
-  var descValue = elSectionDesInput.value.trim();
-  var descValueOld = elSectionDesInput.dataset.old || '';
-  if (descValue === descValueOld) {
-    elSectionDesc.classList.remove('editing');
-  } else {
-    elSectionDesc.classList.add('editing');
-  }
-};
-
-// Toggle section
-var toggleSection = function toggleSection(e, target) {
-  var elSectionToggle = target.closest("".concat(className.elSectionToggle));
-  if (!elSectionToggle) {
-    return;
-  }
-  var elSection = elSectionToggle.closest("".concat(className.elSection));
-  var elCurriculumSections = elSection.closest("".concat(className.elCurriculumSections));
-  if (!elCurriculumSections) {
-    return;
-  }
-
-  // Toggle section
-  elSection.classList.toggle("".concat(className.elCollapse));
-
-  // Check all sections collapsed
-  checkAllSectionsCollapsed();
-};
-
-// Check if all sections are collapsed
-var checkAllSectionsCollapsed = function checkAllSectionsCollapsed() {
-  var elSections = elEditCurriculum.querySelectorAll("".concat(className.elSection, ":not(.clone)"));
-  var elToggleAllSections = elEditCurriculum.querySelector("".concat(className.elToggleAllSections));
-  var isAllExpand = true;
-  elSections.forEach(function (el) {
-    if (el.classList.contains("".concat(className.elCollapse))) {
-      isAllExpand = false;
-      return false; // Break the loop
-    }
-  });
-  if (isAllExpand) {
-    elToggleAllSections.classList.remove("".concat(className.elCollapse));
-  } else {
-    elToggleAllSections.classList.add("".concat(className.elCollapse));
-  }
-};
-
-// Sortable sections, drag and drop to change section position
-var sortAbleSection = function sortAbleSection() {
-  var isUpdateSectionPosition = 0;
-  var timeout;
-  new sortablejs__WEBPACK_IMPORTED_MODULE_3__["default"](elCurriculumSections, {
-    handle: '.drag',
-    animation: 150,
-    onEnd: function onEnd(evt) {
-      var target = evt.item;
-      if (!isUpdateSectionPosition) {
-        // No change in section position, do nothing
-        return;
-      }
-      var elSection = target.closest("".concat(className.elSection));
-      var elSections = elCurriculumSections.querySelectorAll("".concat(className.elSection));
-      var sectionIds = [];
-      elSections.forEach(function (elSection, index) {
-        var sectionId = elSection.dataset.sectionId;
-        sectionIds.push(sectionId);
-      });
-
-      // Call ajax to update section position
-      var callBack = {
-        success: function success(response) {
-          var message = response.message,
-            status = response.status;
-          showToast(message, status);
-        },
-        error: function error(_error5) {
-          showToast(_error5, 'error');
-        },
-        completed: function completed() {
-          lpUtils.lpSetLoadingEl(elSection, 0);
-          isUpdateSectionPosition = 0;
-        }
-      };
-      var dataSend = {
-        action: 'update_section_position',
-        course_id: courseId,
-        new_position: sectionIds,
-        args: {
-          id_url: idUrlHandle
-        }
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        lpUtils.lpSetLoadingEl(elSection, 1);
-        window.lpAJAXG.fetchAJAX(dataSend, callBack);
-      }, 1000);
-    },
-    onMove: function onMove(evt) {
-      clearTimeout(timeout);
-    },
-    onUpdate: function onUpdate(evt) {
-      isUpdateSectionPosition = 1;
-    }
-  });
-};
-
-// Update count sections, when add or delete section
-var updateCountSections = function updateCountSections() {
-  var elCountSections = elEditCurriculum.querySelector("".concat(className.elCountSections));
-  var elSections = elCurriculumSections.querySelectorAll("".concat(className.elSection, ":not(.clone)"));
-  var sectionsCount = elSections.length;
-  elCountSections.dataset.count = sectionsCount;
-  elCountSections.querySelector('.count').textContent = sectionsCount;
-};
-
+}
 
 /***/ }),
 
-/***/ "./assets/src/js/admin/edit-curriculum/share.js":
-/*!******************************************************!*\
-  !*** ./assets/src/js/admin/edit-curriculum/share.js ***!
-  \******************************************************/
+/***/ "./assets/src/js/admin/edit-course/edit-curriculum/edit-section-item.js":
+/*!******************************************************************************!*\
+  !*** ./assets/src/js/admin/edit-course/edit-curriculum/edit-section-item.js ***!
+  \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   className: () => (/* binding */ className),
-/* harmony export */   courseId: () => (/* binding */ courseId),
-/* harmony export */   elCurriculumSections: () => (/* binding */ elCurriculumSections),
-/* harmony export */   elEditCurriculum: () => (/* binding */ elEditCurriculum),
-/* harmony export */   hasChange: () => (/* binding */ hasChange),
-/* harmony export */   lpUtils: () => (/* reexport module object */ _utils_js__WEBPACK_IMPORTED_MODULE_1__),
-/* harmony export */   setVariable: () => (/* binding */ setVariable),
-/* harmony export */   setVariables: () => (/* binding */ setVariables),
-/* harmony export */   showToast: () => (/* binding */ showToast),
-/* harmony export */   sortAbleItem: () => (/* binding */ sortAbleItem),
-/* harmony export */   updateCountItems: () => (/* binding */ updateCountItems)
+/* harmony export */   EditSectionItem: () => (/* binding */ EditSectionItem)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils.js */ "./assets/src/js/utils.js");
-/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
-/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
-
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var _edit_curriculum_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../edit-curriculum.js */ "./assets/src/js/admin/edit-course/edit-curriculum.js");
+/* harmony import */ var _edit_section_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./edit-section.js */ "./assets/src/js/admin/edit-course/edit-curriculum/edit-section.js");
+/* harmony import */ var lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lpAssetsJsPath/lpPopupSelectItemToAdd.js */ "./assets/src/js/lpPopupSelectItemToAdd.js");
 /**
- * Share variables and functions for the edit curriculum page.
+ * Edit Section item Script on Curriculum
+ *
+ * @version 1.0.3
+ * @since 4.2.8.6
+ */
+
+
+
+
+
+
+
+const idUrlHandle = 'edit-course-curriculum';
+const lpPopupSelectItemToAdd = new lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd();
+class EditSectionItem {
+  constructor() {
+    this.courseId = null;
+    this.elCurriculumSections = null;
+    this.sectionIdSelected = null;
+  }
+  static selectors = {
+    elSectionListItems: '.section-list-items',
+    elItemClone: '.section-item.clone',
+    elSectionItem: '.section-item',
+    elBtnSelectItemType: '.lp-btn-select-item-type',
+    elAddItemTypeClone: '.lp-add-item-type.clone',
+    elSectionActions: '.section-actions',
+    elAddItemType: '.lp-add-item-type',
+    elAddItemTypeTitleInput: '.lp-add-item-type-title-input',
+    elBtnAddItemCancel: '.lp-btn-add-item-cancel',
+    elBtnAddItem: '.lp-btn-add-item',
+    elItemTitleInput: '.lp-item-title-input',
+    elBtnUpdateItemTitle: '.lp-btn-update-item-title',
+    elBtnCancelUpdateTitle: '.lp-btn-cancel-update-item-title',
+    elBtnDeleteItem: '.lp-btn-delete-item',
+    elBtnSetPreviewItem: '.lp-btn-set-preview-item'
+  };
+  init() {
+    this.elEditCurriculum = document.querySelector(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_4__.EditCourseCurriculum.selectors.idElEditCurriculum}`);
+    this.elCurriculumSections = this.elEditCurriculum.querySelector(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_4__.EditCourseCurriculum.selectors.elCurriculumSections}`);
+    const elLPTarget = this.elEditCurriculum.closest(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_4__.EditCourseCurriculum.selectors.LPTarget}`);
+    const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+    this.courseId = dataSend.args.course_id;
+    this.events();
+    this.sortAbleItem();
+    lpPopupSelectItemToAdd.init();
+  }
+
+  /* Events */
+  events() {
+    // Check and attach events only once
+    if (EditSectionItem._loadedEvents) {
+      return;
+    }
+    EditSectionItem._loadedEvents = this;
+
+    // Click events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('click', [{
+      selector: EditSectionItem.selectors.elBtnSelectItemType,
+      class: this,
+      callBack: this.addItemType.name
+    }, {
+      selector: EditSectionItem.selectors.elBtnAddItem,
+      class: this,
+      callBack: this.addItemToSection.name
+    }, {
+      selector: EditSectionItem.selectors.elBtnAddItemCancel,
+      class: this,
+      callBack: this.cancelAddItemType.name
+    }, {
+      selector: EditSectionItem.selectors.elBtnUpdateItemTitle,
+      class: this,
+      callBack: this.updateTitle.name
+    }, {
+      selector: EditSectionItem.selectors.elBtnCancelUpdateTitle,
+      class: this,
+      callBack: this.cancelUpdateTitle.name
+    }, {
+      selector: EditSectionItem.selectors.elBtnDeleteItem,
+      class: this,
+      callBack: this.deleteItem.name
+    }, {
+      selector: lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd.selectors.elBtnShowPopupItemsToSelect,
+      callBack: args => {
+        const {
+          e,
+          target
+        } = args;
+        const elSection = target.closest(_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection);
+        this.sectionIdSelected = elSection.dataset.sectionId;
+      }
+    }, {
+      selector: lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd.selectors.elBtnAddItemsSelected,
+      class: lpPopupSelectItemToAdd,
+      callBack: lpPopupSelectItemToAdd.addItemsSelectedToSection.name,
+      callBackHandle: this.addItemsSelectedToSection.bind(this)
+    }, {
+      selector: EditSectionItem.selectors.elBtnSetPreviewItem,
+      class: this,
+      callBack: this.updatePreviewItem.name
+    }]);
+
+    // Keyup events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('keyup', [{
+      selector: EditSectionItem.selectors.elItemTitleInput,
+      class: this,
+      callBack: this.changeTitle.name
+    }, {
+      selector: EditSectionItem.selectors.elAddItemTypeTitleInput,
+      class: this,
+      callBack: this.changeTitleAddNew.name
+    }]);
+
+    // Keydown events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('keydown', [{
+      selector: EditSectionItem.selectors.elAddItemTypeTitleInput,
+      class: this,
+      callBack: this.addItemToSection.name,
+      checkIsEventEnter: true
+    }, {
+      selector: EditSectionItem.selectors.elItemTitleInput,
+      class: this,
+      callBack: this.updateTitle.name,
+      checkIsEventEnter: true
+    }]);
+
+    // Focusin events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('focusin', [{
+      selector: EditSectionItem.selectors.elItemTitleInput,
+      class: this,
+      callBack: this.focusTitleInput.name
+    }]);
+
+    // Focusout events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('focusout', [{
+      selector: EditSectionItem.selectors.elItemTitleInput,
+      class: this,
+      callBack: this.focusTitleInput.name,
+      focusIn: false
+    }]);
+  }
+
+  /* Add item type */
+  addItemType(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnSelectItemType = target;
+    const itemType = elBtnSelectItemType.dataset.itemType;
+    const itemPlaceholder = elBtnSelectItemType.dataset.placeholder;
+    const itemBtnAddText = elBtnSelectItemType.dataset.buttonAddText;
+    const elSection = elBtnSelectItemType.closest(`${_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection}`);
+    const elSectionActions = elSection.querySelector(`${EditSectionItem.selectors.elSectionActions}`);
+
+    // Insert input item type to add
+    const elAddItemTypeClone = elSectionActions.querySelector(`${EditSectionItem.selectors.elAddItemTypeClone}`);
+    const elNewItemByType = elAddItemTypeClone.cloneNode(true);
+    const elAddItemTypeInput = elNewItemByType.querySelector(`${EditSectionItem.selectors.elAddItemTypeTitleInput}`);
+    const elBtnAddItem = elNewItemByType.querySelector(`${EditSectionItem.selectors.elBtnAddItem}`);
+    elNewItemByType.classList.remove('clone');
+    elNewItemByType.classList.add(itemType);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpShowHideEl(elNewItemByType, 1);
+    elAddItemTypeInput.setAttribute('placeholder', itemPlaceholder);
+    elAddItemTypeInput.dataset.itemType = itemType;
+    elBtnAddItem.textContent = itemBtnAddText;
+    elSectionActions.insertAdjacentElement('beforebegin', elNewItemByType);
+    elAddItemTypeInput.focus();
+  }
+
+  /* Cancel add item type */
+  cancelAddItemType(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elAddItemType = target.closest(`${EditSectionItem.selectors.elAddItemType}`);
+    if (elAddItemType) {
+      elAddItemType.remove();
+    }
+  }
+
+  /* Add item to section */
+  addItemToSection(args) {
+    const {
+      e,
+      target,
+      callBackNest
+    } = args;
+    e.preventDefault();
+    const elAddItemType = target.closest(`${EditSectionItem.selectors.elAddItemType}`);
+    const elSection = elAddItemType.closest(`${_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection}`);
+    const sectionId = elSection.dataset.sectionId;
+    const elAddItemTypeTitleInput = elAddItemType.querySelector(`${EditSectionItem.selectors.elAddItemTypeTitleInput}`);
+    const titleValue = elAddItemTypeTitleInput.value.trim();
+    const typeValue = elAddItemTypeTitleInput.dataset.itemType;
+    const message = elAddItemTypeTitleInput.dataset.messEmptyTitle;
+    if (titleValue.length === 0) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, 'error');
+      return;
+    }
+
+    // Clone new section item
+    const elItemClone = elSection.querySelector(`${EditSectionItem.selectors.elItemClone}`);
+    const elItemNew = elItemClone.cloneNode(true);
+    const elItemTitleInput = elItemNew.querySelector(`${EditSectionItem.selectors.elItemTitleInput}`);
+    elItemNew.classList.remove('clone');
+    elItemNew.classList.add(typeValue);
+    elItemNew.dataset.itemType = typeValue;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpShowHideEl(elItemNew, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elItemNew, 1);
+    elItemTitleInput.value = titleValue;
+    elItemTitleInput.dataset.old = titleValue;
+    elItemClone.insertAdjacentElement('beforebegin', elItemNew);
+    elAddItemType.remove();
+
+    // Call ajax to add item to section
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+        if (status === 'error') {
+          elItemNew.remove();
+        } else if (status === 'success') {
+          const {
+            section_item,
+            item_link
+          } = data || {};
+          elItemNew.dataset.itemId = section_item.item_id || 0;
+          elItemNew.querySelector('.edit-link').setAttribute('href', item_link || '');
+
+          // Call callback nest if exists
+          if (callBackNest && typeof callBackNest.success === 'function') {
+            args.elItemNew = elItemNew;
+            callBackNest.success(args);
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+        elItemNew.remove();
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elItemNew, 0);
+        this.updateCountItems(elSection);
+
+        // Call callback nest if exists
+        if (callBackNest && typeof callBackNest.completed === 'function') {
+          args.elItemNew = elItemNew;
+          callBackNest.completed(args);
+        }
+      }
+    };
+    const dataSend = {
+      course_id: this.courseId,
+      action: 'create_item_add_to_section',
+      section_id: sectionId,
+      item_title: titleValue,
+      item_type: typeValue,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  /* Typing in title input */
+  changeTitle(args) {
+    const {
+      target
+    } = args;
+    const elItemTitleInput = target.closest(`${EditSectionItem.selectors.elItemTitleInput}`);
+    if (!elItemTitleInput) {
+      return;
+    }
+    const elSectionItem = elItemTitleInput.closest(`${EditSectionItem.selectors.elSectionItem}`);
+    if (!elSectionItem) {
+      return;
+    }
+    const titleValue = elItemTitleInput.value.trim();
+    const titleValueOld = elItemTitleInput.dataset.old || '';
+    if (titleValue === titleValueOld) {
+      elSectionItem.classList.remove('editing');
+    } else {
+      elSectionItem.classList.add('editing');
+    }
+  }
+
+  /* Focus in item title input */
+  focusTitleInput(args) {
+    const {
+      target,
+      focusIn = true
+    } = args;
+    const elItemTitleInput = target.closest(`${EditSectionItem.selectors.elItemTitleInput}`);
+    if (!elItemTitleInput) {
+      return;
+    }
+    const elSectionItem = elItemTitleInput.closest(`${EditSectionItem.selectors.elSectionItem}`);
+    if (!elSectionItem) {
+      return;
+    }
+    if (focusIn) {
+      elSectionItem.classList.add('focus');
+    } else {
+      elSectionItem.classList.remove('focus');
+    }
+  }
+  changeTitleAddNew(args) {
+    const {
+      target
+    } = args;
+    const elAddItemTypeTitleInput = target.closest(`${EditSectionItem.selectors.elAddItemTypeTitleInput}`);
+    if (!elAddItemTypeTitleInput) {
+      return;
+    }
+    const elAddItemType = elAddItemTypeTitleInput.closest(`${EditSectionItem.selectors.elAddItemType}`);
+    if (!elAddItemType) {
+      return;
+    }
+    const elBtnAddItem = elAddItemType.querySelector(`${EditSectionItem.selectors.elBtnAddItem}`);
+    if (!elBtnAddItem) {
+      return;
+    }
+    const titleValue = elAddItemTypeTitleInput.value.trim();
+    if (titleValue.length === 0) {
+      elBtnAddItem.classList.remove('active');
+    } else {
+      elBtnAddItem.classList.add('active');
+    }
+  }
+
+  /* Update item title */
+  updateTitle(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const elSectionItem = target.closest(`${EditSectionItem.selectors.elSectionItem}`);
+    if (!elSectionItem) {
+      return;
+    }
+    const elSection = elSectionItem.closest(`${_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection}`);
+    if (!elSection) {
+      return;
+    }
+    const elItemTitleInput = elSectionItem.querySelector(`${EditSectionItem.selectors.elItemTitleInput}`);
+    if (!elItemTitleInput) {
+      return;
+    }
+    const itemId = elSectionItem.dataset.itemId;
+    const itemType = elSectionItem.dataset.itemType;
+    const itemTitleValue = elItemTitleInput.value.trim();
+    const titleOld = elItemTitleInput.dataset.old;
+    const message = elItemTitleInput.dataset.messEmptyTitle;
+    if (itemTitleValue.length === 0) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, 'error');
+      return;
+    }
+    if (itemTitleValue === titleOld) {
+      return;
+    }
+
+    // Un-focus input item title
+    elItemTitleInput.blur();
+    // show loading
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSectionItem, 1);
+    // Call ajax to update item title
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        if (status === 'success') {
+          elItemTitleInput.dataset.old = itemTitleValue;
+        } else {
+          elItemTitleInput.value = titleOld;
+        }
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSectionItem, 0);
+        elSectionItem.classList.remove('editing');
+      }
+    };
+    const dataSend = {
+      course_id: this.courseId,
+      action: 'update_item_of_section',
+      section_id: elSection.dataset.sectionId,
+      item_id: itemId,
+      item_type: itemType,
+      item_title: itemTitleValue,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  /* Cancel update item title */
+  cancelUpdateTitle(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnCancelUpdateTitle = target.closest(`${EditSectionItem.selectors.elBtnCancelUpdateTitle}`);
+    if (!elBtnCancelUpdateTitle) {
+      return;
+    }
+    const elSectionItem = elBtnCancelUpdateTitle.closest(`${EditSectionItem.selectors.elSectionItem}`);
+    const elItemTitleInput = elSectionItem.querySelector(`${EditSectionItem.selectors.elItemTitleInput}`);
+    elItemTitleInput.value = elItemTitleInput.dataset.old || '';
+    elSectionItem.classList.remove('editing');
+  }
+
+  /* Delete item from section */
+  deleteItem(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnDeleteItem = target.closest(`${EditSectionItem.selectors.elBtnDeleteItem}`);
+    if (!elBtnDeleteItem) {
+      return;
+    }
+    const elSectionItem = elBtnDeleteItem.closest(`${EditSectionItem.selectors.elSectionItem}`);
+    if (!elSectionItem) {
+      return;
+    }
+    const itemId = elSectionItem.dataset.itemId;
+    const elSection = elSectionItem.closest(`${_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection}`);
+    const sectionId = elSection.dataset.sectionId;
+    sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      title: elBtnDeleteItem.dataset.title,
+      text: elBtnDeleteItem.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSectionItem, 1);
+
+        // Call ajax to delete item from section
+        const callBack = {
+          success: response => {
+            const {
+              message,
+              status
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+            if (status === 'success') {
+              elSectionItem.remove();
+            }
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+          },
+          completed: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSectionItem, 0);
+            this.updateCountItems(elSection);
+          }
+        };
+        const dataSend = {
+          course_id: this.courseId,
+          action: 'delete_item_from_section',
+          section_id: sectionId,
+          item_id: itemId,
+          args: {
+            id_url: idUrlHandle
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+
+  /* Sortable items, can drop on multiple sections */
+  sortAbleItem() {
+    const elSectionListItems = this.elCurriculumSections.querySelectorAll(`${EditSectionItem.selectors.elSectionListItems}`);
+    let itemIdChoose = 0;
+    let elSectionChoose;
+    let sectionIdChoose = 0;
+    let sectionIdEnd = 0;
+    let timeout;
+    elSectionListItems.forEach(elItem => {
+      new sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"](elItem, {
+        handle: '.drag',
+        animation: 150,
+        group: {
+          name: 'shared'
+        },
+        onEnd: evt => {
+          const dataSectionsItems = [];
+          const elItemDragged = evt.item;
+          sectionIdEnd = elItemDragged.closest(`${_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection}`).dataset.sectionId;
+          const dataSend = {
+            course_id: this.courseId,
+            args: {
+              id_url: idUrlHandle
+            }
+          };
+          if (sectionIdChoose === sectionIdEnd) {
+            dataSend.action = 'update_items_position';
+            dataSend.section_id = sectionIdEnd;
+          } else {
+            dataSend.action = 'update_item_section_and_position';
+            dataSend.item_id_change = itemIdChoose;
+            dataSend.section_id_new_of_item = sectionIdEnd;
+            dataSend.section_id_old_of_item = sectionIdChoose;
+          }
+
+          // Send list items position
+          const section = this.elCurriculumSections.querySelector(`.section[data-section-id="${sectionIdEnd}"]`);
+          const items = section.querySelectorAll(`${EditSectionItem.selectors.elSectionItem}`);
+          items.forEach(elItem => {
+            const itemId = parseInt(elItem.dataset.itemId || 0);
+            if (itemId === 0) {
+              return;
+            }
+            dataSectionsItems.push(itemId);
+          });
+          dataSend.items_position = dataSectionsItems;
+
+          // Call ajax to update items position
+          const callBack = {
+            success: response => {
+              const {
+                message,
+                status
+              } = response;
+              lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+            },
+            error: error => {
+              lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+            },
+            completed: () => {
+              lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elItemDragged, 0);
+              this.updateCountItems(section);
+              if (sectionIdChoose !== sectionIdEnd) {
+                this.updateCountItems(elSectionChoose);
+              }
+            }
+          };
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elItemDragged, 1);
+          window.lpAJAXG.fetchAJAX(dataSend, callBack);
+        },
+        onMove: (/*evt*/) => {},
+        onChoose: evt => {
+          const elChooseItem = evt.item;
+          itemIdChoose = elChooseItem.dataset.itemId;
+          elSectionChoose = elChooseItem.closest(`${_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection}`);
+          sectionIdChoose = elSectionChoose.dataset.sectionId;
+        },
+        onUpdate: (/*evt*/) => {}
+      });
+    });
+  }
+
+  /* Add items selected to section */
+  addItemsSelectedToSection(itemsSelectedData) {
+    const elSection = document.querySelector(`.section[data-section-id="${this.sectionIdSelected}"]`);
+    const elItemClone = elSection.querySelector(`${EditSectionItem.selectors.elItemClone}`);
+    itemsSelectedData.forEach(item => {
+      const elItemNew = elItemClone.cloneNode(true);
+      const elInputTitleNew = elItemNew.querySelector(`${EditSectionItem.selectors.elItemTitleInput}`);
+      elItemNew.dataset.itemId = item.id;
+      elItemNew.classList.add(item.type);
+      elItemNew.classList.remove('clone');
+      elItemNew.dataset.itemType = item.type;
+      elItemNew.querySelector('.edit-link').setAttribute('href', item.edit_link || '');
+      elInputTitleNew.value = item.titleSelected || '';
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elItemNew, 1);
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpShowHideEl(elItemNew, 1);
+      elItemClone.insertAdjacentElement('beforebegin', elItemNew);
+    });
+    sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().close();
+    const dataSend = {
+      course_id: this.courseId,
+      action: 'add_items_to_section',
+      section_id: this.sectionIdSelected,
+      items: itemsSelectedData,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+        if (status === 'error') {
+          itemsSelectedData.forEach(item => {
+            const elItemAdded = elSection.querySelector(`${EditSectionItem.selectors.elSectionItem}[data-item-id="${item.id}"]`);
+            if (elItemAdded) {
+              elItemAdded.remove();
+            }
+          });
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+      },
+      completed: () => {
+        itemsSelectedData.forEach(item => {
+          const elItemAdded = elSection.querySelector(`${EditSectionItem.selectors.elSectionItem}[data-item-id="${item.id}"]`);
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elItemAdded, 0);
+        });
+        this.updateCountItems(elSection);
+      }
+    });
+  }
+
+  /* Enable/disable preview item */
+  updatePreviewItem(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnSetPreviewItem = target.closest(`${EditSectionItem.selectors.elBtnSetPreviewItem}`);
+    if (!elBtnSetPreviewItem) {
+      return;
+    }
+    const elSectionItem = elBtnSetPreviewItem.closest(`${EditSectionItem.selectors.elSectionItem}`);
+    if (!elSectionItem) {
+      return;
+    }
+    const icon = elBtnSetPreviewItem.querySelector('a');
+    icon.classList.toggle('lp-icon-eye');
+    icon.classList.toggle('lp-icon-eye-slash');
+    const enablePreview = !icon.classList.contains('lp-icon-eye-slash');
+    const itemId = elSectionItem.dataset.itemId;
+    const itemType = elSectionItem.dataset.itemType;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSectionItem, 1);
+
+    // Call ajax to update item preview
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+        if (status === 'error') {
+          icon.classList.toggle('lp-icon-eye');
+          icon.classList.toggle('lp-icon-eye-slash');
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+        icon.classList.toggle('lp-icon-eye');
+        icon.classList.toggle('lp-icon-eye-slash');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSectionItem, 0);
+      }
+    };
+    const dataSend = {
+      course_id: this.courseId,
+      action: 'update_item_preview',
+      item_id: itemId,
+      item_type: itemType,
+      enable_preview: enablePreview ? 1 : 0,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  /* Update count items when item add/delete or section delete */
+  updateCountItems(elSection) {
+    const elEditCurriculum = this.elEditCurriculum;
+    const elCountItemsAll = elEditCurriculum.querySelector('.total-items');
+    const elItemsAll = elEditCurriculum.querySelectorAll(`${EditSectionItem.selectors.elSectionItem}:not(.clone)`);
+    const itemsAllCount = elItemsAll.length;
+    elCountItemsAll.dataset.count = itemsAllCount;
+    elCountItemsAll.querySelector('.count').textContent = itemsAllCount;
+
+    // Count items in section
+    const elSectionItemsCount = elSection.querySelector('.section-items-counts');
+    const elItems = elSection.querySelectorAll(`${EditSectionItem.selectors.elSectionItem}:not(.clone)`);
+    const itemsCount = elItems.length;
+    elSectionItemsCount.dataset.count = itemsCount;
+    elSectionItemsCount.querySelector('.count').textContent = itemsCount;
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/admin/edit-course/edit-curriculum/edit-section.js":
+/*!*************************************************************************!*\
+  !*** ./assets/src/js/admin/edit-course/edit-curriculum/edit-section.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EditSection: () => (/* binding */ EditSection)
+/* harmony export */ });
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var _edit_section_item_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./edit-section-item.js */ "./assets/src/js/admin/edit-course/edit-curriculum/edit-section-item.js");
+/* harmony import */ var _edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../edit-curriculum.js */ "./assets/src/js/admin/edit-course/edit-curriculum.js");
+/**
+ * Edit Section Script on Curriculum
  *
  * @since 4.2.8.6
+ * @version 1.0.3
+ */
+
+
+
+
+
+
+class EditSection {
+  constructor() {
+    this.courseId = null;
+    this.elEditCurriculum = null;
+    this.elCurriculumSections = null;
+    this.editSectionItem = new _edit_section_item_js__WEBPACK_IMPORTED_MODULE_4__.EditSectionItem();
+  }
+  static selectors = {
+    elSection: '.section',
+    elDivAddNewSection: '.add-new-section',
+    elSectionClone: '.section.clone',
+    elSectionTitleNewInput: '.lp-section-title-new-input',
+    elSectionTitleInput: '.lp-section-title-input',
+    etBtnEditTitle: '.lp-btn-edit-section-title',
+    elSectionDesInput: '.lp-section-description-input',
+    elBtnAddSection: '.lp-btn-add-section',
+    elBtnUpdateTitle: '.lp-btn-update-section-title',
+    elBtnUpdateDes: '.lp-btn-update-section-description',
+    elBtnCancelUpdateTitle: '.lp-btn-cancel-update-section-title',
+    elBtnCancelUpdateDes: '.lp-btn-cancel-update-section-description',
+    elBtnDeleteSection: '.lp-btn-delete-section',
+    elSectionDesc: '.section-description',
+    elSectionToggle: '.section-toggle',
+    elCountSections: '.count-sections'
+  };
+  init() {
+    this.elEditCurriculum = document.querySelector(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.idElEditCurriculum}`);
+    this.elCurriculumSections = this.elEditCurriculum.querySelector(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCurriculumSections}`);
+    const elLPTarget = this.elEditCurriculum.closest(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.LPTarget}`);
+    const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+    this.courseId = dataSend.args.course_id;
+    this.editSectionItem.init();
+    this.events();
+    this.sortAbleSection();
+  }
+  events() {
+    // Check and attach events only once
+    if (EditSection._loadedEvents) {
+      return;
+    }
+    EditSection._loadedEvents = this;
+
+    // Click events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('click', [{
+      selector: EditSection.selectors.elBtnAddSection,
+      class: this,
+      callBack: this.addSection.name
+    }, {
+      selector: `${EditSection.selectors.elBtnUpdateDes}`,
+      class: this,
+      callBack: this.updateSectionDescription.name
+    }, {
+      selector: `${EditSection.selectors.etBtnEditTitle}`,
+      class: this,
+      callBack: this.setFocusTitleInput.name
+    }, {
+      selector: `${EditSection.selectors.elSectionToggle}`,
+      class: this,
+      callBack: this.toggleSection.name
+    }, {
+      selector: `${EditSection.selectors.elBtnCancelUpdateDes}`,
+      class: this,
+      callBack: this.cancelSectionDescription.name
+    }, {
+      selector: `${EditSection.selectors.elBtnDeleteSection}`,
+      class: this,
+      callBack: this.deleteSection.name
+    }, {
+      selector: `${EditSection.selectors.elBtnUpdateTitle}`,
+      class: this,
+      callBack: this.updateSectionTitle.name
+    }, {
+      selector: `${EditSection.selectors.elBtnCancelUpdateTitle}`,
+      class: this,
+      callBack: this.cancelSectionTitle.name
+    }, {
+      selector: _edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elToggleAllSections,
+      class: this,
+      callBack: this.toggleSectionAll.name
+    }]);
+
+    // Keyup events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('keyup', [{
+      selector: EditSection.selectors.elSectionTitleNewInput,
+      class: this,
+      callBack: this.changeTitleBeforeAdd.name
+    }, {
+      selector: EditSection.selectors.elSectionTitleInput,
+      class: this,
+      callBack: this.changeTitle.name
+    }, {
+      selector: EditSection.selectors.elSectionDesInput,
+      class: this,
+      callBack: this.changeDescription.name
+    }]);
+
+    // Keydown events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('keydown', [{
+      selector: EditSection.selectors.elSectionTitleNewInput,
+      class: this,
+      callBack: this.addSection.name,
+      checkIsEventEnter: true
+    }, {
+      selector: EditSection.selectors.elSectionDesInput,
+      class: this,
+      callBack: this.updateSectionDescription.name,
+      checkIsEventEnter: true
+    }, {
+      selector: EditSection.selectors.elSectionTitleInput,
+      class: this,
+      callBack: this.updateSectionTitle.name,
+      checkIsEventEnter: true
+    }]);
+
+    // Focusin events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('focusin', [{
+      selector: EditSection.selectors.elSectionTitleNewInput,
+      class: this,
+      callBack: this.focusTitleNewInput.name
+    }, {
+      selector: EditSection.selectors.elSectionTitleInput,
+      class: this,
+      callBack: this.focusTitleInput.name
+    }]);
+
+    // Focusin events
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.eventHandlers('focusout', [{
+      selector: EditSection.selectors.elSectionTitleNewInput,
+      class: this,
+      callBack: this.focusTitleNewInput.name,
+      focusIn: false
+    }, {
+      selector: `${EditSection.selectors.elSectionTitleInput}`,
+      class: this,
+      callBack: this.focusTitleInput.name,
+      focusIn: false
+    }]);
+  }
+
+  /* Typing in new section title input */
+  changeTitleBeforeAdd(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elSectionTitleNewInput = target;
+    const elAddNewSection = elSectionTitleNewInput.closest(`${EditSection.selectors.elDivAddNewSection}`);
+    if (!elAddNewSection) {
+      return;
+    }
+    const elBtnAddSection = elAddNewSection.querySelector(`${EditSection.selectors.elBtnAddSection}`);
+    const titleValue = elSectionTitleNewInput.value.trim();
+    if (titleValue.length === 0) {
+      elBtnAddSection.classList.remove('active');
+    } else {
+      elBtnAddSection.classList.add('active');
+    }
+  }
+
+  /* Focus on new section title input */
+  focusTitleNewInput(args) {
+    const {
+      e,
+      target,
+      focusIn = true
+    } = args;
+    const elAddNewSection = target.closest(`${EditSection.selectors.elDivAddNewSection}`);
+    if (!elAddNewSection) {
+      return;
+    }
+    if (focusIn) {
+      elAddNewSection.classList.add('focus');
+    } else {
+      elAddNewSection.classList.remove('focus');
+    }
+  }
+
+  /* Add new section */
+  addSection(args) {
+    const {
+      e,
+      target,
+      callBackNest
+    } = args;
+    const elDivAddNewSection = target.closest(`${EditSection.selectors.elDivAddNewSection}`);
+    if (!elDivAddNewSection) {
+      return;
+    }
+    e.preventDefault();
+    const elSectionTitleNewInput = elDivAddNewSection.querySelector(`${EditSection.selectors.elSectionTitleNewInput}`);
+    const titleValue = elSectionTitleNewInput.value.trim();
+    const message = elSectionTitleNewInput.dataset.messEmptyTitle;
+    if (titleValue.length === 0) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, 'error');
+      return;
+    }
+
+    // Clear input after add
+    elSectionTitleNewInput.value = '';
+    elSectionTitleNewInput.blur();
+
+    // Add and set data for new section
+    const elSectionClone = this.elCurriculumSections.querySelector(`${EditSection.selectors.elSectionClone}`);
+    const newSection = elSectionClone.cloneNode(true);
+    newSection.classList.remove('clone');
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpShowHideEl(newSection, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(newSection, 1);
+    const elSectionTitleInput = newSection.querySelector(`${EditSection.selectors.elSectionTitleInput}`);
+    elSectionTitleInput.value = titleValue;
+    this.elCurriculumSections.insertAdjacentElement('beforeend', newSection);
+    // End
+
+    // Call ajax to add new section
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        if (status === 'error') {
+          newSection.remove();
+          throw message;
+        } else if (status === 'success') {
+          const {
+            section
+          } = data;
+          newSection.dataset.sectionId = section.section_id || '';
+
+          // Initialize EditSectionItem for the new section to make its items sortable
+          this.editSectionItem.sortAbleItem();
+          if (callBackNest && typeof callBackNest.success === 'function') {
+            args.elSection = newSection;
+            args.response = response;
+            callBackNest.success(args);
+          }
+        }
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+      },
+      error: error => {
+        newSection.remove();
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+        if (callBackNest && typeof callBackNest.error === 'function') {
+          args.error = error;
+          callBackNest.error(args);
+        }
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(newSection, 0);
+        newSection.classList.remove(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`);
+        const elSectionDesInput = newSection.querySelector(`${EditSection.selectors.elSectionDesInput}`);
+        elSectionDesInput.focus();
+        this.updateCountSections(this.elEditCurriculum);
+        if (callBackNest && typeof callBackNest.completed === 'function') {
+          args.elSection = newSection;
+          callBackNest.completed(args);
+        }
+      }
+    };
+    const dataSend = JSON.parse(elSectionTitleNewInput.dataset.send);
+    dataSend.section_name = titleValue;
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  /* Delete section */
+  deleteSection(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnDeleteSection = target;
+    const elEditCurriculum = elBtnDeleteSection.closest(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.idElEditCurriculum}`);
+    sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      title: elBtnDeleteSection.dataset.title,
+      text: elBtnDeleteSection.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const elSection = elBtnDeleteSection.closest('.section');
+        const sectionId = elSection.dataset.sectionId;
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 1);
+
+        // Call ajax to delete section
+        const callBack = {
+          success: response => {
+            const {
+              message,
+              status
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+          },
+          completed: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 0);
+            elSection.remove();
+            this.editSectionItem.updateCountItems(elSection);
+            this.updateCountSections(elEditCurriculum);
+          }
+        };
+        const dataSend = JSON.parse(elBtnDeleteSection.dataset.send);
+        dataSend.section_id = sectionId;
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+
+  /* Focus on section title input */
+  focusTitleInput(args) {
+    const {
+      e,
+      target,
+      focusIn = true
+    } = args;
+    const elSection = target.closest(`${EditSection.selectors.elSection}`);
+    if (!elSection) {
+      return;
+    }
+    if (focusIn) {
+      elSection.classList.add('focus');
+    } else {
+      elSection.classList.remove('focus');
+    }
+  }
+
+  /* Set focus on section title input */
+  setFocusTitleInput(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elSection = target.closest(`${EditSection.selectors.elSection}`);
+    if (!elSection) {
+      return;
+    }
+    const elSectionTitleInput = elSection.querySelector(`${EditSection.selectors.elSectionTitleInput}`);
+    elSectionTitleInput.setSelectionRange(elSectionTitleInput.value.length, elSectionTitleInput.value.length);
+    elSectionTitleInput.focus();
+  }
+
+  /* Typing in section title input */
+  changeTitle(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elSectionTitleInput = target;
+    const elSection = elSectionTitleInput.closest(`${EditSection.selectors.elSection}`);
+    const titleValue = elSectionTitleInput.value.trim();
+    const titleValueOld = elSectionTitleInput.dataset.old || '';
+    if (titleValue === titleValueOld) {
+      elSection.classList.remove('editing');
+    } else {
+      elSection.classList.add('editing');
+    }
+  }
+
+  /* Update section title to server */
+  updateSectionTitle(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elSection = target.closest(`${EditSection.selectors.elSection}`);
+    if (!elSection) {
+      return;
+    }
+    e.preventDefault();
+    const elSectionTitleInput = elSection.querySelector(`${EditSection.selectors.elSectionTitleInput}`);
+    if (!elSectionTitleInput) {
+      return;
+    }
+    const sectionId = elSection.dataset.sectionId;
+    const titleValue = elSectionTitleInput.value.trim();
+    const titleValueOld = elSectionTitleInput.dataset.old || '';
+    const message = elSectionTitleInput.dataset.messEmptyTitle;
+    if (titleValue.length === 0) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, 'error');
+      return;
+    }
+    if (titleValue === titleValueOld) {
+      return;
+    }
+    elSectionTitleInput.blur();
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 1);
+
+    // Call ajax to update section title
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+        if (status === 'success') {
+          elSectionTitleInput.dataset.old = titleValue;
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 0);
+        elSection.classList.remove('editing');
+      }
+    };
+    const dataSend = JSON.parse(elSectionTitleInput.dataset.send);
+    dataSend.section_id = sectionId;
+    dataSend.section_name = titleValue;
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  /* Cancel updating section title */
+  cancelSectionTitle(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnCancelUpdateTitle = target.closest(`${EditSection.selectors.elBtnCancelUpdateTitle}`);
+    if (!elBtnCancelUpdateTitle) {
+      return;
+    }
+    const elSection = elBtnCancelUpdateTitle.closest(`${EditSection.selectors.elSection}`);
+    const elSectionTitleInput = elSection.querySelector(`${EditSection.selectors.elSectionTitleInput}`);
+    elSectionTitleInput.value = elSectionTitleInput.dataset.old || '';
+    elSection.classList.remove('editing');
+  }
+
+  /* Update section description to server */
+  updateSectionDescription(args) {
+    const {
+      e,
+      target,
+      callBackNest
+    } = args;
+    const elSectionDesc = target.closest(`${EditSection.selectors.elSectionDesc}`);
+    if (!elSectionDesc) {
+      return;
+    }
+    const elSectionDesInput = elSectionDesc.querySelector(`${EditSection.selectors.elSectionDesInput}`);
+    if (!elSectionDesInput) {
+      return;
+    }
+    e.preventDefault();
+    const elSection = elSectionDesInput.closest(`${EditSection.selectors.elSection}`);
+    const sectionId = elSection.dataset.sectionId;
+    const descValue = elSectionDesInput.value.trim();
+    const descValueOld = elSectionDesInput.dataset.old || '';
+    if (descValue === descValueOld) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 1);
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        if (callBackNest && typeof callBackNest.success === 'function') {
+          args.elSection = elSection;
+          args.response = response;
+          callBackNest.success(args);
+        }
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+        if (callBackNest && typeof callBackNest.error === 'function') {
+          callBackNest.error(elSection, error);
+        }
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 0);
+        const elSectionDesc = elSectionDesInput.closest(`${EditSection.selectors.elSectionDesc}`);
+        elSectionDesc.classList.remove('editing');
+        elSectionDesInput.dataset.old = descValue;
+        if (callBackNest && typeof callBackNest.completed === 'function') {
+          callBackNest.completed(elSection);
+        }
+      }
+    };
+    const dataSend = JSON.parse(elSectionDesInput.dataset.send);
+    dataSend.section_id = sectionId;
+    dataSend.section_description = descValue;
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  /* Cancel updating section description */
+  cancelSectionDescription(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elSectionDesc = target.closest(`${EditSection.selectors.elSectionDesc}`);
+    const elSectionDesInput = elSectionDesc.querySelector(`${EditSection.selectors.elSectionDesInput}`);
+    elSectionDesInput.value = elSectionDesInput.dataset.old || '';
+    elSectionDesc.classList.remove('editing');
+  }
+
+  /* Typing in description input */
+  changeDescription(ags) {
+    const {
+      e,
+      target
+    } = ags;
+    const elSectionDesInput = target.closest(`${EditSection.selectors.elSectionDesInput}`);
+    if (!elSectionDesInput) {
+      return;
+    }
+    const elSectionDesc = elSectionDesInput.closest(`${EditSection.selectors.elSectionDesc}`);
+    const descValue = elSectionDesInput.value.trim();
+    const descValueOld = elSectionDesInput.dataset.old || '';
+    if (descValue === descValueOld) {
+      elSectionDesc.classList.remove('editing');
+    } else {
+      elSectionDesc.classList.add('editing');
+    }
+  }
+  toggleSectionAll(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elToggleAllSections = target.closest(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elToggleAllSections}`);
+    if (!elToggleAllSections) {
+      return;
+    }
+    const elEditCurriculum = elToggleAllSections.closest(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.idElEditCurriculum}`);
+    const elSections = elEditCurriculum.querySelectorAll(`${EditSection.selectors.elSection}:not(.clone)`);
+    elToggleAllSections.classList.toggle(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`);
+    elSections.forEach(el => {
+      const shouldCollapse = elToggleAllSections.classList.contains(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`);
+      el.classList.toggle(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`, shouldCollapse);
+    });
+  }
+
+  /* Toggle section */
+  toggleSection(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elSection = target.closest(`${EditSection.selectors.elSection}`);
+    const elCurriculumSections = elSection.closest(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCurriculumSections}`);
+    if (!elCurriculumSections) {
+      return;
+    }
+
+    // Toggle section
+    elSection.classList.toggle(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`);
+
+    // Check all sections collapsed
+    this.checkAllSectionsCollapsed();
+  }
+
+  /* Check if all sections are collapsed */
+  checkAllSectionsCollapsed() {
+    const elSections = this.elEditCurriculum.querySelectorAll(`${EditSection.selectors.elSection}:not(.clone)`);
+    const elToggleAllSections = this.elEditCurriculum.querySelector(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elToggleAllSections}`);
+    let isAllExpand = true;
+    elSections.forEach(el => {
+      if (el.classList.contains(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`)) {
+        isAllExpand = false;
+        return false; // Break the loop
+      }
+    });
+    if (isAllExpand) {
+      elToggleAllSections.classList.remove(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`);
+    } else {
+      elToggleAllSections.classList.add(`${_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.elCollapse}`);
+    }
+  }
+
+  /* Sortable sections, drag and drop to change section position */
+  sortAbleSection() {
+    let isUpdateSectionPosition = 0;
+    let timeout;
+    new sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"](this.elCurriculumSections, {
+      handle: '.drag',
+      animation: 150,
+      onEnd: evt => {
+        const target = evt.item;
+        if (!isUpdateSectionPosition) {
+          return;
+        }
+        const elSection = target.closest(`${EditSection.selectors.elSection}`);
+        const elSections = this.elCurriculumSections.querySelectorAll(`${EditSection.selectors.elSection}`);
+        const sectionIds = [];
+        elSections.forEach(elSection => {
+          const sectionId = elSection.dataset.sectionId;
+          sectionIds.push(sectionId);
+        });
+
+        // Call ajax to update section position
+        const callBack = {
+          success: response => {
+            const {
+              message,
+              status
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+          },
+          completed: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 0);
+            isUpdateSectionPosition = 0;
+          }
+        };
+        const dataSend = {
+          action: 'course_update_section_position',
+          course_id: this.courseId,
+          new_position: sectionIds,
+          args: {
+            id_url: 'course-update-section-position'
+          }
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_2__.lpSetLoadingEl(elSection, 1);
+          window.lpAJAXG.fetchAJAX(dataSend, callBack);
+        }, 1000);
+      },
+      onMove: evt => {
+        clearTimeout(timeout);
+      },
+      onUpdate: evt => {
+        isUpdateSectionPosition = 1;
+      }
+    });
+  }
+
+  /* Update count sections, when add or delete section */
+  updateCountSections(elEditCurriculum) {
+    const elCountSections = elEditCurriculum.querySelector(`${EditSection.selectors.elCountSections}`);
+    const elSections = elEditCurriculum.querySelectorAll(`${EditSection.selectors.elSection}:not(.clone)`);
+    const sectionsCount = elSections.length;
+    elCountSections.dataset.count = sectionsCount;
+    elCountSections.querySelector('.count').textContent = sectionsCount;
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/admin/edit-question.js":
+/*!**********************************************!*\
+  !*** ./assets/src/js/admin/edit-question.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EditQuestion: () => (/* binding */ EditQuestion)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+/**
+ * Edit question JS handler.
+ *
+ * @since 4.2.9
+ * @version 1.0.0
+ */
+
+
+
+
+
+const idUrlHandle = 'edit-question';
+let fibSelection;
+let timeoutAutoUpdateAnswer, timeoutAutoUpdateFib, timeoutAutoUpdateQuestion;
+
+// EditQuestion class
+class EditQuestion {
+  static selectors = {
+    elEditQuestionWrap: '.lp-edit-question-wrap',
+    elQuestionEditMain: '.lp-question-edit-main',
+    elQuestionToggleAll: '.lp-question-toggle-all',
+    elEditListQuestions: '.lp-edit-list-questions',
+    elQuestionToggle: '.lp-question-toggle',
+    elBtnShowPopupItemsToSelect: '.lp-btn-show-popup-items-to-select',
+    elPopupItemsToSelectClone: '.lp-popup-items-to-select.clone',
+    elBtnAddQuestion: '.lp-btn-add-question',
+    elBtnRemoveQuestion: '.lp-btn-remove-question',
+    elBtnUpdateQuestionTitle: '.lp-btn-update-question-title',
+    elBtnUpdateQuestionDes: '.lp-btn-update-question-des',
+    elBtnUpdateQuestionHint: '.lp-btn-update-question-hint',
+    elBtnUpdateQuestionExplain: '.lp-btn-update-question-explanation',
+    elQuestionTitleNewInput: '.lp-question-title-new-input',
+    elQuestionTitleInput: '.lp-question-title-input',
+    elQuestionTypeLabel: '.lp-question-type-label',
+    elQuestionTypeNew: '.lp-question-type-new',
+    elAddNewQuestion: 'add-new-question',
+    elQuestionClone: '.lp-question-item.clone',
+    elAnswersConfig: '.lp-answers-config',
+    elBtnAddAnswer: '.lp-btn-add-question-answer',
+    elQuestionAnswerItemAddNew: '.lp-question-answer-item-add-new',
+    elQuestionAnswerTitleNewInput: '.lp-question-answer-title-new-input',
+    elQuestionAnswerTitleInput: '.lp-question-answer-title-input',
+    elBtnDeleteAnswer: '.lp-btn-delete-question-answer',
+    elQuestionByType: '.lp-question-by-type',
+    elInputAnswerSetTrue: '.lp-input-answer-set-true',
+    elQuestionAnswerItem: '.lp-question-answer-item',
+    elBtnUpdateQuestionAnswer: '.lp-btn-update-question-answer',
+    elBtnFibInsertBlank: '.lp-btn-fib-insert-blank',
+    elBtnFibDeleteAllBlanks: '.lp-btn-fib-delete-all-blanks',
+    elBtnFibSaveContent: '.lp-btn-fib-save-content',
+    elBtnFibClearAllContent: '.lp-btn-fib-clear-all-content',
+    elFibOptionTitleInput: '.lp-question-fib-option-title-input',
+    elFibBlankOptions: '.lp-question-fib-blank-options',
+    elFibBlankOptionItem: '.lp-question-fib-blank-option-item',
+    elFibBlankOptionItemClone: '.lp-question-fib-blank-option-item.clone',
+    elFibBlankOptionIndex: '.lp-question-fib-option-index',
+    elBtnFibOptionDelete: '.lp-btn-fib-option-delete',
+    elFibOptionMatchCaseWrap: '.lp-question-fib-option-match-case-wrap',
+    elFibOptionMatchCaseInput: '.lp-question-fib-option-match-case-input',
+    elQuestionFibOptionDetail: '.lp-question-fib-option-detail',
+    elFibOptionComparisonInput: '.lp-question-fib-option-comparison-input',
+    elAutoSaveFib: '.lp-auto-save-fib',
+    LPTarget: '.lp-target',
+    elCollapse: 'lp-collapse',
+    elSectionToggle: '.lp-section-toggle',
+    elTriggerToggle: '.lp-trigger-toggle',
+    elAutoSaveQuestion: '.lp-auto-save-question',
+    elAutoSaveAnswer: '.lp-auto-save-question-answer',
+    elQuestionFibInput: 'lp-question-fib-input',
+    elBtnQuestionCreateType: '.lp-btn-question-create-type'
+  };
+  constructor() {}
+  init() {
+    this.events();
+    this.initTinyMCE().then();
+  }
+  events() {
+    if (EditQuestion._loadedEvents) {
+      return;
+    }
+    EditQuestion._loadedEvents = true;
+
+    // Sortable answers's question
+    const elQuestionEditMains = document.querySelectorAll(`${EditQuestion.selectors.elQuestionEditMain}`);
+    elQuestionEditMains.forEach(elQuestionEditMain => {
+      this.sortAbleQuestionAnswer(elQuestionEditMain);
+    });
+    // End sortable
+
+    // Event click
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: EditQuestion.selectors.elBtnQuestionCreateType,
+      callBack: this.createQuestionType.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnAddAnswer,
+      callBack: this.addQuestionAnswer.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnDeleteAnswer,
+      callBack: this.deleteQuestionAnswer.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnFibInsertBlank,
+      callBack: this.fibInsertBlank.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnFibDeleteAllBlanks,
+      callBack: this.fibDeleteAllBlanks.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnFibSaveContent,
+      callBack: this.fibSaveContent.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnFibClearAllContent,
+      callBack: this.fibClearContent.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elBtnFibOptionDelete,
+      callBack: this.fibDeleteBlank.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elFibOptionMatchCaseInput,
+      callBack: this.fibShowHideMatchCaseOption.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elFibOptionComparisonInput,
+      callBack: args => {
+        const {
+          e,
+          target
+        } = args;
+        const elQuestionEditMain = target.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+        const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+        elBtnFibSaveContent.click();
+      }
+    }]);
+
+    // Toggle collapse
+    document.addEventListener('click', e => {
+      const target = e.target;
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.toggleCollapse(e, target, EditQuestion.selectors.elTriggerToggle);
+    });
+
+    // Event keyup
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keyup', [{
+      selector: EditQuestion.selectors.elQuestionAnswerTitleNewInput,
+      callBack: this.checkCanAddAnswer.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elFibOptionTitleInput,
+      callBack: this.fibOptionTitleInputChange.name,
+      class: this
+    }, {
+      selector: EditQuestion.selectors.elAutoSaveQuestion,
+      callBack: this.autoUpdateQuestion.name,
+      class: this
+    }]);
+
+    // Event keydown
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keydown', [{
+      selector: EditQuestion.selectors.elQuestionAnswerTitleNewInput,
+      callBack: this.addQuestionAnswer.name,
+      class: this,
+      checkIsEventEnter: true
+    }]);
+
+    // Event change
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('change', [{
+      selector: EditQuestion.selectors.elAutoSaveAnswer,
+      callBack: this.autoUpdateAnswer.name,
+      class: this
+    }]);
+  }
+
+  // Run async to re-init all TinyMCE editors, because it slow if have many editors
+  async initTinyMCE() {
+    const elTextareas = document.querySelectorAll('.lp-editor-tinymce');
+    elTextareas.forEach(elTextarea => {
+      const idTextarea = elTextarea.id;
+      this.reInitTinymce(idTextarea);
+    });
+  }
+  reInitTinymce(id) {
+    window.tinymce.execCommand('mceRemoveEditor', true, id);
+    window.tinymce.execCommand('mceAddEditor', true, id);
+    this.eventEditorTinymce(id);
+
+    // Active tab visual
+    const wrapEditor = document.querySelector(`#wp-${id}-wrap`);
+    if (wrapEditor) {
+      wrapEditor.classList.add('tmce-active');
+      wrapEditor.classList.remove('html-active');
+    }
+  }
+  eventEditorTinymce(id) {
+    const editor = window.tinymce.get(id);
+    const elTextarea = document.getElementById(id);
+    const elQuestionEditMain = elTextarea.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    const questionId = elQuestionEditMain.dataset.questionId;
+    editor.settings.force_p_newlines = false;
+    editor.settings.forced_root_block = '';
+    editor.settings.force_br_newlines = true;
+
+    // Config use absolute url
+    editor.settings.relative_urls = false;
+    editor.settings.remove_script_host = false;
+    editor.settings.convert_urls = true;
+    editor.settings.document_base_url = lpData.site_url;
+    // End config use absolute url
+
+    // Events focus in TinyMCE editor
+    editor.on('change', e => {
+      // Auto save if it has class lp-auto-save
+      elTextarea.value = editor.getContent();
+      this.autoUpdateQuestion({
+        e,
+        target: elTextarea
+      });
+    });
+    editor.on('keyup', e => {
+      // Auto save if it has class lp-auto-save
+      elTextarea.value = editor.getContent();
+      this.autoUpdateQuestion({
+        e,
+        target: elTextarea
+      });
+    });
+    editor.on('blur', e => {
+      //console.log( 'Editor blurred:', e.target.id );
+    });
+    editor.on('focusin', e => {});
+    editor.on('init', () => {
+      // Add style
+      editor.dom.addStyle(`
+				body {
+					line-height: 2.2 !important;
+				}
+				.${EditQuestion.selectors.elQuestionFibInput} {
+					border: 1px dashed rebeccapurple;
+					padding: 5px;
+				}
+			`);
+    });
+    editor.on('setcontent', e => {
+      const uniquid = this.randomString();
+      const elementg = editor.dom.select(`.${EditQuestion.selectors.elQuestionFibInput}[data-id="${uniquid}"]`);
+      if (elementg[0]) {
+        elementg[0].focus();
+      }
+      editor.dom.bind(elementg[0], 'input', function (e) {
+        //console.log( 'Input changed:', e.target.value );
+      });
+    });
+    editor.on('selectionchange', e => {
+      fibSelection = editor.selection;
+
+      // Check selection is blank, check empty blank content
+      if (fibSelection.getNode().classList.contains(`${EditQuestion.selectors.elQuestionFibInput}`)) {
+        const blankId = fibSelection.getNode().dataset.id;
+        const textBlank = fibSelection.getNode().textContent.trim();
+        if (textBlank.length === 0) {
+          const editorId = editor.id;
+          const questionId = editorId.replace(`${EditQuestion.selectors.elQuestionFibInput}-`, '');
+          const elQuestionEditMain = document.querySelector(`${EditQuestion.selectors.elQuestionEditMain}[data-question-id="${questionId}"]`);
+          const elQuestionBlankOptions = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elFibBlankOptions}`);
+          const elFibBlankOptionItem = elQuestionBlankOptions.querySelector(`${EditQuestion.selectors.elFibBlankOptionItem}[data-id="${blankId}"]`);
+          if (elFibBlankOptionItem) {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItem, 0);
+          }
+        } else {
+          const elTextarea = document.getElementById(id);
+          const elAnswersConfig = elTextarea.closest(`${EditQuestion.selectors.elAnswersConfig}`);
+          const elFibBlankOptionItem = elAnswersConfig.querySelector(`${EditQuestion.selectors.elFibBlankOptionItem}[data-id="${blankId}"]`);
+          if (elFibBlankOptionItem) {
+            const elFibOptionTitleInput = elFibBlankOptionItem.querySelector(`${EditQuestion.selectors.elFibOptionTitleInput}`);
+            if (elFibOptionTitleInput) {
+              elFibOptionTitleInput.value = textBlank;
+            }
+          }
+        }
+      }
+    });
+    editor.on('Undo', function (e) {
+      const contentUndo = editor.getContent();
+      const selection = editor.selection;
+      const nodeUndo = selection.getNode();
+      if (nodeUndo.classList.contains(`${EditQuestion.selectors.elQuestionFibInput}`)) {
+        const blankId = nodeUndo.dataset.id;
+        const elFibBlankOptionItem = document.querySelector(`${EditQuestion.selectors.elFibBlankOptionItem}[data-id="${blankId}"]`);
+        if (elFibBlankOptionItem) {
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItem, 1);
+        }
+      }
+    });
+    editor.on('Redo', function (e) {});
+  }
+  autoUpdateQuestion(args) {
+    let {
+      e,
+      target,
+      key,
+      value
+    } = args;
+    const elAutoSave = target.closest(`${EditQuestion.selectors.elAutoSaveQuestion}`);
+    if (!elAutoSave) {
+      return;
+    }
+    const elQuestionEditMain = elAutoSave.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    const questionId = elQuestionEditMain.dataset.questionId;
+    clearTimeout(timeoutAutoUpdateQuestion);
+    timeoutAutoUpdateQuestion = setTimeout(() => {
+      // Call ajax to update question description
+      const callBack = {
+        success: response => {
+          const {
+            message,
+            status
+          } = response;
+          if (status === 'success') {
+            lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+          } else {
+            throw `Error: ${message}`;
+          }
+        },
+        error: error => {
+          lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+        },
+        completed: () => {}
+      };
+      const dataSend = {
+        action: 'update_question',
+        question_id: questionId,
+        args: {
+          id_url: idUrlHandle
+        }
+      };
+      if (undefined === key) {
+        key = elAutoSave.dataset.keyAutoSave;
+        if (!key) {
+          if (!elAutoSave.classList.contains('lp-editor-tinymce')) {
+            return;
+          }
+          const textAreaId = elAutoSave.id;
+          key = textAreaId.replace(/lp-/g, '').replace(`-${questionId}`, '').replace(/-/g, '_');
+          if (!key) {
+            return;
+          }
+        }
+        value = elAutoSave.value;
+      }
+      dataSend[key] = value;
+      window.lpAJAXG.fetchAJAX(dataSend, callBack);
+    }, 700);
+  }
+  // Create question type
+  createQuestionType(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnQuestionCreateType = target.closest(`${EditQuestion.selectors.elBtnQuestionCreateType}`);
+    if (!elBtnQuestionCreateType) {
+      return;
+    }
+    const elQuestionEditMain = elBtnQuestionCreateType.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    if (!elQuestionEditMain) {
+      return;
+    }
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const elQuestionTypeNew = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elQuestionTypeNew}`);
+    if (!elQuestionTypeNew) {
+      return;
+    }
+    const questionType = elQuestionTypeNew.value.trim();
+    if (!questionType) {
+      const message = elQuestionTypeNew.dataset.messEmptyType;
+      lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, 'error');
+      return;
+    }
+
+    // Call ajax to create new question type
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        if (status === 'success') {
+          const {
+            html_option_answers
+          } = data;
+          const elAnswersConfig = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elAnswersConfig}`);
+          elAnswersConfig.outerHTML = html_option_answers;
+          this.initTinyMCE();
+          this.sortAbleQuestionAnswer(elQuestionEditMain);
+          lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        } else {
+          throw `Error: ${message}`;
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+      },
+      completed: () => {}
+    };
+    const dataSend = {
+      action: 'update_question',
+      question_id: questionId,
+      question_type: questionType,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  addQuestionAnswer(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elQuestionAnswerItemAddNew = target.closest(`${EditQuestion.selectors.elQuestionAnswerItemAddNew}`);
+    if (!elQuestionAnswerItemAddNew) {
+      return;
+    }
+    e.preventDefault();
+    const elQuestionAnswerTitleNewInput = elQuestionAnswerItemAddNew.querySelector(`${EditQuestion.selectors.elQuestionAnswerTitleNewInput}`);
+    if (!elQuestionAnswerTitleNewInput.value.trim()) {
+      const message = elQuestionAnswerTitleNewInput.dataset.messEmptyTitle;
+      lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, 'error');
+      return;
+    }
+    const elQuestionEditMain = target.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    const elQuestionAnswerClone = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elQuestionAnswerItem}.clone`);
+    const elQuestionAnswerNew = elQuestionAnswerClone.cloneNode(true);
+    const elQuestionAnswerTitleInputNew = elQuestionAnswerNew.querySelector(`${EditQuestion.selectors.elQuestionAnswerTitleInput}`);
+    elQuestionAnswerNew.classList.remove('clone');
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elQuestionAnswerNew, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerNew, 1);
+    elQuestionAnswerClone.insertAdjacentElement('beforebegin', elQuestionAnswerNew);
+    const answerTitle = elQuestionAnswerTitleNewInput.value.trim();
+    elQuestionAnswerTitleInputNew.value = answerTitle;
+    elQuestionAnswerTitleNewInput.value = '';
+    const questionId = elQuestionEditMain.dataset.questionId;
+
+    // Call ajax to add new question answer
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        if (status === 'success') {
+          const {
+            question_answer
+          } = data;
+          elQuestionAnswerNew.dataset.answerId = question_answer.question_answer_id;
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerNew, 0);
+
+          // Set data lp-answers-config
+          const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+          dataAnswers.push(question_answer);
+          this.setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+        } else {
+          throw `Error: ${message}`;
+        }
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+      },
+      error: error => {
+        elQuestionAnswerNew.remove();
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+      },
+      completed: () => {
+        this.checkCanAddAnswer(null, elQuestionAnswerTitleNewInput);
+      }
+    };
+    const dataSend = {
+      action: 'add_question_answer',
+      question_id: questionId,
+      answer_title: answerTitle,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  // Check to enable or disable add new question button
+  checkCanAddAnswer(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elTrigger = target.closest(EditQuestion.selectors.elQuestionAnswerTitleNewInput);
+    if (!elTrigger) {
+      return;
+    }
+    const elQuestionAnswerItemAddNew = elTrigger.closest(`${EditQuestion.selectors.elQuestionAnswerItemAddNew}`);
+    if (!elQuestionAnswerItemAddNew) {
+      return;
+    }
+    const elBtnAddAnswer = elQuestionAnswerItemAddNew.querySelector(`${EditQuestion.selectors.elBtnAddAnswer}`);
+    if (!elBtnAddAnswer) {
+      return;
+    }
+    const titleValue = elTrigger.value.trim();
+    if (titleValue) {
+      elBtnAddAnswer.classList.add('active');
+    } else {
+      elBtnAddAnswer.classList.remove('active');
+    }
+  }
+
+  // Auto update question answer
+  autoUpdateAnswer(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elAutoSaveAnswer = target.closest(`${EditQuestion.selectors.elAutoSaveAnswer}`);
+    if (!elAutoSaveAnswer) {
+      return;
+    }
+    const elQuestionAnswerItem = elAutoSaveAnswer.closest(`${EditQuestion.selectors.elQuestionAnswerItem}`);
+    clearTimeout(timeoutAutoUpdateAnswer);
+    timeoutAutoUpdateAnswer = setTimeout(() => {
+      const elQuestionEditMain = elAutoSaveAnswer.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+      const questionId = elQuestionEditMain.dataset.questionId;
+      const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+      const elAnswersConfig = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elAnswersConfig}`);
+
+      // For both radio and checkbox.
+      const dataAnswersOld = structuredClone(dataAnswers);
+
+      // Get position of answers
+      const elQuestionAnswerItems = elAnswersConfig.querySelectorAll(`${EditQuestion.selectors.elQuestionAnswerItem}:not(.clone)`);
+      const answersPosition = {};
+      elQuestionAnswerItems.forEach((elQuestionAnswerItem, index) => {
+        answersPosition[elQuestionAnswerItem.dataset.answerId] = index + 1; // Start from 1
+      });
+
+      //console.log( 'answersPosition', answersPosition );
+
+      dataAnswers.map((answer, k) => {
+        const elQuestionAnswerItem = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elQuestionAnswerItem}[data-answer-id="${answer.question_answer_id}"]`);
+        const elInputAnswerSetTrue = elQuestionAnswerItem.querySelector(`${EditQuestion.selectors.elInputAnswerSetTrue}`);
+        const elInputAnswerTitle = elQuestionAnswerItem.querySelector(`${EditQuestion.selectors.elQuestionAnswerTitleInput}`);
+
+        // Set title
+        if (elInputAnswerTitle) {
+          answer.title = elInputAnswerTitle.value.trim();
+        }
+
+        // Set true answer
+        if (elInputAnswerSetTrue) {
+          if (elInputAnswerSetTrue.checked) {
+            answer.is_true = 'yes';
+          } else {
+            answer.is_true = '';
+          }
+        }
+
+        // Set position
+        if (answersPosition[answer.question_answer_id]) {
+          answer.order = answersPosition[answer.question_answer_id];
+        }
+        return answer;
+      });
+
+      //console.log( dataAnswers );
+
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 1);
+
+      // Call ajax to update answers config
+      const callBack = {
+        success: response => {
+          const {
+            message,
+            status
+          } = response;
+          if (status === 'success') {} else {
+            throw `Error: ${message}`;
+          }
+          lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        },
+        error: error => {
+          // rollback changes to old data
+          dataAnswersOld.forEach(answer => {
+            const elAnswerItem = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elQuestionAnswerItem}[data-answer-id="${answer.question_answer_id}"]`);
+            const inputAnswerSetTrue = elAnswerItem.querySelector(`${EditQuestion.selectors.elInputAnswerSetTrue}`);
+            if (answer.is_true === 'yes') {
+              inputAnswerSetTrue.checked = true;
+            }
+            return answer;
+          });
+          lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+        },
+        completed: () => {
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 0);
+        }
+      };
+      const dataSend = {
+        action: 'update_question_answers_config',
+        question_id: questionId,
+        answers: dataAnswers,
+        args: {
+          id_url: idUrlHandle
+        }
+      };
+      window.lpAJAXG.fetchAJAX(dataSend, callBack);
+    }, 700);
+  }
+
+  // Sortable answers's question
+  sortAbleQuestionAnswer(elQuestionEditMain) {
+    let isUpdateSectionPosition = 0;
+    let timeout;
+    const elQuestionAnswers = elQuestionEditMain.querySelectorAll(`${EditQuestion.selectors.elAnswersConfig}`);
+    elQuestionAnswers.forEach(elAnswersConfig => {
+      new sortablejs__WEBPACK_IMPORTED_MODULE_3__["default"](elAnswersConfig, {
+        handle: '.drag',
+        animation: 150,
+        onEnd: evt => {
+          const elQuestionAnswerItem = evt.item;
+          if (!isUpdateSectionPosition) {
+            // No change in section position, do nothing
+            return;
+          }
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            const elAutoSaveAnswer = elQuestionAnswerItem.querySelector(`${EditQuestion.selectors.elAutoSaveAnswer}`);
+            this.autoUpdateAnswer({
+              e: null,
+              target: elAutoSaveAnswer
+            });
+          }, 1000);
+        },
+        onMove: evt => {
+          clearTimeout(timeout);
+        },
+        onUpdate: evt => {
+          isUpdateSectionPosition = 1;
+        }
+      });
+    });
+  }
+
+  // Delete question answer
+  deleteQuestionAnswer(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnDeleteAnswer = target.closest(`${EditQuestion.selectors.elBtnDeleteAnswer}`);
+    if (!elBtnDeleteAnswer) {
+      return;
+    }
+    const elQuestionAnswerItem = elBtnDeleteAnswer.closest(`${EditQuestion.selectors.elQuestionAnswerItem}`);
+    if (!elQuestionAnswerItem) {
+      return;
+    }
+    const elQuestionEditMain = elBtnDeleteAnswer.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const questionAnswerId = elQuestionAnswerItem.dataset.answerId;
+    if (!questionId || !questionAnswerId) {
+      return;
+    }
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elBtnDeleteAnswer.dataset.title || 'Are you sure?',
+      text: elBtnDeleteAnswer.dataset.content || 'Do you want to delete this answer?',
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 1);
+
+        // Call ajax to delete item from section
+        const callBack = {
+          success: response => {
+            const {
+              message,
+              status
+            } = response;
+            lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+            if (status === 'success') {
+              const elQuestionAnswerId = parseInt(elQuestionAnswerItem.dataset.answerId);
+              elQuestionAnswerItem.remove();
+              const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+              if (dataAnswers) {
+                const updatedAnswers = dataAnswers.filter(answer => parseInt(answer.question_answer_id) !== elQuestionAnswerId);
+                this.setDataAnswersConfig(elQuestionEditMain, updatedAnswers);
+              }
+            }
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+          },
+          completed: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 0);
+          }
+        };
+        const dataSend = {
+          action: 'delete_question_answer',
+          question_id: questionId,
+          question_answer_id: questionAnswerId,
+          args: {
+            id_url: idUrlHandle
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+
+  // Get data answers config
+  getDataAnswersConfig(elQuestionEditMain) {
+    const elAnswersConfig = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elAnswersConfig}`);
+    if (!elAnswersConfig) {
+      return null;
+    }
+    let dataAnswers = elAnswersConfig.dataset.answers || '[]';
+    try {
+      dataAnswers = JSON.parse(dataAnswers);
+    } catch (e) {
+      dataAnswers = [];
+    }
+    if (!dataAnswers.meta_data) {
+      dataAnswers.meta_data = {};
+    }
+    return dataAnswers;
+  }
+
+  // Set data answers config
+  setDataAnswersConfig(elQuestionEditMain, dataAnswers) {
+    const elAnswersConfig = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elAnswersConfig}`);
+    if (!elAnswersConfig) {
+      return;
+    }
+    if (!dataAnswers || typeof dataAnswers !== 'object') {
+      dataAnswers = {};
+    }
+    elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
+  }
+
+  /***** Fill in the blank question type *****/
+  // For FIB question type
+  fibInsertBlank = args => {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnFibInsertBlank = target.closest(EditQuestion.selectors.elBtnFibInsertBlank);
+    if (!elBtnFibInsertBlank) {
+      return;
+    }
+    const textPlaceholder = elBtnFibInsertBlank.dataset.defaultText;
+    const elQuestionEditMain = elBtnFibInsertBlank.closest(EditQuestion.selectors.elQuestionEditMain);
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const messErrInserted = elBtnFibInsertBlank.dataset.messInserted;
+    const messErrRequireSelectText = elBtnFibInsertBlank.dataset.messRequireSelectText;
+    const idEditor = `${EditQuestion.selectors.elQuestionFibInput}-${questionId}`;
+    const uniquid = this.randomString();
+    let selectedText;
+    if (fibSelection) {
+      const elNode = fibSelection.getNode();
+      if (!elNode) {
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show('Event insert blank has error, please try again', 'error');
+        return;
+      }
+      const findParent = elNode.closest(`body[data-id="${idEditor}"]`);
+      if (!findParent) {
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(messErrRequireSelectText, 'error');
+        return;
+      }
+      if (elNode.classList.contains(`${EditQuestion.selectors.elQuestionFibInput}`)) {
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(messErrInserted, 'error');
+        return;
+      }
+      selectedText = fibSelection.getContent();
+      if (selectedText.length === 0) {
+        selectedText = textPlaceholder;
+      }
+      const elInputNew = `<span class="${EditQuestion.selectors.elQuestionFibInput}" data-id="${uniquid}">${selectedText}</span>`;
+      fibSelection.setContent(elInputNew);
+    } else {
+      lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(messErrRequireSelectText, 'error');
+      return;
+    }
+    const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+    dataAnswers.meta_data = dataAnswers.meta_data || {};
+    // Convert array to object
+    if (Object.keys(dataAnswers.meta_data).length === 0) {
+      dataAnswers.meta_data = {};
+    }
+    dataAnswers.meta_data[uniquid] = {
+      id: uniquid,
+      match_case: 0,
+      comparison: 'equal',
+      fill: selectedText,
+      index: 1,
+      open: false
+    };
+    this.setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+
+    // Clone blank options
+    const elFibBlankOptions = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elFibBlankOptions}`);
+    const elFibBlankOptionItemClone = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elFibBlankOptionItemClone}`);
+    const elFibBlankOptionItemNew = elFibBlankOptionItemClone.cloneNode(true);
+    const countOptions = elFibBlankOptions.querySelectorAll(`${EditQuestion.selectors.elFibBlankOptionItem}:not(.clone)`).length;
+    const elFibBlankOptionIndex = elFibBlankOptionItemNew.querySelector(`${EditQuestion.selectors.elFibBlankOptionIndex}`);
+    const elFibOptionTitleInput = elFibBlankOptionItemNew.querySelector(`${EditQuestion.selectors.elFibOptionTitleInput}`);
+    const elFibOptionMatchCaseInput = elFibBlankOptionItemNew.querySelector(`${EditQuestion.selectors.elFibOptionMatchCaseInput}`);
+    const elFibOptionComparisonInput = elFibBlankOptionItemNew.querySelectorAll(`${EditQuestion.selectors.elFibOptionComparisonInput}`);
+    elFibBlankOptionItemNew.dataset.id = uniquid;
+    elFibOptionTitleInput.name = `${EditQuestion.selectors.elFibOptionTitleInput}-${uniquid}`;
+    elFibOptionTitleInput.value = this.decodeHtml(selectedText);
+    elFibBlankOptionIndex.textContent = countOptions + 1 + '.';
+    elFibOptionMatchCaseInput.name = `${EditQuestion.selectors.elFibOptionMatchCaseInput}-${uniquid}`.replace(/\./g, '');
+    elFibOptionComparisonInput.forEach(elInput => {
+      elInput.name = `${EditQuestion.selectors.elFibOptionComparisonInput}-${uniquid}`.replace(/\./g, '');
+      if (elInput.value === 'equal') {
+        elInput.checked = true;
+      }
+    });
+    elFibBlankOptionItemClone.insertAdjacentElement('beforebegin', elFibBlankOptionItemNew);
+    elFibBlankOptionItemNew.classList.remove('clone');
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItemNew, 1);
+    // End clone blank options
+
+    const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibInsertBlank, 1);
+    this.fibSaveContent({
+      e: null,
+      target: elBtnFibSaveContent,
+      callBackCompleted: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibInsertBlank, 0);
+      }
+    });
+  };
+
+  // Delete all blanks
+  fibDeleteAllBlanks(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnFibDeleteAllBlanks = target.closest(`${EditQuestion.selectors.elBtnFibDeleteAllBlanks}`);
+    if (!elBtnFibDeleteAllBlanks) {
+      return;
+    }
+    const elQuestionEditMain = elBtnFibDeleteAllBlanks.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    if (!elQuestionEditMain) {
+      return;
+    }
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elBtnFibDeleteAllBlanks.dataset.title,
+      text: elBtnFibDeleteAllBlanks.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const editor = window.tinymce.get(`${EditQuestion.selectors.elQuestionFibInput}-${questionId}`);
+        const elBlanks = editor.dom.select(`.${EditQuestion.selectors.elQuestionFibInput}`);
+        elBlanks.forEach(elBlank => {
+          editor.dom.remove(elBlank, true);
+        });
+        dataAnswers.meta_data = {};
+        this.setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+        const elFibBlankOptions = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elFibBlankOptions}`);
+        const elFibBlankOptionItems = elFibBlankOptions.querySelectorAll(`${EditQuestion.selectors.elFibBlankOptionItem}:not(.clone)`);
+        elFibBlankOptionItems.forEach(elFibBlankOptionItem => {
+          elFibBlankOptionItem.remove();
+        });
+        const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibDeleteAllBlanks, 1);
+        this.fibSaveContent({
+          e: null,
+          target: elBtnFibSaveContent,
+          callBackCompleted: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibDeleteAllBlanks, 0);
+          }
+        });
+      }
+    });
+  }
+  // Clear content FIB question
+  fibClearContent(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnFibClearAllContent = target.closest(`${EditQuestion.selectors.elBtnFibClearAllContent}`);
+    if (!elBtnFibClearAllContent) {
+      return;
+    }
+    const elQuestionEditMain = elBtnFibClearAllContent.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    if (!elQuestionEditMain) {
+      return;
+    }
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elBtnFibClearAllContent.dataset.title,
+      text: elBtnFibClearAllContent.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
+        editor.setContent('');
+        dataAnswers.meta_data = {};
+        this.setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+        const elFibBlankOptions = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elFibBlankOptions}`);
+        const elFibBlankOptionItems = elFibBlankOptions.querySelectorAll(`${EditQuestion.selectors.elFibBlankOptionItem}:not(.clone)`);
+        elFibBlankOptionItems.forEach(elFibBlankOptionItem => {
+          elFibBlankOptionItem.remove();
+        });
+        const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibClearAllContent, 1);
+        this.fibSaveContent({
+          e: null,
+          target: elBtnFibSaveContent,
+          callBackCompleted: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibClearAllContent, 0);
+          }
+        });
+      }
+    });
+  }
+
+  // Remove blank
+  fibDeleteBlank(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnFibOptionDelete = target.closest(`${EditQuestion.selectors.elBtnFibOptionDelete}`);
+    if (!elBtnFibOptionDelete) {
+      return;
+    }
+    const elQuestionEditMain = elBtnFibOptionDelete.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    if (!elQuestionEditMain) {
+      return;
+    }
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const elAnswersConfig = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elAnswersConfig}`);
+    const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+    const elFibBlankOptionItem = elBtnFibOptionDelete.closest(`${EditQuestion.selectors.elFibBlankOptionItem}`);
+    const blankId = elFibBlankOptionItem.dataset.id;
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elBtnFibOptionDelete.dataset.title,
+      text: elBtnFibOptionDelete.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        // Find span with id on editor and remove it
+        const editor = window.tinymce.get(`${EditQuestion.selectors.elQuestionFibInput}-${questionId}`);
+        const elBlank = editor.dom.select(`.${EditQuestion.selectors.elQuestionFibInput}[data-id="${blankId}"]`);
+        if (elBlank[0]) {
+          // Remove tag html but keep content
+          editor.dom.remove(elBlank[0], true);
+        }
+        elFibBlankOptionItem.remove();
+        dataAnswers.meta_data = dataAnswers.meta_data || {};
+        if (dataAnswers.meta_data[blankId]) {
+          delete dataAnswers.meta_data[blankId];
+        }
+        this.setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+        const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elFibBlankOptionItem, 1);
+        this.fibSaveContent({
+          e: null,
+          target: elBtnFibSaveContent,
+          callBackCompleted: () => {
+            lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elFibBlankOptionItem, 0);
+          }
+        });
+      }
+    });
+  }
+
+  // Change title of blank option
+  fibOptionTitleInputChange(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elFibOptionTitleInput = target.closest(`${EditQuestion.selectors.elFibOptionTitleInput}`);
+    if (!elFibOptionTitleInput) {
+      return;
+    }
+    const elQuestionFibOptionItem = elFibOptionTitleInput.closest(`${EditQuestion.selectors.elFibBlankOptionItem}`);
+    if (!elQuestionFibOptionItem) {
+      return;
+    }
+    const elQuestionEditMain = elFibOptionTitleInput.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    if (!elQuestionEditMain) {
+      return;
+    }
+    const value = elFibOptionTitleInput.value.trim();
+    const blankId = elQuestionFibOptionItem.dataset.id;
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
+    const elBlank = editor.dom.select(`.lp-question-fib-input[data-id="${blankId}"]`);
+    if (elBlank[0]) {
+      // Update content of blank
+      elBlank[0].textContent = value;
+    }
+    clearTimeout(timeoutAutoUpdateFib);
+    timeoutAutoUpdateFib = setTimeout(() => {
+      // Call ajax to update question description
+      const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+      this.fibSaveContent({
+        e: null,
+        target: elBtnFibSaveContent
+      });
+    }, 700);
+  }
+
+  // Save content FIB question
+  fibSaveContent(args) {
+    const {
+      e,
+      target,
+      callBackCompleted = null
+    } = args;
+    const elBtnFibSaveContent = target.closest(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+    if (!elBtnFibSaveContent) {
+      return;
+    }
+    const elQuestionEditMain = elBtnFibSaveContent.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const dataAnswers = this.getDataAnswersConfig(elQuestionEditMain);
+    if (!dataAnswers) {
+      return;
+    }
+    const editor = window.tinymce.get(`${EditQuestion.selectors.elQuestionFibInput}-${questionId}`);
+    dataAnswers.title = editor.getContent();
+    const elFibBlankOptionItems = elQuestionEditMain.querySelectorAll(`${EditQuestion.selectors.elFibBlankOptionItem}:not(.clone)`);
+    if (elFibBlankOptionItems) {
+      elFibBlankOptionItems.forEach(elFibBlankOptionItem => {
+        const blankId = elFibBlankOptionItem.dataset.id;
+        const elFibOptionMatchCaseInput = elFibBlankOptionItem.querySelector(`${EditQuestion.selectors.elFibOptionMatchCaseInput}`);
+        const elFibOptionComparisonInput = elFibBlankOptionItem.querySelector(`${EditQuestion.selectors.elFibOptionComparisonInput}:checked`);
+        dataAnswers.meta_data[blankId].match_case = elFibOptionMatchCaseInput.checked ? 1 : 0;
+        dataAnswers.meta_data[blankId].comparison = elFibOptionComparisonInput.value;
+      });
+    }
+
+    //console.log( 'dataAnswers', dataAnswers );
+
+    if (!callBackCompleted) {
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibSaveContent, 1);
+    }
+
+    // Call ajax to update answers config
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        if (status === 'success') {
+          this.setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+        } else {
+          throw `Error: ${message}`;
+        }
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+      },
+      completed: () => {
+        if (callBackCompleted && typeof callBackCompleted === 'function') {
+          callBackCompleted();
+        } else {
+          lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibSaveContent, 0);
+        }
+      }
+    };
+
+    //console.log( 'dataAnswers', dataAnswers );
+
+    const dataSend = {
+      action: 'update_question_answers_config',
+      question_id: questionId,
+      answers: dataAnswers,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  // Show/hide match case option
+  fibShowHideMatchCaseOption(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elFibOptionMatchCaseInput = target.closest(`${EditQuestion.selectors.elFibOptionMatchCaseInput}`);
+    if (!elFibOptionMatchCaseInput) {
+      return;
+    }
+    const elQuestionFibOptionDetail = elFibOptionMatchCaseInput.closest(`${EditQuestion.selectors.elQuestionFibOptionDetail}`);
+    const elFibOptionMatchCaseWrap = elQuestionFibOptionDetail.querySelector(`${EditQuestion.selectors.elFibOptionMatchCaseWrap}`);
+    if (!elQuestionFibOptionDetail || !elFibOptionMatchCaseWrap) {
+      return;
+    }
+    if (elFibOptionMatchCaseInput.checked) {
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibOptionMatchCaseWrap, 1);
+    } else {
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibOptionMatchCaseWrap, 0);
+    }
+    const elQuestionEditMain = elFibOptionMatchCaseInput.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+    const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${EditQuestion.selectors.elBtnFibSaveContent}`);
+    elBtnFibSaveContent.click();
+  }
+  /***** End Fill in the blank question type *****/
+
+  // Generate a random string of specified length, for set unique id
+  randomString(length = 10) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
+  // Decode HTML entities
+  decodeHtml(html) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+}
+const editQuestion = new EditQuestion();
+lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(EditQuestion.selectors.elEditQuestionWrap, elEditQuestionWrap => {
+  const findClass = EditQuestion.selectors.elQuestionEditMain.replace('.', '');
+  if (!elEditQuestionWrap.classList.contains(findClass)) {
+    return;
+  }
+  editQuestion.init();
+});
+
+/***/ }),
+
+/***/ "./assets/src/js/admin/edit-quiz.js":
+/*!******************************************!*\
+  !*** ./assets/src/js/admin/edit-quiz.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
+/* harmony import */ var _edit_question_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./edit-question.js */ "./assets/src/js/admin/edit-question.js");
+/* harmony import */ var lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lpAssetsJsPath/lpPopupSelectItemToAdd.js */ "./assets/src/js/lpPopupSelectItemToAdd.js");
+/**
+ * Edit Quiz JS handler as a class.
+ *
+ * @since 4.2.8.6
+ * @version 1.0.3
+ */
+
+
+
+
+
+
+
+let editQuestion;
+const lpPopupSelectItemToAdd = new lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd();
+lpPopupSelectItemToAdd.init();
+class EditQuiz {
+  constructor() {
+    this.idUrlHandle = 'edit-quiz-questions';
+    this.elEditQuizWrap = null;
+    this.elEditListQuestions = null;
+    this.quizID = null;
+  }
+  static selectors = {
+    elEditQuizWrap: '.lp-edit-quiz-wrap',
+    elQuestionEditMain: '.lp-question-edit-main',
+    elQuestionToggleAll: '.lp-question-toggle-all',
+    elEditListQuestions: '.lp-edit-list-questions',
+    elQuestionItem: '.lp-question-item',
+    elQuestionToggle: '.lp-question-toggle',
+    elPopupItemsToSelectClone: '.lp-popup-items-to-select.clone',
+    elBtnAddQuestion: '.lp-btn-add-question',
+    elBtnRemoveQuestion: '.lp-btn-remove-question',
+    elBtnUpdateQuestionTitle: '.lp-btn-update-question-title',
+    elBtnCancelUpdateQuestionTitle: '.lp-btn-cancel-update-question-title',
+    elQuestionTitleNewInput: '.lp-question-title-new-input',
+    elQuestionTitleInput: '.lp-question-title-input',
+    elQuestionTypeLabel: '.lp-question-type-label',
+    elQuestionTypeNew: '.lp-question-type-new',
+    elAddNewQuestion: 'add-new-question',
+    elQuestionClone: '.lp-question-item.clone',
+    LPTarget: '.lp-target',
+    elCollapse: 'lp-collapse'
+  };
+  init() {
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(EditQuiz.selectors.elEditQuizWrap, elEditQuizWrapFound => {
+      this.elEditQuizWrap = elEditQuizWrapFound;
+      this.elEditListQuestions = this.elEditQuizWrap.querySelector(EditQuiz.selectors.elEditListQuestions);
+      const elLPTarget = this.elEditQuizWrap.closest(EditQuiz.selectors.LPTarget);
+      const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+      this.quizID = dataSend.args.quiz_id;
+      this.sortAbleQuestion();
+      editQuestion = new _edit_question_js__WEBPACK_IMPORTED_MODULE_5__.EditQuestion();
+      editQuestion.init();
+      const elQuestionEditMains = elEditQuizWrapFound.querySelectorAll(`${EditQuiz.selectors.elQuestionEditMain}`);
+      elQuestionEditMains.forEach(elQuestionEditMain => {
+        editQuestion.sortAbleQuestionAnswer(elQuestionEditMain);
+      });
+      this.events();
+    });
+  }
+  events() {
+    if (EditQuiz._loadedEvents) {
+      return;
+    }
+    EditQuiz._loadedEvents = true;
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: EditQuiz.selectors.elQuestionToggleAll,
+      class: this,
+      callBack: this.toggleQuestionAll.name
+    }, {
+      selector: EditQuiz.selectors.elBtnAddQuestion,
+      class: this,
+      callBack: this.addQuestion.name
+    }, {
+      selector: EditQuiz.selectors.elBtnRemoveQuestion,
+      class: this,
+      callBack: this.removeQuestion.name
+    }, {
+      selector: EditQuiz.selectors.elBtnUpdateQuestionTitle,
+      class: this,
+      callBack: this.updateQuestionTitle.name
+    }, {
+      selector: EditQuiz.selectors.elBtnCancelUpdateQuestionTitle,
+      class: this,
+      callBack: this.cancelChangeTitleQuestion.name
+    }, {
+      selector: lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd.selectors.elBtnAddItemsSelected,
+      class: lpPopupSelectItemToAdd,
+      callBack: lpPopupSelectItemToAdd.addItemsSelectedToSection.name,
+      callBackHandle: this.addQuestionsSelectedToQuiz.bind(this)
+    }]);
+
+    // Keydown
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keydown', [{
+      selector: EditQuiz.selectors.elQuestionTitleInput,
+      class: this,
+      callBack: this.updateQuestionTitle.name,
+      checkIsEventEnter: true
+    }, {
+      selector: EditQuiz.selectors.elQuestionTitleNewInput,
+      class: this,
+      callBack: this.addQuestion.name,
+      checkIsEventEnter: true
+    }]);
+
+    // Keyup
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keyup', [{
+      selector: EditQuiz.selectors.elQuestionTitleInput,
+      class: this,
+      callBack: this.changeTitleQuestion.name
+    }, {
+      selector: `${EditQuiz.selectors.elQuestionTitleNewInput}, ${EditQuiz.selectors.elQuestionTypeNew}`,
+      class: this,
+      callBack: this.checkCanAddQuestion.name
+    }]);
+
+    // Change
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('change', [{
+      selector: EditQuiz.selectors.elQuestionTypeNew,
+      class: this,
+      callBack: this.checkCanAddQuestion.name
+    }]);
+
+    // Click
+    document.addEventListener('click', e => {
+      const target = e.target;
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.toggleCollapse(e, target, EditQuiz.selectors.elQuestionToggle, [], () => this.checkAllQuestionsCollapsed());
+    });
+  }
+
+  // Toggle all questions
+  toggleQuestionAll(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elQuestionToggleAll = target.closest(`${EditQuiz.selectors.elQuestionToggleAll}`);
+    if (!elQuestionToggleAll) {
+      return;
+    }
+    const elQuestionItems = this.elEditQuizWrap.querySelectorAll(`${EditQuiz.selectors.elQuestionItem}:not(.clone)`);
+    elQuestionToggleAll.classList.toggle(`${EditQuiz.selectors.elCollapse}`);
+    elQuestionItems.forEach(el => {
+      const shouldCollapse = elQuestionToggleAll.classList.contains(`${EditQuiz.selectors.elCollapse}`);
+      el.classList.toggle(`${EditQuiz.selectors.elCollapse}`, shouldCollapse);
+    });
+  }
+  checkAllQuestionsCollapsed() {
+    const elQuestionItems = this.elEditQuizWrap.querySelectorAll(`${EditQuiz.selectors.elQuestionItem}:not(.clone)`);
+    const elQuestionToggleAll = this.elEditQuizWrap.querySelector(`${EditQuiz.selectors.elQuestionToggleAll}`);
+    let isAllExpand = true;
+    elQuestionItems.forEach(el => {
+      if (el.classList.contains(`${EditQuiz.selectors.elCollapse}`)) {
+        isAllExpand = false;
+        return false; // Break
+      }
+    });
+    if (isAllExpand) {
+      elQuestionToggleAll.classList.remove(`${EditQuiz.selectors.elCollapse}`);
+    } else {
+      elQuestionToggleAll.classList.add(`${EditQuiz.selectors.elCollapse}`);
+    }
+  }
+  updateCountItems() {
+    const elCountItemsAll = this.elEditQuizWrap.querySelector('.total-items');
+    const elItemsAll = this.elEditQuizWrap.querySelectorAll(`${EditQuiz.selectors.elQuestionItem}:not(.clone)`);
+    const itemsAllCount = elItemsAll.length;
+    elCountItemsAll.dataset.count = itemsAllCount;
+    elCountItemsAll.querySelector('.count').textContent = itemsAllCount;
+  }
+
+  // Add question to quiz
+  addQuestion(args) {
+    const {
+      e,
+      target,
+      callBackNest
+    } = args;
+    e.preventDefault();
+    const elAddNewQuestion = target.closest(`.${EditQuiz.selectors.elAddNewQuestion}`);
+    if (!elAddNewQuestion) {
+      return;
+    }
+    const elQuestionTitleNewInput = elAddNewQuestion.querySelector(`${EditQuiz.selectors.elQuestionTitleNewInput}`);
+    const questionTitle = elQuestionTitleNewInput.value.trim();
+    if (!questionTitle) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(elQuestionTitleNewInput.dataset.messEmptyTitle, 'error');
+      return;
+    }
+    const elQuestionType = elAddNewQuestion.querySelector(`${EditQuiz.selectors.elQuestionTypeNew}`);
+    const questionType = elQuestionType.value;
+    if (!questionType) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(elQuestionType.dataset.messEmptyType, 'error');
+      return;
+    }
+    const elQuestionClone = this.elEditListQuestions.querySelector(`${EditQuiz.selectors.elQuestionItem}.clone`);
+    const newQuestionItem = elQuestionClone.cloneNode(true);
+    const elQuestionTitleInput = newQuestionItem.querySelector(`${EditQuiz.selectors.elQuestionTitleInput}`);
+    elQuestionTitleInput.value = questionTitle;
+    elQuestionTitleNewInput.value = '';
+    newQuestionItem.classList.remove('clone');
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(newQuestionItem, 1);
+    elQuestionClone.insertAdjacentElement('beforebegin', newQuestionItem);
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(newQuestionItem, 1);
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        const {
+          question,
+          html_edit_question
+        } = data;
+        if (status === 'error') {
+          throw `Error: ${message}`;
+        } else if (status === 'success') {
+          newQuestionItem.dataset.questionId = question.ID;
+          newQuestionItem.dataset.questionType = question.meta_data._lp_type;
+          newQuestionItem.outerHTML = html_edit_question;
+          const elQuestionItemCreated = this.elEditListQuestions.querySelector(`${EditQuiz.selectors.elQuestionItem}[data-question-id="${question.ID}"]`);
+          elQuestionItemCreated.classList.remove(EditQuiz.selectors.elCollapse);
+          this.updateCountItems();
+          editQuestion.initTinyMCE();
+          const elQuestionEditMain = elQuestionItemCreated.querySelector(`${EditQuiz.selectors.elQuestionEditMain}`);
+          editQuestion.sortAbleQuestionAnswer(elQuestionEditMain);
+
+          // Callback nest
+          if (callBackNest && typeof callBackNest.success === 'function') {
+            callBackNest.success({
+              response,
+              elQuestionItemCreated
+            });
+          }
+        }
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+      },
+      error: error => {
+        newQuestionItem.remove();
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+        if (callBackNest && typeof callBackNest.error === 'function') {
+          callBackNest.error({
+            error,
+            newQuestionItem
+          });
+        }
+      },
+      completed: () => {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(newQuestionItem, 0);
+        this.checkCanAddQuestion({
+          e,
+          target: elQuestionTitleNewInput
+        });
+        if (callBackNest && typeof callBackNest.completed === 'function') {
+          callBackNest.completed({
+            newQuestionItem
+          });
+        }
+      }
+    };
+    let dataSend = JSON.parse(elQuestionTitleNewInput.dataset.send);
+    dataSend = {
+      ...dataSend,
+      question_title: questionTitle,
+      question_type: questionType
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+
+  // Add questions selected from popup to quiz
+  addQuestionsSelectedToQuiz(itemsSelected) {
+    const questionIds = [];
+    itemsSelected.forEach(item => {
+      const elQuestionItemClone = this.elEditQuizWrap.querySelector(`${EditQuiz.selectors.elQuestionItem}.clone`);
+      if (!elQuestionItemClone) {
+        return;
+      }
+      questionIds.push(item.id);
+      const elQuestionItemNew = elQuestionItemClone.cloneNode(true);
+      const elQuestionItemTitleInput = elQuestionItemNew.querySelector(`${EditQuiz.selectors.elQuestionTitleInput}`);
+      elQuestionItemNew.classList.remove('clone');
+      elQuestionItemNew.dataset.questionId = item.id;
+      elQuestionItemTitleInput.value = item.titleSelected;
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItemNew, 1);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elQuestionItemNew, 1);
+      elQuestionItemClone.insertAdjacentElement('beforebegin', elQuestionItemNew);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItemNew, 1);
+    });
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        if (status === 'success') {
+          lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+          const {
+            html_edit_question
+          } = data;
+          if (html_edit_question) {
+            Object.entries(html_edit_question).forEach(([question_id, item_html]) => {
+              const elQuestionItemNew = this.elEditQuizWrap.querySelector(`${EditQuiz.selectors.elQuestionItem}[data-question-id="${question_id}"]`);
+              elQuestionItemNew.outerHTML = item_html;
+            });
+          }
+          this.updateCountItems();
+          editQuestion.initTinyMCE();
+        } else {
+          throw `Error: ${message}`;
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+      },
+      completed: () => {
+        // completed handler intentionally empty
+      }
+    };
+    const dataSend = {
+      action: 'add_questions_to_quiz',
+      quiz_id: this.quizID,
+      question_ids: questionIds,
+      args: {
+        id_url: this.idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  checkCanAddQuestion(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elTrigger = target.closest(EditQuiz.selectors.elQuestionTitleNewInput) || target.closest(EditQuiz.selectors.elQuestionTypeNew);
+    if (!elTrigger) {
+      return;
+    }
+    const elAddNewQuestion = elTrigger.closest(`.${EditQuiz.selectors.elAddNewQuestion}`);
+    if (!elAddNewQuestion) {
+      return;
+    }
+    const elBtnAddQuestion = elAddNewQuestion.querySelector(`${EditQuiz.selectors.elBtnAddQuestion}`);
+    if (!elBtnAddQuestion) {
+      return;
+    }
+    const elQuestionTitleInput = elAddNewQuestion.querySelector(`${EditQuiz.selectors.elQuestionTitleNewInput}`);
+    const elQuestionTypeNew = elAddNewQuestion.querySelector(`${EditQuiz.selectors.elQuestionTypeNew}`);
+    const questionTitle = elQuestionTitleInput.value.trim();
+    const questionType = elQuestionTypeNew.value;
+    if (questionTitle && questionType) {
+      elBtnAddQuestion.classList.add('active');
+    } else {
+      elBtnAddQuestion.classList.remove('active');
+    }
+  }
+  removeQuestion(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnRemoveQuestion = target.closest(`${EditQuiz.selectors.elBtnRemoveQuestion}`);
+    if (!elBtnRemoveQuestion) {
+      return;
+    }
+    const elQuestionItem = elBtnRemoveQuestion.closest(`${EditQuiz.selectors.elQuestionItem}`);
+    if (!elQuestionItem) {
+      return;
+    }
+    const questionId = elQuestionItem.dataset.questionId;
+    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+      title: elBtnRemoveQuestion.dataset.title,
+      text: elBtnRemoveQuestion.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpDataAdmin.i18n.cancel,
+      confirmButtonText: lpDataAdmin.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 1);
+        const callBack = {
+          success: response => {
+            const {
+              message,
+              status
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+            if (status === 'success') {
+              elQuestionItem.remove();
+              this.updateCountItems();
+            }
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+          },
+          completed: () => {
+            _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 0);
+          }
+        };
+        const dataSend = {
+          quiz_id: this.quizID,
+          action: 'remove_question_from_quiz',
+          question_id: questionId,
+          args: {
+            id_url: this.idUrlHandle
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+  updateQuestionTitle(args) {
+    const {
+      e,
+      target
+    } = args;
+    let canHandle = false;
+    if (target.closest(`${EditQuiz.selectors.elBtnUpdateQuestionTitle}`)) {
+      canHandle = true;
+    } else if (target.closest(`${EditQuiz.selectors.elQuestionTitleInput}`) && e.key === 'Enter') {
+      canHandle = true;
+    }
+    if (!canHandle) {
+      return;
+    }
+    e.preventDefault();
+    const elQuestionItem = target.closest(`${EditQuiz.selectors.elQuestionItem}`);
+    if (!elQuestionItem) {
+      return;
+    }
+    const elQuestionTitleInput = elQuestionItem.querySelector(`${EditQuiz.selectors.elQuestionTitleInput}`);
+    if (!elQuestionTitleInput) {
+      return;
+    }
+    const questionId = elQuestionItem.dataset.questionId;
+    const questionTitleValue = elQuestionTitleInput.value.trim();
+    const titleOld = elQuestionTitleInput.dataset.old;
+    const message = elQuestionTitleInput.dataset.messEmptyTitle;
+    if (questionTitleValue.length === 0) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, 'error');
+      return;
+    }
+    if (questionTitleValue === titleOld) {
+      return;
+    }
+    elQuestionTitleInput.blur();
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 1);
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        if (status === 'success') {
+          elQuestionTitleInput.dataset.old = questionTitleValue;
+        } else {
+          elQuestionTitleInput.value = titleOld;
+        }
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+      },
+      completed: () => {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 0);
+        elQuestionItem.classList.remove('editing');
+      }
+    };
+    const dataSend = {
+      quiz_id: this.quizID,
+      action: 'update_question',
+      question_id: questionId,
+      question_title: questionTitleValue,
+      args: {
+        id_url: this.idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  changeTitleQuestion(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elQuestionTitleInput = target.closest(`${EditQuiz.selectors.elQuestionTitleInput}`);
+    if (!elQuestionTitleInput) {
+      return;
+    }
+    const elQuestionItem = elQuestionTitleInput.closest(`${EditQuiz.selectors.elQuestionItem}`);
+    const titleValue = elQuestionTitleInput.value.trim();
+    const titleValueOld = elQuestionTitleInput.dataset.old || '';
+    if (titleValue === titleValueOld) {
+      elQuestionItem.classList.remove('editing');
+    } else {
+      elQuestionItem.classList.add('editing');
+    }
+  }
+  cancelChangeTitleQuestion(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnCancelUpdateQuestionTitle = target.closest(`${EditQuiz.selectors.elBtnCancelUpdateQuestionTitle}`);
+    if (!elBtnCancelUpdateQuestionTitle) {
+      return;
+    }
+    const elQuestionItem = elBtnCancelUpdateQuestionTitle.closest(`${EditQuiz.selectors.elQuestionItem}`);
+    const elQuestionTitleInput = elQuestionItem.querySelector(`${EditQuiz.selectors.elQuestionTitleInput}`);
+    elQuestionTitleInput.value = elQuestionTitleInput.dataset.old || '';
+    elQuestionItem.classList.remove('editing');
+  }
+  sortAbleQuestion() {
+    let isUpdateSectionPosition = 0;
+    let timeout;
+    new sortablejs__WEBPACK_IMPORTED_MODULE_2__["default"](this.elEditListQuestions, {
+      handle: '.drag',
+      animation: 150,
+      onEnd: evt => {
+        const elQuestionItem = evt.item;
+        if (!isUpdateSectionPosition) {
+          return;
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 1);
+          const questionIds = [];
+          const elQuestionItems = this.elEditListQuestions.querySelectorAll(`${EditQuiz.selectors.elQuestionItem}:not(.clone)`);
+          elQuestionItems.forEach(elItem => {
+            const questionId = elItem.dataset.questionId;
+            if (questionId) {
+              questionIds.push(questionId);
+            }
+          });
+          const callBack = {
+            success: response => {
+              const {
+                message,
+                status
+              } = response;
+              if (status === 'success') {
+                lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(message, status);
+                editQuestion.initTinyMCE();
+              } else {
+                throw `Error: ${message}`;
+              }
+            },
+            error: error => {
+              lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_3__.show(error, 'error');
+            },
+            completed: () => {
+              _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 0);
+              isUpdateSectionPosition = 0;
+            }
+          };
+          const dataSend = {
+            quiz_id: this.quizID,
+            action: 'update_questions_position',
+            question_ids: questionIds,
+            args: {
+              id_url: this.idUrlHandle
+            }
+          };
+          window.lpAJAXG.fetchAJAX(dataSend, callBack);
+        }, 1000);
+      },
+      onMove: () => {
+        clearTimeout(timeout);
+      },
+      onUpdate: () => {
+        isUpdateSectionPosition = 1;
+      }
+    });
+  }
+}
+const editQuiz = new EditQuiz();
+editQuiz.init();
+
+/***/ }),
+
+/***/ "./assets/src/js/admin/init-tom-select.js":
+/*!************************************************!*\
+  !*** ./assets/src/js/admin/init-tom-select.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initElsTomSelect: () => (/* binding */ initElsTomSelect),
+/* harmony export */   initTomSelect: () => (/* binding */ initTomSelect),
+/* harmony export */   searchUserOnListPost: () => (/* binding */ searchUserOnListPost)
+/* harmony export */ });
+/* harmony import */ var _utils_admin_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils-admin.js */ "./assets/src/js/admin/utils-admin.js");
+
+
+/**
+ * Handle data response from API for tom-select
+ *
+ * @param {*} response
+ * @param {*} tomSelectEl
+ * @param     dataStruct
+ * @param     fetchAPI
+ * @param     customOptions
+ * @param {*} callBack
+ */
+const handleResponse = (response, tomSelectEl, dataStruct, fetchAPI, customOptions = {}, callBack) => {
+  if (!response || !tomSelectEl || !dataStruct || !fetchAPI || !callBack) {
+    return;
+  }
+
+  //Function format render data
+  const getTextOption = data => {
+    if (!dataStruct.keyGetValue?.text || !dataStruct.keyGetValue.key_render) {
+      return;
+    }
+    let text = dataStruct.keyGetValue.text;
+    for (const [key, value] of Object.entries(dataStruct.keyGetValue.key_render)) {
+      text = text.replace(new RegExp(`{{${value}}}`, 'g'), data[value]);
+    }
+    return text;
+  };
+
+  // Get default item tom-select
+  const defaultIds = tomSelectEl.dataset?.saved ? JSON.parse(tomSelectEl.dataset.saved) : 0;
+  let options = [];
+
+  // Format response data set option tom-select
+  if (response.data[dataStruct.dataType].length > 0) {
+    options = response.data[dataStruct.dataType].map(item => ({
+      value: item[dataStruct.keyGetValue.value],
+      text: getTextOption(item)
+    }));
+  }
+
+  // Setting option tom-select
+  const settingOption = {
+    items: defaultIds,
+    render: {
+      item(data, escape) {
+        return `` + `<li data-id="${data.value}">
+						<div class="item">${data.text}</div>
+					</li>`;
+      }
+    },
+    onChange: data => {
+      if (data.length < 1) {
+        tomSelectEl.value = '';
+      }
+    },
+    ...customOptions,
+    options
+  };
+  if (null != tomSelectEl.tomSelectInstance) {
+    tomSelectEl.tomSelectInstance.addOptions(options);
+    return options;
+  }
+  tomSelectEl.tomSelectInstance = _utils_admin_js__WEBPACK_IMPORTED_MODULE_0__.AdminUtilsFunctions.buildTomSelect(tomSelectEl, settingOption, fetchAPI, {}, callBack);
+  return options;
+};
+
+//Init Tom-select with available options
+const initTomSelectWithOption = (tomSelectEl, settingTomSelect = {}) => {
+  if (!tomSelectEl) {
+    return null;
+  }
+  if (null != tomSelectEl.tomSelectInstance) {
+    return null;
+  }
+  tomSelectEl.tomSelectInstance = _utils_admin_js__WEBPACK_IMPORTED_MODULE_0__.AdminUtilsFunctions.buildTomSelect(tomSelectEl, settingTomSelect);
+};
+
+// Init Tom-select
+const initTomSelect = (tomSelectEl, customOptions = {}, customParams = {}) => {
+  var _dataStruct$dataSendA, _dataStruct$urlApi;
+  if (!tomSelectEl) {
+    return;
+  }
+  if (tomSelectEl.classList.contains('loaded')) {
+    return;
+  }
+  tomSelectEl.classList.add('loaded');
+  const defaultIds = tomSelectEl.dataset?.saved ? JSON.parse(tomSelectEl.dataset.saved) : 0;
+  const dataStruct = tomSelectEl?.dataset?.struct ? JSON.parse(tomSelectEl.dataset.struct) : '';
+  if (!dataStruct) {
+    initTomSelectWithOption(tomSelectEl);
+    return;
+  }
+  const getParentElByTagName = (tag, el) => {
+    const newEl = el.parentElement;
+    if (newEl.tagName.toLowerCase() === tag) {
+      return newEl;
+    }
+    if (newEl.tagName.toLowerCase() === 'html') {
+      return false;
+    }
+    return getParentElByTagName(tag, newEl);
+  };
+  const formParent = getParentElByTagName('form', tomSelectEl);
+  if (formParent) {
+    const elInput = formParent.querySelector('input[name="' + tomSelectEl.getAttribute('name') + '"]');
+    if (elInput) {
+      elInput.remove();
+    }
+  }
+  const dataSendApi = (_dataStruct$dataSendA = dataStruct.dataSendApi) !== null && _dataStruct$dataSendA !== void 0 ? _dataStruct$dataSendA : '';
+  const urlApi = (_dataStruct$urlApi = dataStruct.urlApi) !== null && _dataStruct$urlApi !== void 0 ? _dataStruct$urlApi : '';
+  const settingTomSelect = {
+    ...dataStruct.setting,
+    ...customOptions
+  };
+  if (!urlApi) {
+    initTomSelectWithOption(tomSelectEl, settingTomSelect);
+    return;
+  }
+  const fetchFunction = (keySearch = '', customParams, callback) => {
+    const url = urlApi;
+    const dataSend = {
+      current_ids: defaultIds,
+      ...dataSendApi,
+      ...customParams
+    };
+    dataSend.search = keySearch;
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': lpData.nonce
+      },
+      method: 'POST',
+      body: JSON.stringify(dataSend)
+    };
+    _utils_admin_js__WEBPACK_IMPORTED_MODULE_0__.Utils.lpFetchAPI(url, params, callback);
+  };
+  const callBackApi = {
+    success: response => {
+      handleResponse(response, tomSelectEl, dataStruct, fetchFunction, settingTomSelect, callBackApi);
+    }
+  };
+
+  // Fetch data for first load tom-select
+  // Get ids selected, and show list without ids selected with limit.
+  let idNotIn = [];
+  if (typeof defaultIds === 'object') {
+    idNotIn = Object.entries(defaultIds).map(([key, value]) => ({
+      key,
+      value
+    }));
+  }
+  if (dataSendApi?.id_not_in) {
+    idNotIn = [...idNotIn, ...dataSendApi.id_not_in];
+  }
+  customParams.id_not_in = idNotIn.join(',');
+  fetchFunction('', customParams, callBackApi);
+};
+
+// Init Tom-select user in admin
+const searchUserOnListPost = () => {
+  if (lpData.show_search_author_field === '0') {
+    return;
+  }
+  const elPostFilter = document.querySelector('#posts-filter');
+  if (!elPostFilter) {
+    return;
+  }
+  let elSearchPost = elPostFilter.querySelector('.search-box');
+  if (!elSearchPost) {
+    elPostFilter.insertAdjacentHTML('afterbegin', lpData.show_search_author_field);
+    elSearchPost = elPostFilter.querySelector('.search-box');
+  }
+  if (!elSearchPost) {
+    return;
+  }
+  const selectNew = elSearchPost.querySelector('select#author');
+  if (selectNew) {
+    return;
+  }
+  const createSelectUserHtml = () => {
+    let defaultId = '';
+    const authorIdFilter = lpData.urlParams.author;
+    if (authorIdFilter) {
+      defaultId = JSON.stringify(authorIdFilter);
+    }
+    const dataStruct = {
+      urlApi: _utils_admin_js__WEBPACK_IMPORTED_MODULE_0__.Api.admin.apiSearchUsers,
+      dataType: 'users',
+      keyGetValue: {
+        value: 'ID',
+        text: '{{display_name}}(#{{ID}}) - {{user_email}}',
+        key_render: {
+          display_name: 'display_name',
+          user_email: 'user_email',
+          ID: 'ID'
+        }
+      },
+      setting: {
+        placeholder: 'Choose user'
+      }
+    };
+    const dataStructJson = JSON.stringify(dataStruct);
+    const htmlSelectUser = `` + `<select data-struct='${dataStructJson}' style='display:none;' data-saved='${defaultId}'
+					id="author" name="author" class="select lp-tom-select">` + `</select>`;
+    const elInputSearch = elSearchPost.querySelector('input[name="s"]');
+    if (elInputSearch) {
+      elInputSearch.insertAdjacentHTML('afterend', htmlSelectUser);
+    }
+
+    // Remove input hide default of WP.
+    const elInputAuthor = elPostFilter.querySelector('input[name="author"]');
+    if (elInputAuthor) {
+      elInputAuthor.remove();
+    }
+  };
+  createSelectUserHtml();
+};
+const initElsTomSelect = () => {
+  const tomSelectEls = document.querySelectorAll('select.lp-tom-select:not(.loaded)');
+  if (tomSelectEls.length) {
+    tomSelectEls.forEach(tomSelectEl => {
+      // Not build elements tom-select in Widget left classic of WordPress.
+      if (tomSelectEl.closest('.widget-liquid-left')) {
+        return;
+      }
+      initTomSelect(tomSelectEl);
+    });
+  }
+};
+
+
+/***/ }),
+
+/***/ "./assets/src/js/admin/utils-admin.js":
+/*!********************************************!*\
+  !*** ./assets/src/js/admin/utils-admin.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AdminUtilsFunctions: () => (/* binding */ AdminUtilsFunctions),
+/* harmony export */   Api: () => (/* reexport safe */ _api_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   Utils: () => (/* reexport module object */ _utils_js__WEBPACK_IMPORTED_MODULE_0__)
+/* harmony export */ });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var tom_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tom-select */ "./node_modules/tom-select/dist/esm/tom-select.complete.js");
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api.js */ "./assets/src/js/api.js");
+/**
+ * Library run on Admin
+ *
+ * @since 4.2.6.9
  * @version 1.0.1
  */
 
 
 
-var courseId;
-var elEditCurriculum;
-var elCurriculumSections;
-var updateCountItems;
-var sortAbleItem;
-var hasChange;
-var className = {
-  idElEditCurriculum: '#lp-course-edit-curriculum',
-  elCurriculumSections: '.curriculum-sections',
-  elSection: '.section',
-  elToggleAllSections: '.course-toggle-all-sections',
-  elSectionItem: '.section-item',
-  LPTarget: '.lp-target',
-  elCollapse: 'lp-collapse'
-};
-var argsToastify = {
-  text: '',
-  gravity: lpDataAdmin.toast.gravity,
-  // `top` or `bottom`
-  position: lpDataAdmin.toast.position,
-  // `left`, `center` or `right`
-  className: "".concat(lpDataAdmin.toast.classPrefix),
-  close: lpDataAdmin.toast.close == 1,
-  stopOnFocus: lpDataAdmin.toast.stopOnFocus == 1,
-  duration: lpDataAdmin.toast.duration
-};
-var showToast = function showToast(message) {
-  var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
-  var toastify = new (toastify_js__WEBPACK_IMPORTED_MODULE_2___default())(_objectSpread(_objectSpread({}, argsToastify), {}, {
-    text: message,
-    className: "".concat(lpDataAdmin.toast.classPrefix, " ").concat(status)
-  }));
-  toastify.showToast();
-};
-var setVariables = function setVariables(variables) {
-  courseId = variables.courseId;
-  elEditCurriculum = variables.elEditCurriculum;
-  elCurriculumSections = variables.elCurriculumSections;
-  updateCountItems = variables.updateCountItems;
-  hasChange = variables.hasChange;
-};
-var setVariable = function setVariable(variable, value) {
-  if (variable && value !== undefined) {
-    switch (variable) {
-      case 'sortAbleItem':
-        sortAbleItem = value;
-        break;
+const AdminUtilsFunctions = {
+  buildTomSelect(elTomSelect, options, fetchAPI, dataSend, callBackHandleData) {
+    if (!elTomSelect) {
+      return;
     }
+    const optionDefault = {
+      plugins: {
+        remove_button: {
+          title: 'Remove this item'
+        },
+        dropdown_input: {}
+      },
+      onInitialize() {},
+      onItemAdd(e) {
+        // Get list without current item.
+        if (fetchAPI) {
+          const selectedOptions = Array.from(elTomSelect.selectedOptions);
+          const selectedValues = selectedOptions.map(option => option.value);
+          selectedValues.push(e);
+          dataSend.id_not_in = selectedValues.join(',');
+          fetchAPI('', dataSend, callBackHandleData);
+        }
+      }
+    };
+    if (fetchAPI) {
+      optionDefault.load = (keySearch, callbackTom) => {
+        const selectedOptions = Array.from(elTomSelect.selectedOptions);
+        const selectedValues = selectedOptions.map(option => option.value);
+        dataSend.id_not_in = selectedValues.join(',');
+        fetchAPI(keySearch, dataSend, AdminUtilsFunctions.callBackTomSelectSearchAPI(callbackTom, callBackHandleData));
+      };
+    }
+    options = {
+      ...optionDefault,
+      ...options
+    };
+    const items_selected = options.options;
+    /*if ( options?.options?.length > 20 ) {
+    	const chunkSize = 20;
+    	const length = options.options.length;
+    	let i = 0;
+    	const chunkedOptions = { ...options };
+    	chunkedOptions.options = items_selected.slice( i, chunkSize );
+    		const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
+    	i += chunkSize;
+    		const interval = setInterval( () => {
+    		if ( i > ( length - 1 ) ) {
+    			clearInterval( interval );
+    		}
+    			const optionsSlice = items_selected.slice( i, i + chunkSize );
+    		i += chunkSize;
+    		tomSelect.addOptions( optionsSlice );
+    		tomSelect.setValue( options.items );
+    	}, 200 );
+    		return tomSelect;
+    }*/
+
+    return new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, options);
+  },
+  callBackTomSelectSearchAPI(callbackTom, callBackHandleData) {
+    return {
+      success: response => {
+        const options = callBackHandleData.success(response);
+        callbackTom(options);
+      }
+    };
+  },
+  fetchCourses(keySearch = '', dataSend = {}, callback) {
+    const url = _api_js__WEBPACK_IMPORTED_MODULE_2__["default"].admin.apiSearchCourses;
+    dataSend.search = keySearch;
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': lpDataAdmin.nonce
+      },
+      method: 'POST',
+      body: JSON.stringify(dataSend)
+    };
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI(url, params, callback);
+  },
+  fetchUsers(keySearch = '', dataSend = {}, callback) {
+    const url = _api_js__WEBPACK_IMPORTED_MODULE_2__["default"].admin.apiSearchUsers;
+    dataSend.search = keySearch;
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': lpDataAdmin.nonce
+      },
+      method: 'POST',
+      body: JSON.stringify(dataSend)
+    };
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI(url, params, callback);
   }
 };
 
+
+/***/ }),
+
+/***/ "./assets/src/js/api.js":
+/*!******************************!*\
+  !*** ./assets/src/js/api.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * List API on backend
+ *
+ * @since 4.2.6
+ * @version 1.0.2
+ */
+
+const lplistAPI = {};
+let lp_rest_url;
+if ('undefined' !== typeof lpDataAdmin) {
+  lp_rest_url = lpDataAdmin.lp_rest_url;
+  lplistAPI.admin = {
+    apiAdminNotice: lp_rest_url + 'lp/v1/admin/tools/admin-notices',
+    apiAdminOrderStatic: lp_rest_url + 'lp/v1/orders/statistic',
+    apiAddons: lp_rest_url + 'lp/v1/addon/all',
+    apiAddonAction: lp_rest_url + 'lp/v1/addon/action-n',
+    apiAddonsPurchase: lp_rest_url + 'lp/v1/addon/info-addons-purchase',
+    apiSearchCourses: lp_rest_url + 'lp/v1/admin/tools/search-course',
+    apiSearchUsers: lp_rest_url + 'lp/v1/admin/tools/search-user',
+    apiAssignUserCourse: lp_rest_url + 'lp/v1/admin/tools/assign-user-course',
+    apiUnAssignUserCourse: lp_rest_url + 'lp/v1/admin/tools/unassign-user-course'
+  };
+}
+if ('undefined' !== typeof lpData) {
+  lp_rest_url = lpData.lp_rest_url;
+  lplistAPI.frontend = {
+    apiWidgets: lp_rest_url + 'lp/v1/widgets/api',
+    apiCourses: lp_rest_url + 'lp/v1/courses/archive-course',
+    apiAJAX: lp_rest_url + 'lp/v1/load_content_via_ajax/',
+    // Deprecated since 4.3.0
+    apiProfileCoverImage: lp_rest_url + 'lp/v1/profile/cover-image'
+  };
+}
+if (lp_rest_url) {
+  lplistAPI.apiCourses = lp_rest_url + 'lp/v1/courses/';
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-course/builder-edit-course.js":
+/*!*************************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-course/builder-edit-course.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderEditCourse: () => (/* binding */ BuilderEditCourse)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var lpAssetsJsPath_admin_edit_course_edit_curriculum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/admin/edit-course/edit-curriculum */ "./assets/src/js/admin/edit-course/edit-curriculum.js");
+/* harmony import */ var _extra_info_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./extra-info.js */ "./assets/src/js/frontend/course-builder/builder-course/extra-info.js");
+
+
+
+
+class BuilderEditCourse {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elTabLinks: '.lp-meta-box__course-tab__tabs li a',
+    elTabItems: '.lp-meta-box__course-tab__tabs li',
+    elTabPanels: '.lp-meta-box-course-panels',
+    elDataCourse: '.cb-section__course-edit',
+    elBtnUpdateCourse: '.cb-btn-update',
+    elBtnDraftCourse: '.cb-btn-darft',
+    elBtnTrashCourse: '.cb-btn-trash',
+    elTitleInput: '#title',
+    elDescEditor: '#course_description_editor',
+    elStatus: '.course-status',
+    elFormSetting: '.lp-form-setting-course',
+    elCategoryTabs: '#course_category-tabs li a',
+    elCategoryPanels: '#taxonomy-course_category .tabs-panel',
+    elBtnToggleAddCategory: '#course_category-add-toggle',
+    elFormCategoryWrapper: '#course_category-add',
+    elInputNewCategory: '#newcourse_category',
+    elSelectParentCategory: '#newcourse_category_parent',
+    elBtnSubmitCategory: '#course_category-add-submit',
+    elCategoryChecklist: '#course_categorychecklist',
+    elWrapperCheckBoxTag: '.cb-course-edit-tags__checkbox-wrapper',
+    elFormTagAddNew: '.cb-course-edit-terms__form-add-tag',
+    elBtnAddTagNew: '.cb-course-edit-tag__btn-add-new',
+    elBtnCancelTagNew: '.cb-course-edit-tag__btn-cancel',
+    elBtnSaveTag: '.cb-course-edit-tags__btn-save',
+    elInputAddTag: '.cb-course-edit-tags__input',
+    elBtnRemoveFeatured: '.cb-remove-featured-image',
+    elBtnSetFeatured: '.cb-set-featured-image',
+    elFeaturedImagePreview: '.cb-featured-image-preview',
+    elThumbnailInput: '#course_thumbnail_id',
+    elFeatureImagePlaceholder: '.cb-featured-image-placeholder',
+    elPriceCourseData: '#price_course_data',
+    elSaleDatesFields: '.lp_sale_dates_fields',
+    elSalePriceScheduleBtn: '.lp_sale_price_schedule',
+    elCancelSaleScheduleBtn: '.lp_cancel_sale_schedule',
+    elRegularPriceInput: '#_lp_regular_price',
+    elSalePriceInput: '#_lp_sale_price',
+    elFormField: '.form-field',
+    elTipFloating: '.learn-press-tip-floating',
+    elCategoryDiv: '#taxonomy-course_category',
+    elCategoryTabs: '#course_category-tabs li a',
+    elCategoryPanels: '#taxonomy-course_category .tabs-panel',
+    elBtnToggleAddCategory: '#course_category-add-toggle',
+    elFormCategoryWrapper: '#course_category-add',
+    elInputNewCategory: '#newcourse_category',
+    elSelectParentCategory: '#newcourse_category_parent',
+    elBtnSubmitCategory: '#course_category-add-submit',
+    elCategoryChecklist: '#course_categorychecklist'
+  };
+  init() {
+    const editCourseCurriculum = new lpAssetsJsPath_admin_edit_course_edit_curriculum__WEBPACK_IMPORTED_MODULE_2__.EditCourseCurriculum();
+    const metaboxExtraInfo = new _extra_info_js__WEBPACK_IMPORTED_MODULE_3__.MetaboxExtraInfo();
+    editCourseCurriculum.init();
+    metaboxExtraInfo.init();
+    this.initTabs();
+    this.initTabTitles();
+    this.initCategoryTabs();
+    this.initCategoryTree();
+    this.initSalePriceLayout();
+    this.events();
+  }
+  events() {
+    if (BuilderEditCourse._loadedEvents) {
+      return;
+    }
+    BuilderEditCourse._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderEditCourse.selectors.elTabLinks,
+      class: this,
+      callBack: this.handleTabClick.name
+    }, {
+      selector: BuilderEditCourse.selectors.elCategoryTabs,
+      class: this,
+      callBack: this.handleCategoryTabClick.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnToggleAddCategory,
+      class: this,
+      callBack: this.toggleAddCategoryForm.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnSubmitCategory,
+      class: this,
+      callBack: this.addNewCategory.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnUpdateCourse,
+      class: this,
+      callBack: this.updateCourse.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnDraftCourse,
+      class: this,
+      callBack: this.updateCourse.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnTrashCourse,
+      class: this,
+      callBack: this.trashCourse.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnAddTagNew,
+      class: this,
+      callBack: this.toggleAddTagForm.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnCancelTagNew,
+      class: this,
+      callBack: this.toggleAddTagForm.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnSaveTag,
+      class: this,
+      callBack: this.addNewTag.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnSetFeatured,
+      class: this,
+      callBack: this.openMediaUploader.name
+    }, {
+      selector: BuilderEditCourse.selectors.elBtnRemoveFeatured,
+      class: this,
+      callBack: this.removeFeaturedImage.name
+    }, {
+      selector: BuilderEditCourse.selectors.elSalePriceScheduleBtn,
+      class: this,
+      callBack: this.handleScheduleClick.name
+    }, {
+      selector: BuilderEditCourse.selectors.elCancelSaleScheduleBtn,
+      class: this,
+      callBack: this.handleCancelSchedule.name
+    }, {
+      selector: BuilderEditCourse.selectors.elCategoryTabs,
+      class: this,
+      callBack: this.handleCategoryTabClick.name
+    }]);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('change', [{
+      selector: '.lp-meta-box input, .forminp input',
+      class: this,
+      callBack: this.showHideOptionsDependency.name
+    }, {
+      selector: '#course_category-pop input[type="checkbox"]',
+      class: this,
+      callBack: this.handleMostUsedChange.name
+    }]);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('input', [{
+      selector: BuilderEditCourse.selectors.elPriceCourseData,
+      class: this,
+      callBack: this.validateSalePrice.name
+    }]);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keydown', [{
+      selector: BuilderEditCourse.selectors.elInputNewCategory,
+      class: this,
+      callBack: this.addNewCategory.name,
+      checkIsEventEnter: true
+    }, {
+      selector: BuilderEditCourse.selectors.elInputAddTag,
+      class: this,
+      callBack: this.addNewTag.name,
+      checkIsEventEnter: true
+    }]);
+  }
+  initCategoryTabs() {
+    const allTab = document.querySelector('#course_category-tabs a[href="#course_category-all"]');
+    if (allTab) {
+      allTab.closest('li').classList.add('tabs');
+      const panelAll = document.querySelector('#course_category-all');
+      if (panelAll) panelAll.style.display = 'block';
+    }
+  }
+  handleCategoryTabClick(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const link = target.closest('a');
+    if (!link) return;
+    const wrapper = document.querySelector(BuilderEditCourse.selectors.elCategoryDiv);
+    const tabs = wrapper.querySelectorAll('.category-tabs li');
+    const panels = wrapper.querySelectorAll('.tabs-panel');
+    const targetId = link.getAttribute('href');
+    tabs.forEach(t => t.classList.remove('tabs', 'active'));
+    panels.forEach(p => p.style.display = 'none');
+    link.closest('li').classList.add('tabs');
+    const targetPanel = wrapper.querySelector(targetId);
+    if (targetPanel) targetPanel.style.display = 'block';
+    if (targetId === '#course_category-pop') {
+      this.syncMostUsedTabs();
+    }
+  }
+  syncMostUsedTabs() {
+    const allPanel = document.querySelector('#course_category-all');
+    const popPanel = document.querySelector('#course_category-pop');
+    if (!allPanel || !popPanel) return;
+    const popInputs = popPanel.querySelectorAll('input[type="checkbox"]');
+    popInputs.forEach(popInput => {
+      const termId = popInput.value;
+      const allInput = allPanel.querySelector(`input[value="${termId}"]`);
+      if (allInput) {
+        popInput.checked = allInput.checked;
+      }
+    });
+  }
+  handleMostUsedChange(args) {
+    const {
+      target
+    } = args;
+    const termId = target.value;
+    const isChecked = target.checked;
+    const allInput = document.querySelector(`#course_category-all input[value="${termId}"]`);
+    if (allInput) {
+      allInput.checked = isChecked;
+      if (isChecked) {
+        const parentLi = allInput.closest('li');
+        if (parentLi) parentLi.classList.add('children-visible');
+        let current = parentLi;
+        while (current && current.parentElement.closest('li')) {
+          current = current.parentElement.closest('li');
+          current.classList.add('children-visible');
+        }
+      }
+    }
+  }
+  toggleAddCategoryForm(args) {
+    const {
+      e
+    } = args;
+    if (e) e.preventDefault();
+    const form = document.querySelector(BuilderEditCourse.selectors.elFormCategoryWrapper);
+    const input = document.querySelector(BuilderEditCourse.selectors.elInputNewCategory);
+    if (form) {
+      const isHidden = window.getComputedStyle(form).display === 'none';
+      if (isHidden) {
+        form.style.display = 'block';
+        if (input) setTimeout(() => {
+          input.focus();
+          input.value = '';
+        }, 100);
+      } else {
+        form.style.display = 'none';
+      }
+    }
+  }
+  addNewCategory(args) {
+    const {
+      e
+    } = args;
+    if (e) e.preventDefault();
+    const elInput = document.querySelector(BuilderEditCourse.selectors.elInputNewCategory);
+    const elParent = document.querySelector(BuilderEditCourse.selectors.elSelectParentCategory);
+    const btnSave = document.querySelector(BuilderEditCourse.selectors.elBtnSubmitCategory);
+    if (!elInput) return;
+    const categoryName = elInput.value?.trim();
+    if (!categoryName) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show('Please enter category name', 'error');
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btnSave, 1);
+    const dataSend = {
+      action: 'add_course_category',
+      args: {
+        id_url: 'add-course-category'
+      },
+      name: categoryName,
+      parent: elParent ? elParent.value : -1
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.html) {
+          const checklist = document.querySelector(BuilderEditCourse.selectors.elCategoryChecklist);
+          if (checklist) {
+            checklist.insertAdjacentHTML('afterbegin', data.html);
+          }
+          elInput.value = '';
+          if (elParent) elParent.value = '-1';
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btnSave, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  initCategoryTree() {
+    const wrapper = document.querySelector('#taxonomy-course_category');
+    if (!wrapper) return;
+    const childLists = wrapper.querySelectorAll('ul.children');
+    childLists.forEach(ul => {
+      const parentLi = ul.parentElement;
+      if (parentLi && parentLi.tagName === 'LI') {
+        this.addToggleBtnToLi(parentLi);
+      }
+    });
+    if (!BuilderEditCourse._treeEventAttached) {
+      wrapper.addEventListener('click', e => {
+        if (e.target.classList.contains('lp-cat-toggle')) {
+          e.preventDefault();
+          e.stopPropagation();
+          const li = e.target.closest('li');
+          li.classList.toggle('children-visible');
+        }
+      });
+      wrapper.addEventListener('change', e => {
+        if (e.target.type === 'checkbox') {
+          const li = e.target.closest('li');
+          if (li && e.target.checked) {
+            li.classList.add('children-visible');
+          }
+        }
+      });
+      BuilderEditCourse._treeEventAttached = true;
+    }
+    this.expandCheckedCategories(wrapper);
+  }
+  expandCheckedCategories(wrapper) {
+    const checkedInputs = wrapper.querySelectorAll('input[type="checkbox"]:checked');
+    checkedInputs.forEach(input => {
+      let currentLi = input.closest('li');
+      while (currentLi) {
+        const parentUl = currentLi.closest('ul');
+        if (parentUl && parentUl.classList.contains('children')) {
+          const parentCategoryLi = parentUl.closest('li');
+          if (parentCategoryLi) {
+            parentCategoryLi.classList.add('children-visible');
+            currentLi = parentCategoryLi;
+          } else {
+            currentLi = null;
+          }
+        } else {
+          currentLi = null;
+        }
+      }
+    });
+  }
+  addToggleBtnToLi(li) {
+    const label = li.querySelector('label');
+    if (!label || label.querySelector('.lp-cat-toggle')) return;
+    const toggleBtn = document.createElement('span');
+    toggleBtn.className = 'lp-cat-toggle';
+    toggleBtn.title = 'Toggle sub-categories';
+    label.appendChild(toggleBtn);
+  }
+  addNewCategory(args) {
+    const {
+      e
+    } = args;
+    if (e) e.preventDefault();
+    const elInput = document.querySelector(BuilderEditCourse.selectors.elInputNewCategory);
+    const elParent = document.querySelector(BuilderEditCourse.selectors.elSelectParentCategory);
+    const btnSave = document.querySelector(BuilderEditCourse.selectors.elBtnSubmitCategory);
+    if (!elInput) return;
+    const categoryName = elInput.value?.trim();
+    if (!categoryName) {
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show('Please enter category name', 'error');
+      return;
+    }
+    const parentId = elParent ? parseInt(elParent.value) : 0;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btnSave, 1);
+    const dataSend = {
+      action: 'add_course_category',
+      args: {
+        id_url: 'add-course-category'
+      },
+      name: categoryName,
+      parent: parentId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.html) {
+          const checklist = document.querySelector(BuilderEditCourse.selectors.elCategoryChecklist);
+          if (data.parent && data.parent > 0) {
+            const parentInput = checklist.querySelector(`input[value="${data.parent}"]`);
+            if (parentInput) {
+              const parentLi = parentInput.closest('li');
+              parentLi.classList.add('children-visible');
+              let ulChildren = parentLi.querySelector(':scope > ul.children');
+              if (!ulChildren) {
+                ulChildren = document.createElement('ul');
+                ulChildren.className = 'children';
+                parentLi.appendChild(ulChildren);
+                this.addToggleBtnToLi(parentLi);
+              }
+              ulChildren.insertAdjacentHTML('beforeend', data.html);
+            } else {
+              checklist.insertAdjacentHTML('afterbegin', data.html);
+            }
+          } else {
+            checklist.insertAdjacentHTML('afterbegin', data.html);
+          }
+          elInput.value = '';
+          if (elParent) elParent.value = '-1';
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btnSave, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  initSalePriceLayout() {
+    const wrap = document.querySelector(BuilderEditCourse.selectors.elPriceCourseData);
+    if (!wrap) return;
+    const saleDatesFields = wrap.querySelectorAll(BuilderEditCourse.selectors.elSaleDatesFields);
+    const scheduleBtn = wrap.querySelector(BuilderEditCourse.selectors.elSalePriceScheduleBtn);
+    const cancelBtn = wrap.querySelector(BuilderEditCourse.selectors.elCancelSaleScheduleBtn);
+    let saleScheduleSet = false;
+    const allInputs = wrap.querySelectorAll(`${BuilderEditCourse.selectors.elSaleDatesFields} input`);
+    allInputs.forEach(input => {
+      if (input.value && input.value.trim() !== '') {
+        saleScheduleSet = true;
+      }
+    });
+    if (saleScheduleSet) {
+      if (scheduleBtn) scheduleBtn.style.display = 'none';
+      if (cancelBtn) cancelBtn.style.display = 'inline-block';
+      saleDatesFields.forEach(field => field.style.display = 'block');
+    } else {
+      if (scheduleBtn) scheduleBtn.style.display = 'inline-block';
+      if (cancelBtn) cancelBtn.style.display = 'none';
+      saleDatesFields.forEach(field => field.style.display = 'none');
+    }
+  }
+  handleScheduleClick(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const btn = target.closest(BuilderEditCourse.selectors.elSalePriceScheduleBtn);
+    const wrap = btn.closest(BuilderEditCourse.selectors.elPriceCourseData);
+    if (!wrap) return;
+    const cancelBtn = wrap.querySelector(BuilderEditCourse.selectors.elCancelSaleScheduleBtn);
+    const saleDatesFields = wrap.querySelectorAll(BuilderEditCourse.selectors.elSaleDatesFields);
+    btn.style.display = 'none';
+    if (cancelBtn) cancelBtn.style.display = 'inline-block';
+    saleDatesFields.forEach(field => field.style.display = 'block');
+  }
+  handleCancelSchedule(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const btn = target.closest(BuilderEditCourse.selectors.elCancelSaleScheduleBtn);
+    const wrap = btn.closest(BuilderEditCourse.selectors.elPriceCourseData);
+    if (!wrap) return;
+    const scheduleBtn = wrap.querySelector(BuilderEditCourse.selectors.elSalePriceScheduleBtn);
+    const saleDatesFields = wrap.querySelectorAll(BuilderEditCourse.selectors.elSaleDatesFields);
+    const allInputs = wrap.querySelectorAll(`${BuilderEditCourse.selectors.elSaleDatesFields} input`);
+    btn.style.display = 'none';
+    if (scheduleBtn) scheduleBtn.style.display = 'inline-block';
+    saleDatesFields.forEach(field => field.style.display = 'none');
+    allInputs.forEach(input => input.value = '');
+  }
+  validateSalePrice(args) {
+    const {
+      target
+    } = args;
+    const wrapper = target.closest(BuilderEditCourse.selectors.elPriceCourseData);
+    if (!wrapper) return;
+    const regularPriceInput = wrapper.querySelector(BuilderEditCourse.selectors.elRegularPriceInput);
+    const salePriceInput = wrapper.querySelector(BuilderEditCourse.selectors.elSalePriceInput);
+    const existingTips = wrapper.querySelectorAll(BuilderEditCourse.selectors.elTipFloating);
+    existingTips.forEach(tip => tip.remove());
+    if (!regularPriceInput || !salePriceInput) return;
+    const regularVal = parseFloat(regularPriceInput.value) || 0;
+    const saleVal = parseFloat(salePriceInput.value) || 0;
+    if (salePriceInput.value !== '' && saleVal > regularVal) {
+      const targetId = target.getAttribute('id');
+      const formField = target.closest(BuilderEditCourse.selectors.elFormField);
+      const i18n = typeof lpAdminCourseEditorSettings !== 'undefined' && lpAdminCourseEditorSettings.i18n ? lpAdminCourseEditorSettings.i18n : {
+        notice_price: 'Regular price must be greater than sale price.',
+        notice_sale_price: 'Sale price must be less than regular price.'
+      };
+      const tip = document.createElement('div');
+      tip.className = 'learn-press-tip-floating';
+      if (targetId === '_lp_price') {
+        tip.innerHTML = i18n.notice_price;
+      } else if (targetId === '_lp_sale_price') {
+        tip.innerHTML = i18n.notice_sale_price;
+      }
+      if (formField && tip.innerHTML) {
+        formField.appendChild(tip);
+      }
+    }
+  }
+  showHideOptionsDependency(args) {
+    const {
+      target
+    } = args;
+    if (target.tagName === 'INPUT') {
+      if (target.closest('.forminp ')) {
+        const nameInput = target.name;
+        const classDependency = nameInput.replace('learn_press_', '');
+        const elClassDependency = document.querySelectorAll(`.show_if_${classDependency}`);
+        if (elClassDependency) {
+          elClassDependency.forEach(el => {
+            el.classList.toggle('lp-option-disabled');
+          });
+        }
+      } else if (target.closest('.lp-meta-box')) {
+        const elLPMetaBox = target.closest('.lp-meta-box');
+        const nameInput = target.name;
+        const elClassDependency = elLPMetaBox.querySelectorAll(`[data-dependency="${nameInput}"]`);
+        if (elClassDependency) {
+          elClassDependency.forEach(el => {
+            el.classList.toggle('lp-option-disabled');
+          });
+        }
+      }
+    }
+  }
+  initTabs() {
+    const tabLinks = document.querySelectorAll(BuilderEditCourse.selectors.elTabLinks);
+    if (tabLinks.length > 0) {
+      this.activateTab(tabLinks[0]);
+    }
+  }
+  handleTabClick(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const linkElement = target.closest('a');
+    if (linkElement) {
+      this.activateTab(linkElement);
+    }
+  }
+  activateTab(linkElement) {
+    const tabItems = document.querySelectorAll(BuilderEditCourse.selectors.elTabItems);
+    const panels = document.querySelectorAll(BuilderEditCourse.selectors.elTabPanels);
+    const targetId = linkElement.getAttribute('href').substring(1);
+    const targetPanel = document.getElementById(targetId);
+    if (!targetPanel) return;
+    tabItems.forEach(li => li.classList.remove('active'));
+    panels.forEach(panel => panel.style.display = 'none');
+    linkElement.parentElement.classList.add('active');
+    targetPanel.style.display = 'block';
+  }
+  getCourseDataForUpdate() {
+    const data = {};
+    const wrapperEl = document.querySelector(BuilderEditCourse.selectors.elDataCourse);
+    data.course_id = wrapperEl ? parseInt(wrapperEl.dataset.courseId) || 0 : 0;
+    const titleInput = document.querySelector(BuilderEditCourse.selectors.elTitleInput);
+    data.course_title = titleInput ? titleInput.value : '';
+    const descEditor = document.querySelector(BuilderEditCourse.selectors.elDescEditor);
+    data.course_description = descEditor ? descEditor.value : '';
+    if (typeof tinymce !== 'undefined') {
+      const editor = tinymce.get('course_description_editor');
+      if (editor) {
+        data.course_description = editor.getContent();
+      }
+    }
+    data.course_categories = [];
+    document.querySelectorAll('#taxonomy-course_category input[name*="course_category"]:checked').forEach(checkbox => data.course_categories.push(checkbox.value));
+    data.course_tags = [];
+    document.querySelectorAll('input[name="course_tags[]"]:checked').forEach(checkbox => data.course_tags.push(checkbox.value));
+    const thumbnailInput = document.querySelector(BuilderEditCourse.selectors.elThumbnailInput);
+    data.course_thumbnail_id = thumbnailInput ? thumbnailInput.value : '0';
+    const elFormSetting = document.querySelector(BuilderEditCourse.selectors.elFormSetting);
+    if (elFormSetting) {
+      data.course_settings = true;
+      const formElements = elFormSetting.querySelectorAll('input, select, textarea');
+      formElements.forEach(element => {
+        const name = element.name || element.id;
+        if (!name) return;
+        if (name === 'learnpress_meta_box_nonce' || name === '_wp_http_referer') return;
+        if (element.type === 'checkbox') {
+          const fieldName = name.replace('[]', '');
+          if (!data.hasOwnProperty(fieldName)) {
+            data[fieldName] = element.checked ? 'yes' : 'no';
+          }
+        } else if (element.type === 'radio') {
+          if (element.checked) {
+            const fieldName = name.replace('[]', '');
+            data[fieldName] = element.value;
+          }
+        } else if (element.type === 'file') {
+          const fieldName = name.replace('[]', '');
+          if (element.files && element.files.length > 0) {
+            data[fieldName] = element.files;
+          }
+        } else {
+          const fieldName = name.replace('[]', '');
+          if (name.endsWith('[]')) {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = [];
+            }
+            if (Array.isArray(data[fieldName])) {
+              data[fieldName].push(element.value);
+            }
+          } else {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = element.value;
+            }
+          }
+        }
+      });
+      Object.keys(data).forEach(key => {
+        if (Array.isArray(data[key])) {
+          data[key] = data[key].join(',');
+        }
+      });
+    }
+    return data;
+  }
+  validatePricingBeforeUpdate() {
+    const regularPriceInput = document.querySelector(BuilderEditCourse.selectors.elRegularPriceInput);
+    const salePriceInput = document.querySelector(BuilderEditCourse.selectors.elSalePriceInput);
+    if (!regularPriceInput || !salePriceInput) return true;
+    const regularVal = parseFloat(regularPriceInput.value) || 0;
+    const saleVal = parseFloat(salePriceInput.value) || 0;
+    if (salePriceInput.value !== '' && saleVal > regularVal) {
+      const i18n = typeof lpAdminCourseEditorSettings !== 'undefined' && lpAdminCourseEditorSettings.i18n ? lpAdminCourseEditorSettings.i18n : {
+        notice_sale_price: 'Sale price must be less than regular price.'
+      };
+      lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(i18n.notice_sale_price, 'error');
+      const priceTabLink = document.querySelector('.price_tab a');
+      if (priceTabLink) priceTabLink.click();
+      salePriceInput.focus();
+      return false;
+    }
+    return true;
+  }
+  updateCourse(args) {
+    const {
+      e,
+      target
+    } = args;
+    if (!this.validatePricingBeforeUpdate()) return;
+    const elBtnUpdateCourse = target.closest(BuilderEditCourse.selectors.elBtnUpdateCourse);
+    const elBtnDraftCourse = target.closest(BuilderEditCourse.selectors.elBtnDraftCourse);
+    let status = 'publish';
+    let elBtn = elBtnUpdateCourse;
+    if (elBtnDraftCourse) {
+      status = 'draft';
+      elBtn = elBtnDraftCourse;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtn, 1);
+    const courseData = this.getCourseDataForUpdate();
+    const dataSend = {
+      ...courseData,
+      course_status: status,
+      action: 'save_courses',
+      args: {
+        id_url: 'save-courses'
+      }
+    };
+    if (typeof lpCourseBuilder !== 'undefined' && lpCourseBuilder.nonce) {
+      dataSend.nonce = lpCourseBuilder.nonce;
+    }
+    if (courseData.course_categories.length > 0) {
+      dataSend.course_categories = courseData.course_categories.join(',');
+    }
+    if (courseData.course_tags.length > 0) {
+      dataSend.course_tags = courseData.course_tags.join(',');
+    }
+    if (courseData.course_thumbnail_id) {
+      dataSend.course_thumbnail_id = courseData.course_thumbnail_id;
+    }
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          const updateBtn = document.querySelector(BuilderEditCourse.selectors.elBtnUpdateCourse);
+          if (updateBtn) updateBtn.textContent = data.button_title;
+        }
+        if (data?.course_id_new) {
+          const currentUrl = window.location.href;
+          window.location.href = currentUrl.replace(/post-new\/?/, `${data.course_id_new}/`);
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditCourse.selectors.elStatus);
+          if (elStatus) {
+            elStatus.className = 'course-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtn, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashCourse(args) {
+    const {
+      target
+    } = args;
+    const elBtnTrashCourse = target.closest(BuilderEditCourse.selectors.elBtnTrashCourse);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashCourse, 1);
+    const courseData = this.getCourseDataForUpdate();
+    const dataSend = {
+      action: 'move_trash_course',
+      args: {
+        id_url: 'move-trash-course'
+      },
+      course_id: courseData.course_id
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          const elBtnUpdate = document.querySelector(BuilderEditCourse.selectors.elBtnUpdateCourse);
+          if (elBtnUpdate) elBtnUpdate.textContent = data.button_title;
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditCourse.selectors.elStatus);
+          if (elStatus) {
+            elStatus.className = 'course-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashCourse, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  toggleAddTagForm(args) {
+    const {
+      target
+    } = args;
+    const elBtnAdd = document.querySelector(BuilderEditCourse.selectors.elBtnAddTagNew);
+    const elBtnCancel = document.querySelector(BuilderEditCourse.selectors.elBtnCancelTagNew);
+    const form = document.querySelector(BuilderEditCourse.selectors.elFormTagAddNew);
+    const isOpening = target.closest(BuilderEditCourse.selectors.elBtnAddTagNew);
+    if (form) {
+      if (isOpening) {
+        form.style.display = 'flex';
+        if (elBtnAdd) elBtnAdd.style.display = 'none';
+        if (elBtnCancel) elBtnCancel.style.display = 'inline-block';
+        const input = form.querySelector(BuilderEditCourse.selectors.elInputAddTag);
+        if (input) setTimeout(() => input.focus(), 100);
+      } else {
+        form.style.display = 'none';
+        if (elBtnCancel) elBtnCancel.style.display = 'none';
+        if (elBtnAdd) elBtnAdd.style.display = 'inline-block';
+      }
+    }
+  }
+  addNewTag(args) {
+    var _elInput$value$trim;
+    const {
+      e
+    } = args;
+    const elInput = document.querySelector(BuilderEditCourse.selectors.elInputAddTag);
+    const btnSave = document.querySelector(BuilderEditCourse.selectors.elBtnSaveTag);
+    if (!elInput) return;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btnSave, 1);
+    const tagName = (_elInput$value$trim = elInput.value?.trim()) !== null && _elInput$value$trim !== void 0 ? _elInput$value$trim : '';
+    const dataSend = {
+      action: 'add_course_tag',
+      args: {
+        id_url: 'add-course-tag'
+      },
+      name: tagName
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.html) {
+          const wrapper = document.querySelector(BuilderEditCourse.selectors.elWrapperCheckBoxTag);
+          wrapper.insertAdjacentHTML('beforeend', data.html);
+          elInput.value = '';
+          const elBtnCancel = document.querySelector(BuilderEditCourse.selectors.elBtnCancelTagNew);
+          if (elBtnCancel) elBtnCancel.click();
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btnSave, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  openMediaUploader(args) {
+    if (typeof wp === 'undefined' || typeof wp.media === 'undefined') return;
+    const mediaUploader = wp.media({
+      title: 'Select Featured Image',
+      button: {
+        text: 'Use this image'
+      },
+      multiple: false,
+      library: {
+        type: 'image'
+      }
+    });
+    mediaUploader.on('select', () => {
+      const attachment = mediaUploader.state().get('selection').first().toJSON();
+      this.setFeaturedImage(attachment);
+    });
+    mediaUploader.open();
+  }
+  setFeaturedImage(attachment) {
+    const previewContainer = document.querySelector(BuilderEditCourse.selectors.elFeaturedImagePreview);
+    const thumbnailInput = document.querySelector(BuilderEditCourse.selectors.elThumbnailInput);
+    const placeholder = previewContainer.querySelector(BuilderEditCourse.selectors.elFeatureImagePlaceholder);
+    if (!previewContainer || !thumbnailInput) return;
+    thumbnailInput.value = attachment.id;
+    const imgUrl = attachment.sizes?.medium?.url || attachment.sizes?.thumbnail?.url || attachment.url;
+    if (placeholder) placeholder.remove();
+    const oldImg = previewContainer.querySelector('img');
+    if (oldImg) oldImg.remove();
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    previewContainer.appendChild(img);
+    const elRemoveButton = document.querySelector(BuilderEditCourse.selectors.elBtnRemoveFeatured);
+    if (elRemoveButton) elRemoveButton.style.display = 'inline-block';
+  }
+  removeFeaturedImage(args) {
+    const previewContainer = document.querySelector(BuilderEditCourse.selectors.elFeaturedImagePreview);
+    const thumbnailInput = document.querySelector(BuilderEditCourse.selectors.elThumbnailInput);
+    const elRemoveButton = document.querySelector(BuilderEditCourse.selectors.elBtnRemoveFeatured);
+    const img = previewContainer.querySelector('img');
+    if (img) img.remove();
+    const placeholder = document.createElement('div');
+    placeholder.className = BuilderEditCourse.selectors.elFeatureImagePlaceholder.replace('.', '');
+    placeholder.textContent = previewContainer.dataset.contentPlacholder || 'No image selected';
+    previewContainer.appendChild(placeholder);
+    thumbnailInput.value = '0';
+    if (elRemoveButton) elRemoveButton.style.display = 'none';
+  }
+  initTabTitles() {
+    const tabLinks = document.querySelectorAll(BuilderEditCourse.selectors.elTabLinks);
+    tabLinks.forEach(link => {
+      const textSpan = link.querySelector('span');
+      const title = textSpan ? textSpan.textContent.trim() : link.textContent.trim();
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const targetId = href.substring(1);
+      const panel = document.getElementById(targetId);
+      if (panel) {
+        panel.setAttribute('data-tab-title', title);
+      }
+    });
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-course/builder-tab-course.js":
+/*!************************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-course/builder-tab-course.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderTabCourse: () => (/* binding */ BuilderTabCourse)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+
+
+
+class BuilderTabCourse {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elCourseItem: '.course-item',
+    elCourseExpandedItems: '.course-action-expanded__items',
+    elCourseDuplicate: '.course-action-expanded__duplicate',
+    elCourseTrash: '.course-action-expanded__trash',
+    elCourseDraft: '.course-action-expanded__draft',
+    elCourseDelete: '.course-action-expanded__delete',
+    elCourseActionExpanded: '.course-action-expanded',
+    elCourseStatus: '.course-status'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderTabCourse._loadedEvents) {
+      return;
+    }
+    BuilderTabCourse._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderTabCourse.selectors.elCourseDuplicate,
+      class: this,
+      callBack: this.duplicateCourse.name
+    }, {
+      selector: BuilderTabCourse.selectors.elCourseTrash,
+      class: this,
+      callBack: this.trashCourse.name
+    }, {
+      selector: BuilderTabCourse.selectors.elCourseDraft,
+      class: this,
+      callBack: this.draftCourse.name
+    }, {
+      selector: BuilderTabCourse.selectors.elCourseDelete,
+      class: this,
+      callBack: this.deleteCourse.name
+    }, {
+      selector: BuilderTabCourse.selectors.elCourseActionExpanded,
+      class: this,
+      callBack: this.toggleExpandedAction.name
+    }]);
+    document.addEventListener('click', e => {
+      if (!e.target.closest(BuilderTabCourse.selectors.elCourseActionExpanded)) {
+        this.closeAllExpanded();
+      }
+    });
+  }
+  duplicateCourse(args) {
+    const {
+      target
+    } = args;
+    const elCourseDuplicate = target.closest(BuilderTabCourse.selectors.elCourseDuplicate);
+    const elCourseItem = elCourseDuplicate.closest(BuilderTabCourse.selectors.elCourseItem);
+    if (!elCourseItem) return;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elCourseDuplicate, 1);
+    const courseId = elCourseItem.dataset.courseId || '';
+    const dataSend = {
+      action: 'duplicate_course',
+      args: {
+        id_url: 'duplicate-course'
+      },
+      course_id: courseId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(message, status);
+        if (data?.html) {
+          const elCourse = elCourseDuplicate.closest('.course');
+          elCourse.insertAdjacentHTML('afterend', data.html);
+          const newCourse = elCourse.nextElementSibling;
+          if (newCourse) {
+            newCourse.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
+            newCourse.classList.add('highlight-new-course');
+            setTimeout(() => {
+              newCourse.classList.remove('highlight-new-course');
+            }, 1500);
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elCourseDuplicate, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashCourse(args) {
+    const {
+      target
+    } = args;
+    const elCourseTrash = target.closest(BuilderTabCourse.selectors.elCourseTrash);
+    const elCourseItem = elCourseTrash.closest(BuilderTabCourse.selectors.elCourseItem);
+    if (!elCourseItem) return;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elCourseTrash, 1);
+    const courseId = elCourseItem.dataset.courseId || '';
+    const dataSend = {
+      action: 'move_trash_course',
+      args: {
+        id_url: 'move-trash-course'
+      },
+      course_id: courseId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(message, status);
+        if (data?.status) {
+          const elCourse = elCourseTrash.closest('.course');
+          this.updateStatusUI(elCourse, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elCourseTrash, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  draftCourse(args) {
+    const {
+      target
+    } = args;
+    const elCourseDraft = target.closest(BuilderTabCourse.selectors.elCourseDraft);
+    const elCourseItem = elCourseDraft.closest(BuilderTabCourse.selectors.elCourseItem);
+    if (!elCourseItem) return;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elCourseDraft, 1);
+    const courseId = elCourseItem.dataset.courseId || '';
+    const dataSend = {
+      action: 'move_trash_course',
+      args: {
+        id_url: 'move-trash-course'
+      },
+      course_id: courseId || 0,
+      status: 'draft'
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(message, status);
+        if (data?.status) {
+          const elCourse = elCourseDraft.closest('.course');
+          this.updateStatusUI(elCourse, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elCourseDraft, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  deleteCourse(args) {
+    const {
+      target
+    } = args;
+    const elCourseDelete = target.closest(BuilderTabCourse.selectors.elCourseDelete);
+    const elCourseItem = elCourseDelete.closest(BuilderTabCourse.selectors.elCourseItem);
+    if (!elCourseItem) return;
+    const courseId = elCourseItem.dataset.courseId || '';
+    if (!courseId) {
+      return;
+    }
+    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+      title: elCourseDelete.dataset.title,
+      text: elCourseDelete.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const dataSend = {
+          action: 'move_trash_course',
+          args: {
+            id_url: 'move-trash-course'
+          },
+          course_id: courseId,
+          status: 'delete'
+        };
+        const callBack = {
+          success: response => {
+            const {
+              status,
+              message
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(message, status);
+            const elCourse = elCourseDelete.closest('.course');
+            elCourse.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+            elCourse.style.opacity = '0';
+            elCourse.style.transform = 'translateX(160px)';
+            setTimeout(() => {
+              elCourse.remove();
+            }, 400);
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(error.message || error, 'error');
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+  toggleExpandedAction(args) {
+    const {
+      target
+    } = args;
+    const elCourseActionExpanded = target.closest(BuilderTabCourse.selectors.elCourseActionExpanded);
+    const elCourseItem = elCourseActionExpanded.closest(BuilderTabCourse.selectors.elCourseItem);
+    const elExpandedItems = elCourseItem.querySelector(BuilderTabCourse.selectors.elCourseExpandedItems);
+    if (!elExpandedItems) return;
+
+    // Close others
+    this.closeAllExpanded(elExpandedItems);
+    elExpandedItems.classList.toggle('active');
+    elCourseActionExpanded.classList.toggle('active');
+  }
+  closeAllExpanded(excludeElement = null) {
+    const allExpandedItems = document.querySelectorAll(`${BuilderTabCourse.selectors.elCourseExpandedItems}.active`);
+    allExpandedItems.forEach(item => {
+      if (item === excludeElement) return;
+      item.classList.remove('active');
+      const courseItem = item.closest(BuilderTabCourse.selectors.elCourseItem);
+      const expandedBtn = courseItem.querySelector(BuilderTabCourse.selectors.elCourseActionExpanded);
+      if (expandedBtn) {
+        expandedBtn.classList.remove('active');
+      }
+    });
+  }
+  updateStatusUI(elCourse, status) {
+    const elStatus = elCourse.querySelector(BuilderTabCourse.selectors.elCourseStatus);
+    const elSpanStatus = elCourse.querySelector(`${BuilderTabCourse.selectors.elCourseStatus} span`);
+    if (elSpanStatus && elStatus) {
+      elStatus.className = 'course-status ' + status;
+      elSpanStatus.textContent = status;
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-course/extra-info.js":
+/*!****************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-course/extra-info.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MetaboxExtraInfo: () => (/* binding */ MetaboxExtraInfo)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+
+
+class MetaboxExtraInfo {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elExtraMetaboxAdd: '.lp_course_extra_meta_box__add',
+    elExtraMetaboxContent: '.lp_course_extra_meta_box__content',
+    elExtraMetaboxFields: '.lp_course_extra_meta_box__fields',
+    elExtraMetaboxField: '.lp_course_extra_meta_box__field',
+    elExtraMetaboxDelete: '.lp_course_extra_meta_box__fields a.delete',
+    elFaqMetaboxAdd: '.lp_course_faq_meta_box__add',
+    elFaqMetaboxContent: '.lp_course_faq_meta_box__content',
+    elFaqMetaboxFields: '.lp_course_faq_meta_box__fields',
+    elFaqMetaboxField: '.lp_course_faq_meta_box__field',
+    elFaqMetaboxDelete: '.lp_course_faq_meta_box__fields a.delete'
+  };
+  init() {
+    this.initSortable();
+    this.events();
+  }
+  events() {
+    if (MetaboxExtraInfo._loadedEvents) {
+      return;
+    }
+    MetaboxExtraInfo._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: MetaboxExtraInfo.selectors.elExtraMetaboxAdd,
+      class: this,
+      callBack: this.handleExtraMetaboxAdd.name
+    }, {
+      selector: MetaboxExtraInfo.selectors.elExtraMetaboxDelete,
+      class: this,
+      callBack: this.handleExtraMetaboxDelete.name
+    }, {
+      selector: MetaboxExtraInfo.selectors.elFaqMetaboxAdd,
+      class: this,
+      callBack: this.handleFaqMetaboxAdd.name
+    }, {
+      selector: MetaboxExtraInfo.selectors.elFaqMetaboxDelete,
+      class: this,
+      callBack: this.handleFaqMetaboxDelete.name
+    }]);
+  }
+  handleExtraMetaboxAdd(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const content = target.closest(MetaboxExtraInfo.selectors.elExtraMetaboxContent);
+    if (!content) return;
+    const fields = content.querySelector(MetaboxExtraInfo.selectors.elExtraMetaboxFields);
+    const addData = target.dataset.add;
+    if (fields && addData) {
+      fields.insertAdjacentHTML('beforeend', addData);
+      const lastField = fields.querySelector(`${MetaboxExtraInfo.selectors.elExtraMetaboxField}:last-child`);
+      if (lastField) {
+        const input = lastField.querySelector('input');
+        if (input) {
+          setTimeout(() => input.focus(), 100);
+        }
+      }
+    }
+    return false;
+  }
+  handleExtraMetaboxDelete(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const field = target.closest(MetaboxExtraInfo.selectors.elExtraMetaboxField);
+    if (field) {
+      field.remove();
+    }
+    return false;
+  }
+  handleFaqMetaboxAdd(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const content = target.closest(MetaboxExtraInfo.selectors.elFaqMetaboxContent);
+    if (!content) return;
+    const fields = content.querySelector(MetaboxExtraInfo.selectors.elFaqMetaboxFields);
+    const addData = target.dataset.add;
+    if (fields && addData) {
+      fields.insertAdjacentHTML('beforeend', addData);
+    }
+    return false;
+  }
+  handleFaqMetaboxDelete(args) {
+    const {
+      e,
+      target
+    } = args;
+    e.preventDefault();
+    const field = target.closest(MetaboxExtraInfo.selectors.elFaqMetaboxField);
+    if (field) {
+      field.remove();
+    }
+    return false;
+  }
+  initSortable() {
+    const extraFieldsContainers = document.querySelectorAll('.lp_course_extra_meta_box__fields');
+    extraFieldsContainers.forEach(container => {
+      new sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"](container, {
+        animation: 150,
+        handle: '.sort',
+        draggable: '.lp_course_extra_meta_box__field',
+        ghostClass: 'sortable-ghost',
+        chosenClass: 'sortable-chosen',
+        dragClass: 'sortable-drag',
+        forceFallback: false,
+        scrollSensitivity: 40,
+        onStart: evt => {
+          evt.item.classList.add('is-dragging');
+        },
+        onEnd: evt => {
+          evt.item.classList.remove('is-dragging');
+        }
+      });
+    });
+    const faqFieldsContainers = document.querySelectorAll('.lp_course_faq_meta_box__fields');
+    faqFieldsContainers.forEach(container => {
+      new sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"](container, {
+        animation: 150,
+        handle: '.sort',
+        draggable: '.lp_course_faq_meta_box__field',
+        ghostClass: 'sortable-ghost',
+        chosenClass: 'sortable-chosen',
+        dragClass: 'sortable-drag',
+        forceFallback: false,
+        scrollSensitivity: 40,
+        onStart: evt => {
+          evt.item.classList.add('is-dragging');
+        },
+        onEnd: evt => {
+          evt.item.classList.remove('is-dragging');
+        }
+      });
+    });
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-lesson/builder-edit-lesson.js":
+/*!*************************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-lesson/builder-edit-lesson.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderEditLesson: () => (/* binding */ BuilderEditLesson)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+
+
+class BuilderEditLesson {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elDataLesson: '.cb-section__lesson-edit',
+    elBtnUpdateLesson: '.cb-btn-update__lesson',
+    elBtnPublishLesson: '.cb-btn-publish__lesson',
+    elBtnTrashLesson: '.cb-btn-trash__lesson',
+    elLessonStatus: '.lesson-status',
+    idTitle: 'title',
+    idDescEditor: 'lesson_description_editor',
+    elFormSetting: '.lp-form-setting-lesson'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderEditLesson._loadedEvents) {
+      return;
+    }
+    BuilderEditLesson._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderEditLesson.selectors.elBtnUpdateLesson,
+      class: this,
+      callBack: this.updateLesson.name
+    }, {
+      selector: BuilderEditLesson.selectors.elBtnTrashLesson,
+      class: this,
+      callBack: this.trashLesson.name
+    }]);
+  }
+  getLessonDataForUpdate() {
+    const data = {};
+    const wrapperEl = document.querySelector(BuilderEditLesson.selectors.elDataLesson);
+    data.lesson_id = wrapperEl ? parseInt(wrapperEl.dataset.lessonId) || 0 : 0;
+    const titleInput = document.getElementById(BuilderEditLesson.selectors.idTitle);
+    data.lesson_title = titleInput ? titleInput.value : '';
+    const descEditor = document.getElementById(BuilderEditLesson.selectors.idDescEditor);
+    data.lesson_description = descEditor ? descEditor.value : '';
+    if (typeof tinymce !== 'undefined') {
+      const editor = tinymce.get(BuilderEditLesson.selectors.idDescEditor);
+      if (editor) {
+        data.lesson_description = editor.getContent();
+      }
+    }
+    const elFormSetting = document.querySelector(BuilderEditLesson.selectors.elFormSetting);
+    if (elFormSetting) {
+      data.lesson_settings = true;
+      const formElements = elFormSetting.querySelectorAll('input, select, textarea');
+      formElements.forEach(element => {
+        const name = element.name || element.id;
+        if (!name || name === 'learnpress_meta_box_nonce' || name === '_wp_http_referer') {
+          return;
+        }
+        if (element.type === 'checkbox') {
+          const fieldName = name.replace('[]', '');
+          if (!data.hasOwnProperty(fieldName)) {
+            data[fieldName] = element.checked ? 'yes' : 'no';
+          }
+        } else if (element.type === 'radio') {
+          if (element.checked) {
+            const fieldName = name.replace('[]', '');
+            data[fieldName] = element.value;
+          }
+        } else if (element.type === 'file') {
+          const fieldName = name.replace('[]', '');
+          if (element.files && element.files.length > 0) {
+            data[fieldName] = element.files;
+          }
+        } else {
+          const fieldName = name.replace('[]', '');
+          if (name.endsWith('[]')) {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = [];
+            }
+            if (Array.isArray(data[fieldName])) {
+              data[fieldName].push(element.value);
+            }
+          } else {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = element.value;
+            }
+          }
+        }
+      });
+      Object.keys(data).forEach(key => {
+        if (Array.isArray(data[key])) {
+          data[key] = data[key].join(',');
+        }
+      });
+    }
+    return data;
+  }
+  updateLesson(args) {
+    const {
+      target
+    } = args;
+    const elBtnUpdateLesson = target.closest(BuilderEditLesson.selectors.elBtnUpdateLesson);
+    if (!elBtnUpdateLesson) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnUpdateLesson, 1);
+    const lessonData = this.getLessonDataForUpdate();
+    const dataSend = {
+      ...lessonData,
+      action: 'update_lesson',
+      args: {
+        id_url: 'update-lesson'
+      },
+      lesson_status: 'publish'
+    };
+    if (typeof lpLessonBuilder !== 'undefined' && lpLessonBuilder.nonce) {
+      dataSend.nonce = lpLessonBuilder.nonce;
+    }
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          elBtnUpdateLesson.textContent = data.button_title;
+        }
+        if (data?.lesson_id_new) {
+          const currentUrl = window.location.href;
+          window.location.href = currentUrl.replace(/post-new\/?/, `${data.lesson_id_new}/`);
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditLesson.selectors.elLessonStatus);
+          if (elStatus) {
+            elStatus.className = 'lesson-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnUpdateLesson, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashLesson(args) {
+    const {
+      target
+    } = args;
+    const elBtnTrashLesson = target.closest(BuilderEditLesson.selectors.elBtnTrashLesson);
+    if (!elBtnTrashLesson) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashLesson, 1);
+    const lessonData = this.getLessonDataForUpdate();
+    const dataSend = {
+      action: 'move_trash_lesson',
+      args: {
+        id_url: 'move-trash-lesson'
+      },
+      lesson_id: lessonData.lesson_id
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          const elBtnUpdateLesson = document.querySelector(BuilderEditLesson.selectors.elBtnUpdateLesson);
+          if (elBtnUpdateLesson) {
+            elBtnUpdateLesson.textContent = data.button_title;
+          }
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditLesson.selectors.elLessonStatus);
+          if (elStatus) {
+            elStatus.className = 'lesson-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashLesson, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-lesson/builder-tab-lesson.js":
+/*!************************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-lesson/builder-tab-lesson.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderTabLesson: () => (/* binding */ BuilderTabLesson)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class BuilderTabLesson {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elLessonItem: '.lesson-item',
+    elLessonExpandedItems: '.lesson-action-expanded__items',
+    elLessonDuplicate: '.lesson-action-expanded__duplicate',
+    elLessonTrash: '.lesson-action-expanded__trash',
+    elLessonPublish: '.lesson-action-expanded__publish',
+    elLessonDelete: '.lesson-action-expanded__delete',
+    elLessonActionExpanded: '.lesson-action-expanded',
+    elLessonStatus: '.lesson-status'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderTabLesson._loadedEvents) {
+      return;
+    }
+    BuilderTabLesson._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderTabLesson.selectors.elLessonDuplicate,
+      class: this,
+      callBack: this.duplicateLesson.name
+    }, {
+      selector: BuilderTabLesson.selectors.elLessonTrash,
+      class: this,
+      callBack: this.trashLesson.name
+    }, {
+      selector: BuilderTabLesson.selectors.elLessonPublish,
+      class: this,
+      callBack: this.publishLesson.name
+    }, {
+      selector: BuilderTabLesson.selectors.elLessonDelete,
+      class: this,
+      callBack: this.deleteLesson.name
+    }, {
+      selector: BuilderTabLesson.selectors.elLessonActionExpanded,
+      class: this,
+      callBack: this.toggleExpandedAction.name
+    }]);
+    document.addEventListener('click', e => {
+      if (!e.target.closest(BuilderTabLesson.selectors.elLessonActionExpanded)) {
+        this.closeAllExpanded();
+      }
+    });
+  }
+  duplicateLesson(args) {
+    const {
+      target
+    } = args;
+    const elLessonDuplicate = target.closest(BuilderTabLesson.selectors.elLessonDuplicate);
+    const elLessonItem = elLessonDuplicate.closest(BuilderTabLesson.selectors.elLessonItem);
+    if (!elLessonItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elLessonDuplicate, 1);
+    const lessonId = elLessonItem.dataset.lessonId || '';
+    const dataSend = {
+      action: 'duplicate_lesson',
+      args: {
+        id_url: 'duplicate-lesson'
+      },
+      lesson_id: lessonId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.html) {
+          const elLesson = elLessonDuplicate.closest('.lesson');
+          elLesson.insertAdjacentHTML('afterend', data.html);
+          const newLesson = elLesson.nextElementSibling;
+          if (newLesson) {
+            newLesson.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
+            newLesson.classList.add('highlight-new-lesson');
+            setTimeout(() => {
+              newLesson.classList.remove('highlight-new-lesson');
+            }, 1500);
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elLessonDuplicate, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashLesson(args) {
+    const {
+      target
+    } = args;
+    const elLessonTrash = target.closest(BuilderTabLesson.selectors.elLessonTrash);
+    const elLessonItem = elLessonTrash.closest(BuilderTabLesson.selectors.elLessonItem);
+    if (!elLessonItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elLessonTrash, 1);
+    const lessonId = elLessonItem.dataset.lessonId || '';
+    const dataSend = {
+      action: 'move_trash_lesson',
+      args: {
+        id_url: 'move-trash-lesson'
+      },
+      lesson_id: lessonId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.status) {
+          const elLesson = elLessonTrash.closest('.lesson');
+          this.updateStatusUI(elLesson, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elLessonTrash, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  publishLesson(args) {
+    const {
+      target
+    } = args;
+    const elLessonPublish = target.closest(BuilderTabLesson.selectors.elLessonPublish);
+    const elLessonItem = elLessonPublish.closest(BuilderTabLesson.selectors.elLessonItem);
+    if (!elLessonItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elLessonPublish, 1);
+    const lessonId = elLessonItem.dataset.lessonId || '';
+    const dataSend = {
+      action: 'move_trash_lesson',
+      args: {
+        id_url: 'move-trash-lesson'
+      },
+      lesson_id: lessonId,
+      status: 'publish'
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.status) {
+          const elLesson = elLessonPublish.closest('.lesson');
+          this.updateStatusUI(elLesson, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elLessonPublish, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  deleteLesson(args) {
+    const {
+      target
+    } = args;
+    const elLessonDelete = target.closest(BuilderTabLesson.selectors.elLessonDelete);
+    const elLessonItem = elLessonDelete.closest(BuilderTabLesson.selectors.elLessonItem);
+    if (!elLessonItem) {
+      return;
+    }
+    const lessonId = elLessonItem.dataset.lessonId || '';
+    if (!lessonId) {
+      return;
+    }
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elLessonDelete.dataset.title,
+      text: elLessonDelete.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const dataSend = {
+          action: 'move_trash_lesson',
+          args: {
+            id_url: 'move-trash-lesson'
+          },
+          lesson_id: lessonId,
+          status: 'delete'
+        };
+        const callBack = {
+          success: response => {
+            const {
+              status,
+              message
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+            const elLesson = elLessonDelete.closest('.lesson');
+            elLesson.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+            elLesson.style.opacity = '0';
+            elLesson.style.transform = 'translateX(160px)';
+            setTimeout(() => {
+              elLesson.remove();
+            }, 400);
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+  toggleExpandedAction(args) {
+    const {
+      target
+    } = args;
+    const elLessonActionExpanded = target.closest(BuilderTabLesson.selectors.elLessonActionExpanded);
+    const elLessonItem = elLessonActionExpanded.closest(BuilderTabLesson.selectors.elLessonItem);
+    const elExpandedItems = elLessonItem.querySelector(BuilderTabLesson.selectors.elLessonExpandedItems);
+    if (!elExpandedItems) {
+      return;
+    }
+    this.closeAllExpanded(elExpandedItems);
+    elExpandedItems.classList.toggle('active');
+    elLessonActionExpanded.classList.toggle('active');
+  }
+  closeAllExpanded(excludeElement = null) {
+    const allExpandedItems = document.querySelectorAll(`${BuilderTabLesson.selectors.elLessonExpandedItems}.active`);
+    allExpandedItems.forEach(item => {
+      if (item === excludeElement) {
+        return;
+      }
+      item.classList.remove('active');
+      const lessonItem = item.closest(BuilderTabLesson.selectors.elLessonItem);
+      const expandedBtn = lessonItem.querySelector(BuilderTabLesson.selectors.elLessonActionExpanded);
+      if (expandedBtn) {
+        expandedBtn.classList.remove('active');
+      }
+    });
+  }
+  updateStatusUI(elLesson, status) {
+    const elStatus = elLesson.querySelector(BuilderTabLesson.selectors.elLessonStatus);
+    const elSpanStatus = elLesson.querySelector(`${BuilderTabLesson.selectors.elLessonStatus} span`);
+    if (elSpanStatus && elStatus) {
+      elStatus.className = 'lesson-status ' + status;
+      elSpanStatus.textContent = status;
+    } else if (elStatus) {
+      elStatus.className = 'lesson-status ' + status;
+      elStatus.textContent = status;
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-question/builder-edit-question.js":
+/*!*****************************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-question/builder-edit-question.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderEditQuestion: () => (/* binding */ BuilderEditQuestion)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var lpAssetsJsPath_admin_edit_question__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/admin/edit-question */ "./assets/src/js/admin/edit-question.js");
+
+
+
+class BuilderEditQuestion {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elDataQuestion: '.cb-section__question-edit',
+    elBtnUpdateQuestion: '.cb-btn-update__question',
+    elBtnTrashQuestion: '.cb-btn-trash__question',
+    elQuestionStatus: '.question-status',
+    idTitle: 'title',
+    idDescEditor: 'question_description_editor',
+    elFormSetting: '.lp-form-setting-question'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderEditQuestion._loadedEvents) {
+      return;
+    }
+    BuilderEditQuestion._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderEditQuestion.selectors.elBtnUpdateQuestion,
+      class: this,
+      callBack: this.updateQuestion.name
+    }, {
+      selector: BuilderEditQuestion.selectors.elBtnTrashQuestion,
+      class: this,
+      callBack: this.trashQuestion.name
+    }]);
+  }
+  getQuestionDataForUpdate() {
+    const data = {};
+    const wrapperEl = document.querySelector(BuilderEditQuestion.selectors.elDataQuestion);
+    data.question_id = wrapperEl ? parseInt(wrapperEl.dataset.questionId) || 0 : 0;
+    const titleInput = document.getElementById(BuilderEditQuestion.selectors.idTitle);
+    data.question_title = titleInput ? titleInput.value : '';
+    const descEditor = document.getElementById(BuilderEditQuestion.selectors.idDescEditor);
+    data.question_description = descEditor ? descEditor.value : '';
+    if (typeof tinymce !== 'undefined') {
+      const editor = tinymce.get(BuilderEditQuestion.selectors.idDescEditor);
+      if (editor) {
+        data.question_description = editor.getContent();
+      }
+    }
+    const elFormSetting = document.querySelector(BuilderEditQuestion.selectors.elFormSetting);
+    if (elFormSetting) {
+      data.question_settings = true;
+      const formElements = elFormSetting.querySelectorAll('input, select, textarea');
+      formElements.forEach(element => {
+        const name = element.name || element.id;
+        if (!name) {
+          return;
+        }
+        if (name === 'learnpress_meta_box_nonce' || name === '_wp_http_referer') {
+          return;
+        }
+        if (element.type === 'checkbox') {
+          const fieldName = name.replace('[]', '');
+          if (!data.hasOwnProperty(fieldName)) {
+            data[fieldName] = element.checked ? 'yes' : 'no';
+          }
+        } else if (element.type === 'radio') {
+          if (element.checked) {
+            const fieldName = name.replace('[]', '');
+            data[fieldName] = element.value;
+          }
+        } else if (element.type === 'file') {
+          const fieldName = name.replace('[]', '');
+          if (element.files && element.files.length > 0) {
+            data[fieldName] = element.files;
+          }
+        } else {
+          const fieldName = name.replace('[]', '');
+          if (name.endsWith('[]')) {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = [];
+            }
+            if (Array.isArray(data[fieldName])) {
+              data[fieldName].push(element.value);
+            }
+          } else {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = element.value;
+            }
+          }
+        }
+      });
+      Object.keys(data).forEach(key => {
+        if (Array.isArray(data[key])) {
+          data[key] = data[key].join(',');
+        }
+      });
+    }
+    return data;
+  }
+  updateQuestion(args) {
+    const {
+      target
+    } = args;
+    const elBtnUpdateQuestion = target.closest(BuilderEditQuestion.selectors.elBtnUpdateQuestion);
+    if (!elBtnUpdateQuestion) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnUpdateQuestion, 1);
+    const questionData = this.getQuestionDataForUpdate();
+    const dataSend = {
+      ...questionData,
+      action: 'builder_update_question',
+      args: {
+        id_url: 'builder-update-question'
+      },
+      question_status: 'publish'
+    };
+    if (typeof lpQuestionBuilder !== 'undefined' && lpQuestionBuilder.nonce) {
+      dataSend.nonce = lpQuestionBuilder.nonce;
+    }
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          elBtnUpdateQuestion.textContent = data.button_title;
+        }
+        if (data?.question_id_new) {
+          const currentUrl = window.location.href;
+          window.location.href = currentUrl.replace(/post-new\/?/, `${data.question_id_new}/`);
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditQuestion.selectors.elQuestionStatus);
+          if (elStatus) {
+            elStatus.className = 'question-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnUpdateQuestion, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashQuestion(args) {
+    const {
+      target
+    } = args;
+    const elBtnTrashQuestion = target.closest(BuilderEditQuestion.selectors.elBtnTrashQuestion);
+    if (!elBtnTrashQuestion) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashQuestion, 1);
+    const questionData = this.getQuestionDataForUpdate();
+    const dataSend = {
+      action: 'move_trash_question',
+      args: {
+        id_url: 'move-trash-question'
+      },
+      question_id: questionData.question_id || 0
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          const elBtnUpdateQuestion = document.querySelector(BuilderEditQuestion.selectors.elBtnUpdateQuestion);
+          if (elBtnUpdateQuestion) {
+            elBtnUpdateQuestion.textContent = data.button_title;
+          }
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditQuestion.selectors.elQuestionStatus);
+          if (elStatus) {
+            elStatus.className = 'question-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashQuestion, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-question/builder-tab-question.js":
+/*!****************************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-question/builder-tab-question.js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderTabQuestion: () => (/* binding */ BuilderTabQuestion)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class BuilderTabQuestion {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elQuestionItem: '.question-item',
+    elQuestionExpandedItems: '.question-action-expanded__items',
+    elQuestionDuplicate: '.question-action-expanded__duplicate',
+    elQuestionTrash: '.question-action-expanded__trash',
+    elQuestionPublish: '.question-action-expanded__publish',
+    elQuestionDelete: '.question-action-expanded__delete',
+    elQuestionActionExpanded: '.question-action-expanded',
+    elQuestionStatus: '.question-status'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderTabQuestion._loadedEvents) {
+      return;
+    }
+    BuilderTabQuestion._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderTabQuestion.selectors.elQuestionDuplicate,
+      class: this,
+      callBack: this.duplicateQuestion.name
+    }, {
+      selector: BuilderTabQuestion.selectors.elQuestionTrash,
+      class: this,
+      callBack: this.trashQuestion.name
+    }, {
+      selector: BuilderTabQuestion.selectors.elQuestionPublish,
+      class: this,
+      callBack: this.publishQuestion.name
+    }, {
+      selector: BuilderTabQuestion.selectors.elQuestionDelete,
+      class: this,
+      callBack: this.deleteQuestion.name
+    }, {
+      selector: BuilderTabQuestion.selectors.elQuestionActionExpanded,
+      class: this,
+      callBack: this.toggleExpandedAction.name
+    }]);
+    document.addEventListener('click', e => {
+      if (!e.target.closest(BuilderTabQuestion.selectors.elQuestionActionExpanded)) {
+        this.closeAllExpanded();
+      }
+    });
+  }
+  duplicateQuestion(args) {
+    const {
+      target
+    } = args;
+    const elQuestionDuplicate = target.closest(BuilderTabQuestion.selectors.elQuestionDuplicate);
+    const elQuestionItem = elQuestionDuplicate.closest(BuilderTabQuestion.selectors.elQuestionItem);
+    if (!elQuestionItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionDuplicate, 1);
+    const questionId = elQuestionItem.dataset.questionId || '';
+    const dataSend = {
+      action: 'duplicate_question',
+      args: {
+        id_url: 'duplicate-question'
+      },
+      question_id: questionId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.html) {
+          const elQuestion = elQuestionDuplicate.closest('.question');
+          elQuestion.insertAdjacentHTML('afterend', data.html);
+          const newQuestion = elQuestion.nextElementSibling;
+          if (newQuestion) {
+            newQuestion.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
+            newQuestion.classList.add('highlight-new-question');
+            setTimeout(() => {
+              newQuestion.classList.remove('highlight-new-question');
+            }, 1500);
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionDuplicate, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashQuestion(args) {
+    const {
+      target
+    } = args;
+    const elQuestionTrash = target.closest(BuilderTabQuestion.selectors.elQuestionTrash);
+    const elQuestionItem = elQuestionTrash.closest(BuilderTabQuestion.selectors.elQuestionItem);
+    if (!elQuestionItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionTrash, 1);
+    const questionId = elQuestionItem.dataset.questionId || '';
+    const dataSend = {
+      action: 'move_trash_question',
+      args: {
+        id_url: 'move-trash-question'
+      },
+      question_id: questionId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.status) {
+          const elQuestion = elQuestionTrash.closest('.question');
+          this.updateStatusUI(elQuestion, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionTrash, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  publishQuestion(args) {
+    const {
+      target
+    } = args;
+    const elQuestionPublish = target.closest(BuilderTabQuestion.selectors.elQuestionPublish);
+    const elQuestionItem = elQuestionPublish.closest(BuilderTabQuestion.selectors.elQuestionItem);
+    if (!elQuestionItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionPublish, 1);
+    const questionId = elQuestionItem.dataset.questionId || '';
+    const dataSend = {
+      action: 'move_trash_question',
+      args: {
+        id_url: 'move-trash-question'
+      },
+      question_id: questionId,
+      status: 'publish'
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.status) {
+          const elQuestion = elQuestionPublish.closest('.question');
+          this.updateStatusUI(elQuestion, data.status);
+        }
+      },
+      error: error => {
+        this.showToast(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionPublish, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  deleteQuestion(args) {
+    const {
+      target
+    } = args;
+    const elQuestionDelete = target.closest(BuilderTabQuestion.selectors.elQuestionDelete);
+    const elQuestionItem = elQuestionDelete.closest(BuilderTabQuestion.selectors.elQuestionItem);
+    if (!elQuestionItem) {
+      return;
+    }
+    const questionId = elQuestionItem.dataset.questionId || '';
+    if (!questionId) {
+      return;
+    }
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elQuestionDelete.dataset.title,
+      text: elQuestionDelete.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const dataSend = {
+          action: 'move_trash_question',
+          args: {
+            id_url: 'move-trash-question'
+          },
+          question_id: questionId,
+          status: 'delete'
+        };
+        const callBack = {
+          success: response => {
+            const {
+              status,
+              message
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+            const elQuestion = elQuestionDelete.closest('.question');
+            elQuestion.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+            elQuestion.style.opacity = '0';
+            elQuestion.style.transform = 'translateX(160px)';
+            setTimeout(() => {
+              elQuestion.remove();
+            }, 400);
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+  toggleExpandedAction(args) {
+    const {
+      target
+    } = args;
+    const elQuestionActionExpanded = target.closest(BuilderTabQuestion.selectors.elQuestionActionExpanded);
+    const elQuestionItem = elQuestionActionExpanded.closest(BuilderTabQuestion.selectors.elQuestionItem);
+    const elExpandedItems = elQuestionItem.querySelector(BuilderTabQuestion.selectors.elQuestionExpandedItems);
+    if (!elExpandedItems) {
+      return;
+    }
+    this.closeAllExpanded(elExpandedItems);
+    elExpandedItems.classList.toggle('active');
+    elQuestionActionExpanded.classList.toggle('active');
+  }
+  closeAllExpanded(excludeElement = null) {
+    const allExpandedItems = document.querySelectorAll(`${BuilderTabQuestion.selectors.elQuestionExpandedItems}.active`);
+    allExpandedItems.forEach(item => {
+      if (item === excludeElement) {
+        return;
+      }
+      item.classList.remove('active');
+      const questionItem = item.closest(BuilderTabQuestion.selectors.elQuestionItem);
+      const expandedBtn = questionItem.querySelector(BuilderTabQuestion.selectors.elQuestionActionExpanded);
+      if (expandedBtn) {
+        expandedBtn.classList.remove('active');
+      }
+    });
+  }
+  updateStatusUI(elQuestion, status) {
+    const elStatus = elQuestion.querySelector(BuilderTabQuestion.selectors.elQuestionStatus);
+    const elSpanStatus = elQuestion.querySelector(`${BuilderTabQuestion.selectors.elQuestionStatus} span`);
+    if (elSpanStatus && elStatus) {
+      elStatus.className = 'question-status ' + status;
+      elSpanStatus.textContent = status;
+    } else if (elStatus) {
+      elStatus.className = 'question-status ' + status;
+      elStatus.textContent = status;
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-quiz/builder-edit-quiz.js":
+/*!*********************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-quiz/builder-edit-quiz.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderEditQuiz: () => (/* binding */ BuilderEditQuiz)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var lpAssetsJsPath_admin_edit_quiz__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lpAssetsJsPath/admin/edit-quiz */ "./assets/src/js/admin/edit-quiz.js");
+
+
+
+class BuilderEditQuiz {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elDataQuiz: '.cb-section__quiz-edit',
+    elBtnUpdateQuiz: '.cb-btn-update__quiz',
+    elBtnTrashQuiz: '.cb-btn-trash__quiz',
+    elQuizStatus: '.quiz-status',
+    idTitle: 'title',
+    idDescEditor: 'quiz_description_editor',
+    elFormSetting: '.lp-form-setting-quiz'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderEditQuiz._loadedEvents) {
+      return;
+    }
+    BuilderEditQuiz._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderEditQuiz.selectors.elBtnUpdateQuiz,
+      class: this,
+      callBack: this.updateQuiz.name
+    }, {
+      selector: BuilderEditQuiz.selectors.elBtnTrashQuiz,
+      class: this,
+      callBack: this.trashQuiz.name
+    }]);
+  }
+  getQuizDataForUpdate() {
+    const data = {};
+    const wrapperEl = document.querySelector(BuilderEditQuiz.selectors.elDataQuiz);
+    data.quiz_id = wrapperEl ? parseInt(wrapperEl.dataset.quizId) || 0 : 0;
+    const titleInput = document.getElementById(BuilderEditQuiz.selectors.idTitle);
+    data.quiz_title = titleInput ? titleInput.value : '';
+    const descEditor = document.getElementById(BuilderEditQuiz.selectors.idDescEditor);
+    data.quiz_description = descEditor ? descEditor.value : '';
+    if (typeof tinymce !== 'undefined') {
+      const editor = tinymce.get(BuilderEditQuiz.selectors.idDescEditor);
+      if (editor) {
+        data.quiz_description = editor.getContent();
+      }
+    }
+    const elFormSetting = document.querySelector(BuilderEditQuiz.selectors.elFormSetting);
+    if (elFormSetting) {
+      data.quiz_settings = true;
+      const formElements = elFormSetting.querySelectorAll('input, select, textarea');
+      formElements.forEach(element => {
+        const name = element.name || element.id;
+        if (!name || name === 'learnpress_meta_box_nonce' || name === '_wp_http_referer') {
+          return;
+        }
+        if (element.type === 'checkbox') {
+          const fieldName = name.replace('[]', '');
+          if (!data.hasOwnProperty(fieldName)) {
+            data[fieldName] = element.checked ? 'yes' : 'no';
+          }
+        } else if (element.type === 'radio') {
+          if (element.checked) {
+            const fieldName = name.replace('[]', '');
+            data[fieldName] = element.value;
+          }
+        } else if (element.type === 'file') {
+          const fieldName = name.replace('[]', '');
+          if (element.files && element.files.length > 0) {
+            data[fieldName] = element.files;
+          }
+        } else {
+          const fieldName = name.replace('[]', '');
+          if (name.endsWith('[]')) {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = [];
+            }
+            if (Array.isArray(data[fieldName])) {
+              data[fieldName].push(element.value);
+            }
+          } else {
+            if (!data.hasOwnProperty(fieldName)) {
+              data[fieldName] = element.value;
+            }
+          }
+        }
+      });
+      Object.keys(data).forEach(key => {
+        if (Array.isArray(data[key])) {
+          data[key] = data[key].join(',');
+        }
+      });
+    }
+    return data;
+  }
+  updateQuiz(args) {
+    const {
+      target
+    } = args;
+    const elBtnUpdateQuiz = target.closest(BuilderEditQuiz.selectors.elBtnUpdateQuiz);
+    if (!elBtnUpdateQuiz) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnUpdateQuiz, 1);
+    const quizData = this.getQuizDataForUpdate();
+    const dataSend = {
+      ...quizData,
+      action: 'update_quiz',
+      args: {
+        id_url: 'update-quiz'
+      },
+      quiz_status: 'publish'
+    };
+    if (typeof lpQuizBuilder !== 'undefined' && lpQuizBuilder.nonce) {
+      dataSend.nonce = lpQuizBuilder.nonce;
+    }
+    if (quizData.quiz_categories && quizData.quiz_categories.length > 0) {
+      dataSend.quiz_categories = quizData.quiz_categories.join(',');
+    }
+    if (quizData.quiz_tags && quizData.quiz_tags.length > 0) {
+      dataSend.quiz_tags = quizData.quiz_tags.join(',');
+    }
+    if (quizData.quiz_thumbnail_id) {
+      dataSend.quiz_thumbnail_id = quizData.quiz_thumbnail_id;
+    }
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          elBtnUpdateQuiz.textContent = data.button_title;
+        }
+        if (data?.quiz_id_new) {
+          const currentUrl = window.location.href;
+          window.location.href = currentUrl.replace(/post-new\/?/, `${data.quiz_id_new}/`);
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditQuiz.selectors.elQuizStatus);
+          if (elStatus) {
+            elStatus.className = 'quiz-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnUpdateQuiz, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashQuiz(args) {
+    const {
+      target
+    } = args;
+    const elBtnTrashQuiz = target.closest(BuilderEditQuiz.selectors.elBtnTrashQuiz);
+    if (!elBtnTrashQuiz) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashQuiz, 1);
+    const quizData = this.getQuizDataForUpdate();
+    const dataSend = {
+      action: 'move_trash_quiz',
+      args: {
+        id_url: 'move-trash-quiz'
+      },
+      quiz_id: quizData.quiz_id || 0
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.button_title) {
+          const elBtnUpdateQuiz = document.querySelector(BuilderEditQuiz.selectors.elBtnUpdateQuiz);
+          if (elBtnUpdateQuiz) {
+            elBtnUpdateQuiz.textContent = data.button_title;
+          }
+        }
+        if (data?.status) {
+          const elStatus = document.querySelector(BuilderEditQuiz.selectors.elQuizStatus);
+          if (elStatus) {
+            elStatus.className = 'quiz-status ' + data.status;
+            elStatus.textContent = data.status;
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnTrashQuiz, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/frontend/course-builder/builder-quiz/builder-tab-quiz.js":
+/*!********************************************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder/builder-quiz/builder-tab-quiz.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BuilderTabQuiz: () => (/* binding */ BuilderTabQuiz)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class BuilderTabQuiz {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elQuizItem: '.quiz-item',
+    elQuizExpandedItems: '.quiz-action-expanded__items',
+    elQuizDuplicate: '.quiz-action-expanded__duplicate',
+    elQuizTrash: '.quiz-action-expanded__trash',
+    elQuizPublish: '.quiz-action-expanded__publish',
+    elQuizDelete: '.quiz-action-expanded__delete',
+    elQuizActionExpanded: '.quiz-action-expanded',
+    elQuizStatus: '.quiz-status'
+  };
+  init() {
+    this.events();
+  }
+  events() {
+    if (BuilderTabQuiz._loadedEvents) {
+      return;
+    }
+    BuilderTabQuiz._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: BuilderTabQuiz.selectors.elQuizDuplicate,
+      class: this,
+      callBack: this.duplicateQuiz.name
+    }, {
+      selector: BuilderTabQuiz.selectors.elQuizTrash,
+      class: this,
+      callBack: this.trashQuiz.name
+    }, {
+      selector: BuilderTabQuiz.selectors.elQuizPublish,
+      class: this,
+      callBack: this.publishQuiz.name
+    }, {
+      selector: BuilderTabQuiz.selectors.elQuizDelete,
+      class: this,
+      callBack: this.deleteQuiz.name
+    }, {
+      selector: BuilderTabQuiz.selectors.elQuizActionExpanded,
+      class: this,
+      callBack: this.toggleExpandedAction.name
+    }]);
+    document.addEventListener('click', e => {
+      if (!e.target.closest(BuilderTabQuiz.selectors.elQuizActionExpanded)) {
+        this.closeAllExpanded();
+      }
+    });
+  }
+  duplicateQuiz(args) {
+    const {
+      target
+    } = args;
+    const elQuizDuplicate = target.closest(BuilderTabQuiz.selectors.elQuizDuplicate);
+    const elQuizItem = elQuizDuplicate.closest(BuilderTabQuiz.selectors.elQuizItem);
+    if (!elQuizItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuizDuplicate, 1);
+    const quizId = elQuizItem.dataset.quizId || '';
+    const dataSend = {
+      action: 'duplicate_quiz',
+      args: {
+        id_url: 'duplicate-quiz'
+      },
+      quiz_id: quizId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.html) {
+          const elQuiz = elQuizDuplicate.closest('.quiz');
+          elQuiz.insertAdjacentHTML('afterend', data.html);
+          const newQuiz = elQuiz.nextElementSibling;
+          if (newQuiz) {
+            newQuiz.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
+            newQuiz.classList.add('highlight-new-quiz');
+            setTimeout(() => {
+              newQuiz.classList.remove('highlight-new-quiz');
+            }, 1500);
+          }
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuizDuplicate, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  trashQuiz(args) {
+    const {
+      target
+    } = args;
+    const elQuizTrash = target.closest(BuilderTabQuiz.selectors.elQuizTrash);
+    const elQuizItem = elQuizTrash.closest(BuilderTabQuiz.selectors.elQuizItem);
+    if (!elQuizItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuizTrash, 1);
+    const quizId = elQuizItem.dataset.quizId || '';
+    const dataSend = {
+      action: 'move_trash_quiz',
+      args: {
+        id_url: 'move-trash-quiz'
+      },
+      quiz_id: quizId
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.status) {
+          const elQuiz = elQuizTrash.closest('.quiz');
+          this.updateStatusUI(elQuiz, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuizTrash, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  publishQuiz(args) {
+    const {
+      target
+    } = args;
+    const elQuizPublish = target.closest(BuilderTabQuiz.selectors.elQuizPublish);
+    const elQuizItem = elQuizPublish.closest(BuilderTabQuiz.selectors.elQuizItem);
+    if (!elQuizItem) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuizPublish, 1);
+    const quizId = elQuizItem.dataset.quizId || '';
+    const dataSend = {
+      action: 'move_trash_quiz',
+      args: {
+        id_url: 'move-trash-quiz'
+      },
+      quiz_id: quizId,
+      status: 'publish'
+    };
+    const callBack = {
+      success: response => {
+        const {
+          status,
+          message,
+          data
+        } = response;
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+        if (data?.status) {
+          const elQuiz = elQuizPublish.closest('.quiz');
+          this.updateStatusUI(elQuiz, data.status);
+        }
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+      },
+      completed: () => {
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuizPublish, 0);
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }
+  deleteQuiz(args) {
+    const {
+      target
+    } = args;
+    const elQuizDelete = target.closest(BuilderTabQuiz.selectors.elQuizDelete);
+    const elQuizItem = elQuizDelete.closest(BuilderTabQuiz.selectors.elQuizItem);
+    if (!elQuizItem) {
+      return;
+    }
+    const quizId = elQuizItem.dataset.quizId || '';
+    if (!quizId) {
+      return;
+    }
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: elQuizDelete.dataset.title,
+      text: elQuizDelete.dataset.content,
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
+      reverseButtons: true
+    }).then(result => {
+      if (result.isConfirmed) {
+        const dataSend = {
+          action: 'move_trash_quiz',
+          args: {
+            id_url: 'move-trash-quiz'
+          },
+          quiz_id: quizId,
+          status: 'delete'
+        };
+        const callBack = {
+          success: response => {
+            const {
+              status,
+              message
+            } = response;
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(message, status);
+            const elQuiz = elQuizDelete.closest('.quiz');
+            elQuiz.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+            elQuiz.style.opacity = '0';
+            elQuiz.style.transform = 'translateX(160px)';
+            setTimeout(() => {
+              elQuiz.remove();
+            }, 400);
+          },
+          error: error => {
+            lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error.message || error, 'error');
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }
+    });
+  }
+  toggleExpandedAction(args) {
+    const {
+      target
+    } = args;
+    const elQuizActionExpanded = target.closest(BuilderTabQuiz.selectors.elQuizActionExpanded);
+    const elQuizItem = elQuizActionExpanded.closest(BuilderTabQuiz.selectors.elQuizItem);
+    const elExpandedItems = elQuizItem.querySelector(BuilderTabQuiz.selectors.elQuizExpandedItems);
+    if (!elExpandedItems) {
+      return;
+    }
+    this.closeAllExpanded(elExpandedItems);
+    elExpandedItems.classList.toggle('active');
+    elQuizActionExpanded.classList.toggle('active');
+  }
+  closeAllExpanded(excludeElement = null) {
+    const allExpandedItems = document.querySelectorAll(`${BuilderTabQuiz.selectors.elQuizExpandedItems}.active`);
+    allExpandedItems.forEach(item => {
+      if (item === excludeElement) {
+        return;
+      }
+      item.classList.remove('active');
+      const quizItem = item.closest(BuilderTabQuiz.selectors.elQuizItem);
+      const expandedBtn = quizItem.querySelector(BuilderTabQuiz.selectors.elQuizActionExpanded);
+      if (expandedBtn) {
+        expandedBtn.classList.remove('active');
+      }
+    });
+  }
+  updateStatusUI(elQuiz, status) {
+    const elStatus = elQuiz.querySelector(BuilderTabQuiz.selectors.elQuizStatus);
+    const elSpanStatus = elQuiz.querySelector(`${BuilderTabQuiz.selectors.elQuizStatus} span`);
+    if (elSpanStatus && elStatus) {
+      elStatus.className = 'quiz-status ' + status;
+      elSpanStatus.textContent = status;
+    } else if (elStatus) {
+      elStatus.className = 'quiz-status ' + status;
+      elStatus.textContent = status;
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/lpPopupSelectItemToAdd.js":
+/*!*************************************************!*\
+  !*** ./assets/src/js/lpPopupSelectItemToAdd.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LpPopupSelectItemToAdd: () => (/* binding */ LpPopupSelectItemToAdd)
+/* harmony export */ });
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/lpToastify.js */ "./assets/src/js/lpToastify.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ *  LearnPress Popup Select Item
+ *
+ *  Handles load(search) item from API, show in popup and select item.
+ */
+
+
+
+
+let itemsSelectedData = [];
+let elPopup;
+let timeSearchTitleItem;
+class LpPopupSelectItemToAdd {
+  constructor() {
+    this.init();
+  }
+  static selectors = {
+    elBtnShowPopupItemsToSelect: '.lp-btn-show-popup-items-to-select',
+    elBtnAddItemsSelected: '.lp-btn-add-items-selected',
+    elBtnCountItemsSelected: '.lp-btn-count-items-selected',
+    elHeaderCountItemSelected: '.header-count-items-selected',
+    elSelectItem: '.lp-select-item',
+    elListItems: '.list-items',
+    elPopupItemsToSelect: '.lp-popup-items-to-select',
+    elSearchTitleItem: '.lp-search-title-item',
+    elBtnBackListItems: '.lp-btn-back-to-select-items',
+    elListItemsWrap: '.list-items-wrap',
+    elListItemsSelected: '.list-items-selected',
+    elItemSelectedClone: '.li-item-selected.clone',
+    elItemSelected: '.li-item-selected',
+    LPTarget: '.lp-target'
+  };
+  init() {
+    this.events();
+  }
+  events = () => {
+    if (LpPopupSelectItemToAdd._loadedEvents) {
+      return;
+    }
+    LpPopupSelectItemToAdd._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
+      selector: LpPopupSelectItemToAdd.selectors.elBtnShowPopupItemsToSelect,
+      callBack: this.showPopupItemsToSelect.name,
+      class: this
+    }, {
+      selector: LpPopupSelectItemToAdd.selectors.elSelectItem,
+      callBack: this.selectItemsFromList.name,
+      class: this
+    }, {
+      selector: LpPopupSelectItemToAdd.selectors.elBtnCountItemsSelected,
+      callBack: this.showItemsSelected.name,
+      class: this
+    }, {
+      selector: LpPopupSelectItemToAdd.selectors.elBtnBackListItems,
+      callBack: this.backToSelectItems.name,
+      class: this
+    }, {
+      selector: LpPopupSelectItemToAdd.selectors.elItemSelected,
+      callBack: this.removeItemSelected.name,
+      class: this
+    }, {
+      selector: '.tabs .tab',
+      callBack: this.chooseTabItemsType.name,
+      class: this
+    }]);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keyup', [{
+      selector: LpPopupSelectItemToAdd.selectors.elSearchTitleItem,
+      callBack: this.searchTitleItemToSelect.name,
+      class: this
+    }]);
+  };
+
+  // Show popup items to select
+  showPopupItemsToSelect = args => {
+    const {
+      e,
+      target = false,
+      callBack
+    } = args;
+    const elBtnShowPopupItemsToSelect = target.closest(`${LpPopupSelectItemToAdd.selectors.elBtnShowPopupItemsToSelect}`);
+    if (!elBtnShowPopupItemsToSelect) {
+      return;
+    }
+    const templateId = target.dataset.template || '';
+    const modalTemplate = document.querySelector(templateId);
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      html: modalTemplate.innerHTML,
+      showConfirmButton: false,
+      showCloseButton: true,
+      width: '60%',
+      customClass: {
+        popup: 'lp-select-items-popup',
+        htmlContainer: 'lp-select-items-html-container',
+        container: 'lp-select-items-container'
+      },
+      willOpen: () => {
+        elPopup = sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().getPopup();
+        const elLPTarget = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.LPTarget}`);
+        if (elLPTarget) {
+          const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+          dataSend.args.paged = 1;
+          dataSend.args.item_selecting = itemsSelectedData || [];
+          window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSend);
+          window.lpAJAXG.fetchAJAX(dataSend, {
+            success: response => {
+              const {
+                data
+              } = response;
+              const elSkeleton = elPopup.querySelector('.lp-skeleton-animation');
+              elSkeleton.remove();
+              elLPTarget.innerHTML = data.content || '';
+              this.watchItemsSelectedDataChange();
+            }
+          });
+        }
+      }
+    }).then(result => {
+      if (result.isDismissed) {}
+    });
+  };
+
+  // Choose tab items type
+  chooseTabItemsType = args => {
+    const {
+      e,
+      target,
+      callBack
+    } = args;
+    const elTabType = target.closest('.tab');
+    if (!elTabType) {
+      return;
+    }
+    e.preventDefault();
+    const elTabs = elTabType.closest('.tabs');
+    if (!elTabs) {
+      return;
+    }
+    const elSelectItemsToAdd = elTabs.closest(`${LpPopupSelectItemToAdd.selectors.elPopupItemsToSelect}`);
+    const elInputSearch = elSelectItemsToAdd.querySelector(`${LpPopupSelectItemToAdd.selectors.elSearchTitleItem}`);
+    const itemType = elTabType.dataset.type;
+    const elTabLis = elTabs.querySelectorAll('.tab');
+    elTabLis.forEach(elTabLi => {
+      if (elTabLi.classList.contains('active')) {
+        elTabLi.classList.remove('active');
+      }
+    });
+    elTabType.classList.add('active');
+    // Reset search input
+    elInputSearch.value = '';
+    const elLPTarget = elSelectItemsToAdd.querySelector(`${LpPopupSelectItemToAdd.selectors.LPTarget}`);
+    const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+    dataSend.args.item_type = itemType;
+    dataSend.args.paged = 1;
+    dataSend.args.item_selecting = itemsSelectedData || [];
+    window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSend);
+    window.lpAJAXG.showHideLoading(elLPTarget, 1);
+    window.lpAJAXG.fetchAJAX(dataSend, {
+      success: response => {
+        const {
+          data
+        } = response;
+        elLPTarget.innerHTML = data.content || '';
+      },
+      error: error => {
+        lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+      },
+      completed: () => {
+        window.lpAJAXG.showHideLoading(elLPTarget, 0);
+        this.watchItemsSelectedDataChange();
+      }
+    });
+  };
+
+  // Choice items to add list items selected before adding to section
+  selectItemsFromList = args => {
+    const {
+      e,
+      target
+    } = args;
+    const elItemAttend = target.closest(`${LpPopupSelectItemToAdd.selectors.elSelectItem}`);
+    if (!elItemAttend) {
+      return;
+    }
+    const elInput = elItemAttend.querySelector('input[type="checkbox"]');
+    if (target.tagName !== 'INPUT') {
+      elInput.click();
+      return;
+    }
+    const elUl = elItemAttend.closest(`${LpPopupSelectItemToAdd.selectors.elListItems}`);
+    if (!elUl) {
+      return;
+    }
+    const itemSelected = {
+      ...elInput.dataset
+    };
+    //console.log( 'itemSelected', itemSelected );
+
+    if (elInput.checked) {
+      const exists = itemsSelectedData.some(item => item.id === itemSelected.id);
+      if (!exists) {
+        itemsSelectedData.push(itemSelected);
+      }
+    } else {
+      const index = itemsSelectedData.findIndex(item => item.id === itemSelected.id);
+      if (index !== -1) {
+        itemsSelectedData.splice(index, 1);
+      }
+    }
+    this.watchItemsSelectedDataChange();
+  };
+
+  // Search title item
+  searchTitleItemToSelect = args => {
+    const {
+      e,
+      target
+    } = args;
+    const elInputSearch = target.closest(LpPopupSelectItemToAdd.selectors.elSearchTitleItem);
+    if (!elInputSearch) {
+      return;
+    }
+    const elLPTarget = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.LPTarget}`);
+    clearTimeout(timeSearchTitleItem);
+    timeSearchTitleItem = setTimeout(() => {
+      const dataSet = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+      dataSet.args.search_title = elInputSearch.value.trim();
+      dataSet.args.item_selecting = itemsSelectedData;
+      dataSet.args.paged = 1;
+      window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSet);
+
+      // Show loading
+      window.lpAJAXG.showHideLoading(elLPTarget, 1);
+      window.lpAJAXG.fetchAJAX(dataSet, {
+        success: response => {
+          const {
+            data
+          } = response;
+          elLPTarget.innerHTML = data.content || '';
+        },
+        error: error => {
+          lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show(error, 'error');
+        },
+        completed: () => {
+          window.lpAJAXG.showHideLoading(elLPTarget, 0);
+        }
+      });
+    }, 800);
+  };
+
+  // Show list of items, to choose items to add to section
+  showItemsSelected = args => {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnCountItemsSelected = target.closest(`${LpPopupSelectItemToAdd.selectors.elBtnCountItemsSelected}`);
+    if (!elBtnCountItemsSelected) {
+      return;
+    }
+    const elBtnBack = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elBtnBackListItems}`);
+    const elTabs = elPopup.querySelector('.tabs');
+    const elListItemsWrap = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elListItemsWrap}`);
+    const elHeaderItemsSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elHeaderCountItemSelected}`);
+    const elListItemsSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elListItemsSelected}`);
+    const elItemClone = elListItemsSelected.querySelector(`${LpPopupSelectItemToAdd.selectors.elItemSelectedClone}`);
+    elHeaderItemsSelected.innerHTML = elBtnCountItemsSelected.innerHTML;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsWrap, 0);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnCountItemsSelected, 0);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elTabs, 0);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnBack, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elHeaderItemsSelected, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsSelected, 1);
+    elListItemsSelected.querySelectorAll(`${LpPopupSelectItemToAdd.selectors.elItemSelected}:not(.clone)`).forEach(elItem => {
+      elItem.remove();
+    });
+    itemsSelectedData.forEach(item => {
+      const elItemSelected = elItemClone.cloneNode(true);
+      elItemSelected.classList.remove('clone');
+      Object.entries(item).forEach(([key, value]) => {
+        elItemSelected.dataset[key] = value;
+      });
+      const elTitleDisplay = elItemSelected.querySelector('.title-display');
+      elTitleDisplay.innerHTML = item.title;
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elItemSelected, 1);
+      elItemClone.insertAdjacentElement('beforebegin', elItemSelected);
+    });
+  };
+
+  // Back to list of items
+  backToSelectItems = args => {
+    const {
+      e,
+      target
+    } = args;
+    const elBtnBack = target.closest(`${LpPopupSelectItemToAdd.selectors.elBtnBackListItems}`);
+    if (!elBtnBack) {
+      return;
+    }
+    const elBtnCountItemsSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elBtnCountItemsSelected}`);
+    const elTabs = elPopup.querySelector('.tabs');
+    const elListItemsWrap = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elListItemsWrap}`);
+    const elHeaderCountItemSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elHeaderCountItemSelected}`);
+    const elListItemsSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elListItemsSelected}`);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnCountItemsSelected, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsWrap, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elTabs, 1);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnBack, 0);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elHeaderCountItemSelected, 0);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsSelected, 0);
+  };
+
+  // Remove item selected from list items selected
+  removeItemSelected = args => {
+    const {
+      e,
+      target
+    } = args;
+    const elRemoveItemSelected = target.closest(`${LpPopupSelectItemToAdd.selectors.elItemSelected}`);
+    if (!elRemoveItemSelected) {
+      return;
+    }
+    const itemRemove = elRemoveItemSelected.dataset;
+    const index = itemsSelectedData.findIndex(item => item.id === itemRemove.id);
+    if (index !== -1) {
+      itemsSelectedData.splice(index, 1);
+    }
+    elRemoveItemSelected.remove();
+    this.watchItemsSelectedDataChange();
+  };
+
+  // Watch items selected when data change
+  watchItemsSelectedDataChange = () => {
+    // Update count items selected, disable/enable buttons
+    const elBtnAddItemsSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elBtnAddItemsSelected}`);
+    const elBtnCountItemsSelected = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elBtnCountItemsSelected}`);
+    const elSpanCount = elBtnCountItemsSelected.querySelector('span');
+    const elHeaderCount = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elHeaderCountItemSelected}`);
+    const elTarget = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.LPTarget}`);
+    if (itemsSelectedData.length !== 0) {
+      elBtnCountItemsSelected.disabled = false;
+      elBtnAddItemsSelected.disabled = false;
+      elBtnAddItemsSelected.classList.add('active');
+      elSpanCount.textContent = `(${itemsSelectedData.length})`;
+      elHeaderCount.innerHTML = elBtnCountItemsSelected.innerHTML;
+    } else {
+      elBtnCountItemsSelected.disabled = true;
+      elBtnAddItemsSelected.disabled = true;
+      elBtnAddItemsSelected.classList.remove('active');
+      elSpanCount.textContent = '';
+      elHeaderCount.textContent = '';
+    }
+
+    // Update list input checked, when items removed, or change tab type
+    const elListItems = elPopup.querySelector(`${LpPopupSelectItemToAdd.selectors.elListItems}`);
+    const elInputs = elListItems.querySelectorAll('input[type="checkbox"]');
+    elInputs.forEach(elInputItem => {
+      const itemSelected = elInputItem.dataset;
+      const exists = itemsSelectedData.some(item => item.id === itemSelected.id);
+      elInputItem.checked = exists;
+    });
+
+    // Set item selecting data to dataset for query.
+    const dataSet = window.lpAJAXG.getDataSetCurrent(elTarget);
+    dataSet.args.item_selecting = itemsSelectedData;
+    window.lpAJAXG.setDataSetCurrent(elTarget, dataSet);
+  };
+
+  // Add items selected to section
+  addItemsSelectedToSection = args => {
+    const {
+      e,
+      target,
+      callBackHandle
+    } = args;
+    if (!elPopup) {
+      return;
+    }
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().close();
+    if (typeof callBackHandle === 'function') {
+      callBackHandle(itemsSelectedData);
+      itemsSelectedData = [];
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/src/js/lpToastify.js":
+/*!*************************************!*\
+  !*** ./assets/src/js/lpToastify.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   show: () => (/* binding */ show)
+/* harmony export */ });
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
+/**
+ * Utils functions
+ *
+ * @param url
+ * @param data
+ * @param functions
+ * @since 4.3.0
+ * @version 1.0.0
+ */
+
+
+const argsToastify = {
+  text: '',
+  gravity: lpData.toast.gravity,
+  // `top` or `bottom`
+  position: lpData.toast.position,
+  // `left`, `center` or `right`
+  className: `${lpData.toast.classPrefix}`,
+  close: lpData.toast.close == 1,
+  stopOnFocus: lpData.toast.stopOnFocus == 1,
+  duration: lpData.toast.duration
+};
+const show = (message, status = 'success', argsCustom) => {
+  let args = argsToastify;
+  if (argsCustom) {
+    args = {
+      ...args,
+      ...argsCustom
+    };
+  }
+  const toastify = new (toastify_js__WEBPACK_IMPORTED_MODULE_0___default())({
+    ...args,
+    text: message,
+    className: `${lpData.toast.classPrefix} ${status}`
+  });
+  toastify.showToast();
+};
 
 /***/ }),
 
@@ -696,6 +7019,9 @@ var setVariable = function setVariable(variable, value) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   eventHandlers: () => (/* binding */ eventHandlers),
+/* harmony export */   getDataOfForm: () => (/* binding */ getDataOfForm),
+/* harmony export */   getFieldKeysOfForm: () => (/* binding */ getFieldKeysOfForm),
 /* harmony export */   listenElementCreated: () => (/* binding */ listenElementCreated),
 /* harmony export */   listenElementViewed: () => (/* binding */ listenElementViewed),
 /* harmony export */   lpAddQueryArgs: () => (/* binding */ lpAddQueryArgs),
@@ -706,15 +7032,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
 /* harmony export */   lpSetLoadingEl: () => (/* binding */ lpSetLoadingEl),
 /* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl),
+/* harmony export */   mergeDataWithDatForm: () => (/* binding */ mergeDataWithDatForm),
 /* harmony export */   toggleCollapse: () => (/* binding */ toggleCollapse)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 /**
  * Utils functions
  *
@@ -722,34 +7042,31 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  * @param data
  * @param functions
  * @since 4.2.5.1
- * @version 1.0.3
+ * @version 1.0.5
  */
-var lpClassName = {
+const lpClassName = {
   hidden: 'lp-hidden',
   loading: 'loading',
   elCollapse: 'lp-collapse',
   elSectionToggle: '.lp-section-toggle',
   elTriggerToggle: '.lp-trigger-toggle'
 };
-var lpFetchAPI = function lpFetchAPI(url) {
-  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var functions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+const lpFetchAPI = (url, data = {}, functions = {}) => {
   if ('function' === typeof functions.before) {
     functions.before();
   }
-  fetch(url, _objectSpread({
-    method: 'GET'
-  }, data)).then(function (response) {
-    return response.json();
-  }).then(function (response) {
+  fetch(url, {
+    method: 'GET',
+    ...data
+  }).then(response => response.json()).then(response => {
     if ('function' === typeof functions.success) {
       functions.success(response);
     }
-  })["catch"](function (err) {
+  }).catch(err => {
     if ('function' === typeof functions.error) {
       functions.error(err);
     }
-  })["finally"](function () {
+  }).finally(() => {
     if ('function' === typeof functions.completed) {
       functions.completed();
     }
@@ -761,17 +7078,17 @@ var lpFetchAPI = function lpFetchAPI(url) {
  *
  * @since 4.2.5.1
  */
-var lpGetCurrentURLNoParam = function lpGetCurrentURLNoParam() {
-  var currentUrl = window.location.href;
-  var hasParams = currentUrl.includes('?');
+const lpGetCurrentURLNoParam = () => {
+  let currentUrl = window.location.href;
+  const hasParams = currentUrl.includes('?');
   if (hasParams) {
     currentUrl = currentUrl.split('?')[0];
   }
   return currentUrl;
 };
-var lpAddQueryArgs = function lpAddQueryArgs(endpoint, args) {
-  var url = new URL(endpoint);
-  Object.keys(args).forEach(function (arg) {
+const lpAddQueryArgs = (endpoint, args) => {
+  const url = new URL(endpoint);
+  Object.keys(args).forEach(arg => {
     url.searchParams.set(arg, args[arg]);
   });
   return url;
@@ -784,21 +7101,12 @@ var lpAddQueryArgs = function lpAddQueryArgs(endpoint, args) {
  * @param callback
  * @since 4.2.5.8
  */
-var listenElementViewed = function listenElementViewed(el, callback) {
-  var observerSeeItem = new IntersectionObserver(function (entries) {
-    var _iterator = _createForOfIteratorHelper(entries),
-      _step;
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var entry = _step.value;
-        if (entry.isIntersecting) {
-          callback(entry);
-        }
+const listenElementViewed = (el, callback) => {
+  const observerSeeItem = new IntersectionObserver(function (entries) {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        callback(entry);
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
     }
   });
   observerSeeItem.observe(el);
@@ -810,8 +7118,8 @@ var listenElementViewed = function listenElementViewed(el, callback) {
  * @param callback
  * @since 4.2.5.8
  */
-var listenElementCreated = function listenElementCreated(callback) {
-  var observerCreateItem = new MutationObserver(function (mutations) {
+const listenElementCreated = callback => {
+  const observerCreateItem = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       if (mutation.addedNodes) {
         mutation.addedNodes.forEach(function (node) {
@@ -836,14 +7144,14 @@ var listenElementCreated = function listenElementCreated(callback) {
  * @param callback
  * @since 4.2.7.1
  */
-var lpOnElementReady = function lpOnElementReady(selector, callback) {
-  var element = document.querySelector(selector);
+const lpOnElementReady = (selector, callback) => {
+  const element = document.querySelector(selector);
   if (element) {
     callback(element);
     return;
   }
-  var observer = new MutationObserver(function (mutations, obs) {
-    var element = document.querySelector(selector);
+  const observer = new MutationObserver((mutations, obs) => {
+    const element = document.querySelector(selector);
     if (element) {
       obs.disconnect();
       callback(element);
@@ -856,13 +7164,13 @@ var lpOnElementReady = function lpOnElementReady(selector, callback) {
 };
 
 // Parse JSON from string with content include LP_AJAX_START.
-var lpAjaxParseJsonOld = function lpAjaxParseJsonOld(data) {
+const lpAjaxParseJsonOld = data => {
   if (typeof data !== 'string') {
     return data;
   }
-  var m = String.raw({
+  const m = String.raw({
     raw: data
-  }).match(/<-- LP_AJAX_START -->([^]*)<-- LP_AJAX_END -->/);
+  }).match(/<-- LP_AJAX_START -->(.*)<-- LP_AJAX_END -->/s);
   try {
     if (m) {
       data = JSON.parse(m[1].replace(/(?:\r\n|\r|\n)/g, ''));
@@ -876,8 +7184,7 @@ var lpAjaxParseJsonOld = function lpAjaxParseJsonOld(data) {
 };
 
 // status 0: hide, 1: show
-var lpShowHideEl = function lpShowHideEl(el) {
-  var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+const lpShowHideEl = (el, status = 0) => {
   if (!el) {
     return;
   }
@@ -889,7 +7196,7 @@ var lpShowHideEl = function lpShowHideEl(el) {
 };
 
 // status 0: hide, 1: show
-var lpSetLoadingEl = function lpSetLoadingEl(el, status) {
+const lpSetLoadingEl = (el, status) => {
   if (!el) {
     return;
   }
@@ -901,48 +7208,133 @@ var lpSetLoadingEl = function lpSetLoadingEl(el, status) {
 };
 
 // Toggle collapse section
-var toggleCollapse = function toggleCollapse(e, target) {
-  var elTriggerClassName = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-  var elsExclude = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
-  var callback = arguments.length > 4 ? arguments[4] : undefined;
+const toggleCollapse = (e, target, elTriggerClassName = '', elsExclude = [], callback) => {
   if (!elTriggerClassName) {
     elTriggerClassName = lpClassName.elTriggerToggle;
   }
 
   // Exclude elements, which should not trigger the collapse toggle
   if (elsExclude && elsExclude.length > 0) {
-    var _iterator2 = _createForOfIteratorHelper(elsExclude),
-      _step2;
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var elExclude = _step2.value;
-        if (target.closest(elExclude)) {
-          return;
-        }
+    for (const elExclude of elsExclude) {
+      if (target.closest(elExclude)) {
+        return;
       }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
     }
   }
-  var elTrigger = target.closest(elTriggerClassName);
+  const elTrigger = target.closest(elTriggerClassName);
   if (!elTrigger) {
     return;
   }
 
   //console.log( 'elTrigger', elTrigger );
 
-  var elSectionToggle = elTrigger.closest("".concat(lpClassName.elSectionToggle));
+  const elSectionToggle = elTrigger.closest(`${lpClassName.elSectionToggle}`);
   if (!elSectionToggle) {
     return;
   }
-  elSectionToggle.classList.toggle("".concat(lpClassName.elCollapse));
+  elSectionToggle.classList.toggle(`${lpClassName.elCollapse}`);
   if ('function' === typeof callback) {
     callback(elSectionToggle);
   }
 };
 
+// Get data of form
+const getDataOfForm = form => {
+  const dataSend = {};
+  const formData = new FormData(form);
+  for (const pair of formData.entries()) {
+    const key = pair[0];
+    const value = formData.getAll(key);
+    if (!dataSend.hasOwnProperty(key)) {
+      // Convert value array to string.
+      dataSend[key] = value.join(',');
+    }
+  }
+  return dataSend;
+};
+
+// Get field keys of form
+const getFieldKeysOfForm = form => {
+  const keys = [];
+  const elements = form.elements;
+  for (let i = 0; i < elements.length; i++) {
+    const name = elements[i].name;
+    if (name && !keys.includes(name)) {
+      keys.push(name);
+    }
+  }
+  return keys;
+};
+
+// Merge data handle with data form.
+const mergeDataWithDatForm = (elForm, dataHandle) => {
+  const dataForm = getDataOfForm(elForm);
+  const keys = getFieldKeysOfForm(elForm);
+  keys.forEach(key => {
+    if (!dataForm.hasOwnProperty(key)) {
+      delete dataHandle[key];
+    } else if (dataForm[key][0] === '') {
+      delete dataForm[key];
+      delete dataHandle[key];
+    }
+  });
+  dataHandle = {
+    ...dataHandle,
+    ...dataForm
+  };
+  return dataHandle;
+};
+
+/**
+ * Event trigger
+ * For each list of event handlers, listen event on document.
+ *
+ * eventName: 'click', 'change', ...
+ * eventHandlers = [ { selector: '.lp-button', callBack: function(){}, class: object } ]
+ *
+ * @param eventName
+ * @param eventHandlers
+ */
+const eventHandlers = (eventName, eventHandlers) => {
+  document.addEventListener(eventName, e => {
+    const target = e.target;
+    let args = {
+      e,
+      target
+    };
+    eventHandlers.forEach(eventHandler => {
+      args = {
+        ...args,
+        ...eventHandler
+      };
+
+      //console.log( args );
+
+      // Check condition before call back
+      if (eventHandler.conditionBeforeCallBack) {
+        if (eventHandler.conditionBeforeCallBack(args) !== true) {
+          return;
+        }
+      }
+
+      // Special check for keydown event with checkIsEventEnter = true
+      if (eventName === 'keydown' && eventHandler.checkIsEventEnter) {
+        if (e.key !== 'Enter') {
+          return;
+        }
+      }
+      if (target.closest(eventHandler.selector)) {
+        if (eventHandler.class) {
+          // Call method of class, function callBack will understand exactly {this} is class object.
+          eventHandler.class[eventHandler.callBack](args);
+        } else {
+          // For send args is objected, {this} is eventHandler object, not class object.
+          eventHandler.callBack(args);
+        }
+      }
+    });
+  });
+};
 
 /***/ }),
 
@@ -4910,7 +11302,7 @@ module.exports = styleTagTransform;
 /***/ (function(module) {
 
 /*!
-* sweetalert2 v11.22.5
+* sweetalert2 v11.26.3
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -5057,25 +11449,25 @@ module.exports = styleTagTransform;
    * If `arg` is a function, call it (with no arguments or context) and return the result.
    * Otherwise, just pass the value through
    *
-   * @param {Function | any} arg
-   * @returns {any}
+   * @param {(() => *) | *} arg
+   * @returns {*}
    */
   const callIfFunction = arg => typeof arg === 'function' ? arg() : arg;
 
   /**
-   * @param {any} arg
+   * @param {*} arg
    * @returns {boolean}
    */
   const hasToPromiseFn = arg => arg && typeof arg.toPromise === 'function';
 
   /**
-   * @param {any} arg
-   * @returns {Promise<any>}
+   * @param {*} arg
+   * @returns {Promise<*>}
    */
   const asPromise = arg => hasToPromiseFn(arg) ? arg.toPromise() : Promise.resolve(arg);
 
   /**
-   * @param {any} arg
+   * @param {*} arg
    * @returns {boolean}
    */
   const isPromise = arg => arg && Promise.resolve(arg) === arg;
@@ -5453,13 +11845,13 @@ module.exports = styleTagTransform;
   /**
    * @param {HTMLElement} elem
    * @param {string} property
-   * @param {*} value
+   * @param {string | number | null | undefined} value
    */
   const applyNumericalStyle = (elem, property, value) => {
-    if (value === `${parseInt(value)}`) {
+    if (value === `${parseInt(`${value}`)}`) {
       value = parseInt(value);
     }
-    if (value || parseInt(value) === 0) {
+    if (value || parseInt(`${value}`) === 0) {
       elem.style.setProperty(property, typeof value === 'number' ? `${value}px` : value);
     } else {
       elem.style.removeProperty(property);
@@ -5519,7 +11911,7 @@ module.exports = styleTagTransform;
 
   /**
    * @param {HTMLElement} elem
-   * @param {any} condition
+   * @param {boolean | string | null | undefined} condition
    * @param {string} display
    */
   const toggle = (elem, condition, display = 'flex') => {
@@ -5723,7 +12115,7 @@ module.exports = styleTagTransform;
   };
 
   /**
-   * Add modal + backdrop + no-war message for Russians to DOM
+   * Add modal + backdrop to DOM
    *
    * @param {SweetAlertOptions} params
    */
@@ -5774,7 +12166,7 @@ module.exports = styleTagTransform;
   };
 
   /**
-   * @param {any} param
+   * @param {object} param
    * @param {HTMLElement} target
    */
   const handleObject = (param, target) => {
@@ -5791,7 +12183,7 @@ module.exports = styleTagTransform;
 
   /**
    * @param {HTMLElement} target
-   * @param {any} elem
+   * @param {object} elem
    */
   const handleJqueryElem = (target, elem) => {
     target.textContent = '';
@@ -6342,7 +12734,7 @@ module.exports = styleTagTransform;
       return;
     }
     showWhenInnerHtmlPresent(footer);
-    toggle(footer, params.footer, 'block');
+    toggle(footer, Boolean(params.footer), 'block');
     if (params.footer) {
       parseHtmlToContainer(params.footer, footer);
     }
@@ -6759,7 +13151,7 @@ module.exports = styleTagTransform;
       return;
     }
     showWhenInnerHtmlPresent(title);
-    toggle(title, params.title || params.titleText, 'block');
+    toggle(title, Boolean(params.title || params.titleText), 'block');
     if (params.title) {
       parseHtmlToContainer(params.title, title);
     }
@@ -6824,8 +13216,6 @@ module.exports = styleTagTransform;
     return (_dom$getCancelButton = getCancelButton()) === null || _dom$getCancelButton === void 0 ? void 0 : _dom$getCancelButton.click();
   };
 
-  /** @typedef {'cancel' | 'backdrop' | 'close' | 'esc' | 'timer'} DismissReason */
-
   /** @type {Record<DismissReason, DismissReason>} */
   const DismissReason = Object.freeze({
     cancel: 'cancel',
@@ -6850,7 +13240,7 @@ module.exports = styleTagTransform;
   /**
    * @param {GlobalState} globalState
    * @param {SweetAlertOptions} innerParams
-   * @param {*} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const addKeydownHandler = (globalState, innerParams, dismissWith) => {
     removeKeydownHandler(globalState);
@@ -6901,7 +13291,7 @@ module.exports = styleTagTransform;
   /**
    * @param {SweetAlertOptions} innerParams
    * @param {KeyboardEvent} event
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const keydownHandler = (innerParams, event, dismissWith) => {
     if (!innerParams) {
@@ -7024,7 +13414,7 @@ module.exports = styleTagTransform;
   /**
    * @param {KeyboardEvent} event
    * @param {SweetAlertOptions} innerParams
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const handleEsc = (event, innerParams, dismissWith) => {
     event.preventDefault();
@@ -7155,7 +13545,7 @@ module.exports = styleTagTransform;
   /**
    * https://github.com/sweetalert2/sweetalert2/issues/1786
    *
-   * @param {*} event
+   * @param {object} event
    * @returns {boolean}
    */
   const isStylus = event => {
@@ -7228,7 +13618,7 @@ module.exports = styleTagTransform;
    * @param {SweetAlert} instance
    * @param {HTMLElement} container
    * @param {boolean} returnFocus
-   * @param {Function} didClose
+   * @param {() => void} didClose
    */
   function removePopupAndResetState(instance, container, returnFocus, didClose) {
     if (isToast()) {
@@ -7265,7 +13655,7 @@ module.exports = styleTagTransform;
   /**
    * Instance method to close sweetAlert
    *
-   * @param {any} resolveValue
+   * @param {SweetAlertResult | undefined} resolveValue
    */
   function close(resolveValue) {
     resolveValue = prepareResolveValue(resolveValue);
@@ -7301,7 +13691,7 @@ module.exports = styleTagTransform;
   };
 
   /**
-   * @param {any} error
+   * @param {Error | string} error
    */
   function rejectPromise(error) {
     const rejectPromise = privateMethods.swalPromiseReject.get(this);
@@ -7326,7 +13716,7 @@ module.exports = styleTagTransform;
   };
 
   /**
-   * @param {any} resolveValue
+   * @param {SweetAlertResult | undefined} resolveValue
    * @returns {SweetAlertResult}
    */
   const prepareResolveValue = resolveValue => {
@@ -7372,7 +13762,7 @@ module.exports = styleTagTransform;
    * @param {HTMLElement} popup
    * @param {HTMLElement} container
    * @param {boolean} returnFocus
-   * @param {Function} didClose
+   * @param {() => void} didClose
    */
   const animatePopup = (instance, popup, container, returnFocus, didClose) => {
     globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(null, instance, container, returnFocus, didClose);
@@ -7394,7 +13784,7 @@ module.exports = styleTagTransform;
 
   /**
    * @param {SweetAlert} instance
-   * @param {Function} didClose
+   * @param {() => void} didClose
    */
   const triggerDidCloseAndDispose = (instance, didClose) => {
     setTimeout(() => {
@@ -7522,7 +13912,7 @@ module.exports = styleTagTransform;
       return;
     }
     /**
-     * @param {Record<string, any>} inputOptions
+     * @param {*} inputOptions
      */
     const processInputOptions = inputOptions => {
       if (params.input === 'select') {
@@ -7649,7 +14039,7 @@ module.exports = styleTagTransform;
   /**
    * Converts `inputOptions` into an array of `[value, label]`s
    *
-   * @param {Record<string, any>} inputOptions
+   * @param {*} inputOptions
    * @typedef {string[]} InputOptionFlattened
    * @returns {InputOptionFlattened[]}
    */
@@ -7715,7 +14105,7 @@ module.exports = styleTagTransform;
 
   /**
    * @param {SweetAlert} instance
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const handleCancelButtonClick = (instance, dismissWith) => {
     instance.disableButtons();
@@ -7770,7 +14160,7 @@ module.exports = styleTagTransform;
 
   /**
    * @param {SweetAlert} instance
-   * @param {any} value
+   * @param {*} value
    */
   const deny = (instance, value) => {
     const innerParams = privateProps.innerParams.get(instance || undefined);
@@ -7785,14 +14175,14 @@ module.exports = styleTagTransform;
           instance.hideLoading();
           handleAwaitingPromise(instance);
         } else {
-          instance.close({
+          instance.close(/** @type SweetAlertResult */{
             isDenied: true,
             value: typeof preDenyValue === 'undefined' ? value : preDenyValue
           });
         }
       }).catch(error => rejectWith(instance || undefined, error));
     } else {
-      instance.close({
+      instance.close(/** @type SweetAlertResult */{
         isDenied: true,
         value
       });
@@ -7801,10 +14191,10 @@ module.exports = styleTagTransform;
 
   /**
    * @param {SweetAlert} instance
-   * @param {any} value
+   * @param {*} value
    */
   const succeedWith = (instance, value) => {
-    instance.close({
+    instance.close(/** @type SweetAlertResult */{
       isConfirmed: true,
       value
     });
@@ -7822,7 +14212,7 @@ module.exports = styleTagTransform;
   /**
    *
    * @param {SweetAlert} instance
-   * @param {any} value
+   * @param {*} value
    */
   const confirm = (instance, value) => {
     const innerParams = privateProps.innerParams.get(instance || undefined);
@@ -8169,7 +14559,7 @@ module.exports = styleTagTransform;
     if (params.backdrop === false && params.allowOutsideClick) {
       warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
     }
-    if (params.theme && !['light', 'dark', 'auto', 'minimal', 'borderless', 'embed-iframe', 'bulma', 'bulma-light', 'bulma-dark'].includes(params.theme)) {
+    if (params.theme && !['light', 'dark', 'auto', 'minimal', 'borderless', 'bootstrap-4', 'bootstrap-4-light', 'bootstrap-4-dark', 'bootstrap-5', 'bootstrap-5-light', 'bootstrap-5-dark', 'material-ui', 'material-ui-light', 'material-ui-dark', 'embed-iframe', 'bulma', 'bulma-light', 'bulma-dark'].includes(params.theme)) {
       warn(`Invalid theme "${params.theme}"`);
     }
     for (const param in params) {
@@ -8328,7 +14718,7 @@ module.exports = styleTagTransform;
   /**
    * @param {SweetAlertOptions} innerParams
    * @param {DomCache} domCache
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const handlePopupClick = (innerParams, domCache, dismissWith) => {
     if (innerParams.toast) {
@@ -8347,7 +14737,7 @@ module.exports = styleTagTransform;
   /**
    * @param {SweetAlertOptions} innerParams
    * @param {DomCache} domCache
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const handleToastClick = (innerParams, domCache, dismissWith) => {
     // Closing toast by internal click
@@ -8406,7 +14796,7 @@ module.exports = styleTagTransform;
   /**
    * @param {SweetAlertOptions} innerParams
    * @param {DomCache} domCache
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const handleModalClick = (innerParams, domCache, dismissWith) => {
     domCache.container.onclick = e => {
@@ -8755,7 +15145,7 @@ module.exports = styleTagTransform;
 
   class Timer {
     /**
-     * @param {Function} callback
+     * @param {() => void} callback
      * @param {number} delay
      */
     constructor(callback, delay) {
@@ -8844,10 +15234,10 @@ module.exports = styleTagTransform;
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {Record<string, string | boolean | number>}
    */
   const getSwalParams = templateContent => {
-    /** @type {Record<string, any>} */
+    /** @type {Record<string, string | boolean | number>} */
     const result = {};
     /** @type {HTMLElement[]} */
     const swalParams = Array.from(templateContent.querySelectorAll('swal-param'));
@@ -8871,10 +15261,10 @@ module.exports = styleTagTransform;
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {Record<string, () => void>}
    */
   const getSwalFunctionParams = templateContent => {
-    /** @type {Record<string, any>} */
+    /** @type {Record<string, () => void>} */
     const result = {};
     /** @type {HTMLElement[]} */
     const swalFunctions = Array.from(templateContent.querySelectorAll('swal-function-param'));
@@ -8891,10 +15281,10 @@ module.exports = styleTagTransform;
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {Record<string, string | boolean>}
    */
   const getSwalButtons = templateContent => {
-    /** @type {Record<string, any>} */
+    /** @type {Record<string, string | boolean>} */
     const result = {};
     /** @type {HTMLElement[]} */
     const swalButtons = Array.from(templateContent.querySelectorAll('swal-button'));
@@ -8944,7 +15334,7 @@ module.exports = styleTagTransform;
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {object}
    */
   const getSwalIcon = templateContent => {
     const result = {};
@@ -8965,10 +15355,10 @@ module.exports = styleTagTransform;
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {object}
    */
   const getSwalInput = templateContent => {
-    /** @type {Record<string, any>} */
+    /** @type {object} */
     const result = {};
     /** @type {HTMLElement | null} */
     const input = templateContent.querySelector('swal-input');
@@ -9005,10 +15395,10 @@ module.exports = styleTagTransform;
   /**
    * @param {DocumentFragment} templateContent
    * @param {string[]} paramNames
-   * @returns {Record<string, any>}
+   * @returns {Record<string, string>}
    */
   const getSwalStringParams = (templateContent, paramNames) => {
-    /** @type {Record<string, any>} */
+    /** @type {Record<string, string>} */
     const result = {};
     for (const i in paramNames) {
       const paramName = paramNames[i];
@@ -9080,7 +15470,6 @@ module.exports = styleTagTransform;
       setTimeout(() => params.didOpen(popup));
     }
     globalState.eventEmitter.emit('didOpen', popup);
-    removeClass(container, swalClasses['no-transition']);
   };
 
   /**
@@ -9095,6 +15484,9 @@ module.exports = styleTagTransform;
     popup.removeEventListener('animationend', swalOpenAnimationFinished);
     popup.removeEventListener('transitionend', swalOpenAnimationFinished);
     container.style.overflowY = 'auto';
+
+    // no-transition is added in init() in case one swal is opened right after another
+    removeClass(container, swalClasses['no-transition']);
   };
 
   /**
@@ -9227,7 +15619,7 @@ module.exports = styleTagTransform;
   var _promise = /*#__PURE__*/new WeakMap();
   class SweetAlert {
     /**
-     * @param {...any} args
+     * @param {...(SweetAlertOptions | string)} args
      * @this {SweetAlert}
      */
     constructor(...args) {
@@ -9311,7 +15703,9 @@ module.exports = styleTagTransform;
       const dismissWith = dismiss => {
         instance.close({
           isDismissed: true,
-          dismiss
+          dismiss,
+          isConfirmed: false,
+          isDenied: false
         });
       };
       privateMethods.swalPromiseResolve.set(instance, resolve);
@@ -9385,7 +15779,7 @@ module.exports = styleTagTransform;
   /**
    * @param {GlobalState} globalState
    * @param {SweetAlertOptions} innerParams
-   * @param {Function} dismissWith
+   * @param {(dismiss: DismissReason) => void} dismissWith
    */
   const setupTimer = (globalState, innerParams, dismissWith) => {
     const timerProgressBar = getTimerProgressBar();
@@ -9505,8 +15899,8 @@ module.exports = styleTagTransform;
   // Proxy to instance methods to constructor, for now, for backwards compatibility
   Object.keys(instanceMethods).forEach(key => {
     /**
-     * @param {...any} args
-     * @returns {any | undefined}
+     * @param {...(SweetAlertOptions | string | undefined)} args
+     * @returns {SweetAlertResult | Promise<SweetAlertResult> | undefined}
      */
     SweetAlert[key] = function (...args) {
       if (currentInstance && currentInstance[key]) {
@@ -9516,7 +15910,7 @@ module.exports = styleTagTransform;
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '11.22.5';
+  SweetAlert.version = '11.26.3';
 
   const Swal = SweetAlert;
   // @ts-ignore
@@ -9526,7 +15920,7 @@ module.exports = styleTagTransform;
 
 }));
 if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert = this.Swal = this.SweetAlert = this.Sweetalert2}
-"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,":root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.1s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-icon-animations: true;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px $swal2-outline-color;--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-timer-progress-bar-background: rgba(0, 0, 0, 0.3);--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container)[popover]{width:auto;border:0}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem;container-name:swal2-popup}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:var(--swal2-actions-justify-content);width:var(--swal2-actions-width);margin:var(--swal2-actions-margin);padding:var(--swal2-actions-padding);border-radius:var(--swal2-actions-border-radius);background:var(--swal2-actions-background)}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:var(--swal2-action-button-transition);border:none;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border-radius:var(--swal2-confirm-button-border-radius);background:initial;background-color:var(--swal2-confirm-button-background-color);box-shadow:var(--swal2-confirm-button-box-shadow);color:var(--swal2-confirm-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):active{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border-radius:var(--swal2-deny-button-border-radius);background:initial;background-color:var(--swal2-deny-button-background-color);box-shadow:var(--swal2-deny-button-box-shadow);color:var(--swal2-deny-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):hover{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):active{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border-radius:var(--swal2-cancel-button-border-radius);background:initial;background-color:var(--swal2-cancel-button-background-color);box-shadow:var(--swal2-cancel-button-box-shadow);color:var(--swal2-cancel-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):hover{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):active{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-styled)[disabled]:not(.swal2-loading){opacity:.4}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);background:var(--swal2-footer-background);color:var(--swal2-footer-color);font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:var(--swal2-timer-progress-bar-background)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:var(--swal2-input-transition);border:var(--swal2-input-border);border-radius:var(--swal2-input-border-radius);background:var(--swal2-input-background);box-shadow:var(--swal2-input-box-shadow);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):hover,div:where(.swal2-container) input:where(.swal2-file):hover,div:where(.swal2-container) textarea:where(.swal2-textarea):hover{box-shadow:var(--swal2-input-hover-box-shadow)}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:var(--swal2-input-focus-border);outline:none;box-shadow:var(--swal2-input-focus-box-shadow)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;zoom:var(--swal2-icon-zoom);border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;border:var(--swal2-toast-border);background:var(--swal2-background);box-shadow:var(--swal2-toast-box-shadow);pointer-events:all}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}@container swal2-popup style(--swal2-icon-animations:true){.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}}.swal2-toast.swal2-show{animation:var(--swal2-toast-show-animation)}.swal2-toast.swal2-hide{animation:var(--swal2-toast-hide-animation)}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
+"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,":root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.15s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-icon-animations: true;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-timer-progress-bar-background: rgba(0, 0, 0, 0.3);--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container)[popover]{width:auto;border:0}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem;container-name:swal2-popup}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;overflow-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:var(--swal2-actions-justify-content);width:var(--swal2-actions-width);margin:var(--swal2-actions-margin);padding:var(--swal2-actions-padding);border-radius:var(--swal2-actions-border-radius);background:var(--swal2-actions-background)}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:var(--swal2-action-button-transition);border:none;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border-radius:var(--swal2-confirm-button-border-radius);background:initial;background-color:var(--swal2-confirm-button-background-color);box-shadow:var(--swal2-confirm-button-box-shadow);color:var(--swal2-confirm-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):active{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border-radius:var(--swal2-deny-button-border-radius);background:initial;background-color:var(--swal2-deny-button-background-color);box-shadow:var(--swal2-deny-button-box-shadow);color:var(--swal2-deny-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):hover{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):active{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border-radius:var(--swal2-cancel-button-border-radius);background:initial;background-color:var(--swal2-cancel-button-background-color);box-shadow:var(--swal2-cancel-button-box-shadow);color:var(--swal2-cancel-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):hover{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):active{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-styled)[disabled]:not(.swal2-loading){opacity:.4}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);background:var(--swal2-footer-background);color:var(--swal2-footer-color);font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:var(--swal2-timer-progress-bar-background)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;overflow-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:var(--swal2-input-transition);border:var(--swal2-input-border);border-radius:var(--swal2-input-border-radius);background:var(--swal2-input-background);box-shadow:var(--swal2-input-box-shadow);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):hover,div:where(.swal2-container) input:where(.swal2-file):hover,div:where(.swal2-container) textarea:where(.swal2-textarea):hover{box-shadow:var(--swal2-input-hover-box-shadow)}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:var(--swal2-input-focus-border);outline:none;box-shadow:var(--swal2-input-focus-box-shadow)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;zoom:var(--swal2-icon-zoom);border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;border:var(--swal2-toast-border);background:var(--swal2-background);box-shadow:var(--swal2-toast-box-shadow);pointer-events:all}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}@container swal2-popup style(--swal2-icon-animations:true){.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}}.swal2-toast.swal2-show{animation:var(--swal2-toast-show-animation)}.swal2-toast.swal2-hide{animation:var(--swal2-toast-hide-animation)}@keyframes swal2-show{0%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}100%{transform:translate3d(0, 0, 0) scale(1);opacity:1}}@keyframes swal2-hide{0%{transform:translate3d(0, 0, 0) scale(1);opacity:1}100%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
 
 /***/ }),
 
@@ -9981,299 +16375,6 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
   // Returning the Toastify function to be assigned to the window object/module
   return Toastify;
 });
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _arrayLikeToArray)
-/* harmony export */ });
-function _arrayLikeToArray(r, a) {
-  (null == a || a > r.length) && (a = r.length);
-  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
-  return n;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _arrayWithHoles)
-/* harmony export */ });
-function _arrayWithHoles(r) {
-  if (Array.isArray(r)) return r;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _classCallCheck)
-/* harmony export */ });
-function _classCallCheck(a, n) {
-  if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/createClass.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/createClass.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _createClass)
-/* harmony export */ });
-/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
-
-function _defineProperties(e, r) {
-  for (var t = 0; t < r.length; t++) {
-    var o = r[t];
-    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(o.key), o);
-  }
-}
-function _createClass(e, r, t) {
-  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
-    writable: !1
-  }), e;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _defineProperty)
-/* harmony export */ });
-/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
-
-function _defineProperty(e, r, t) {
-  return (r = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(r)) in e ? Object.defineProperty(e, r, {
-    value: t,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-  }) : e[r] = t, e;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _iterableToArrayLimit)
-/* harmony export */ });
-function _iterableToArrayLimit(r, l) {
-  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-  if (null != t) {
-    var e,
-      n,
-      i,
-      u,
-      a = [],
-      f = !0,
-      o = !1;
-    try {
-      if (i = (t = t.call(r)).next, 0 === l) {
-        if (Object(t) !== t) return;
-        f = !1;
-      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
-    } catch (r) {
-      o = !0, n = r;
-    } finally {
-      try {
-        if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
-      } finally {
-        if (o) throw n;
-      }
-    }
-    return a;
-  }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _nonIterableRest)
-/* harmony export */ });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _slicedToArray)
-/* harmony export */ });
-/* harmony import */ var _arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles.js */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
-/* harmony import */ var _iterableToArrayLimit_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit.js */ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
-/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js");
-/* harmony import */ var _nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nonIterableRest.js */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
-
-
-
-
-function _slicedToArray(r, e) {
-  return (0,_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__["default"])(r) || (0,_iterableToArrayLimit_js__WEBPACK_IMPORTED_MODULE_1__["default"])(r, e) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__["default"])(r, e) || (0,_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ toPrimitive)
-/* harmony export */ });
-/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-
-function toPrimitive(t, r) {
-  if ("object" != (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(t) || !t) return t;
-  var e = t[Symbol.toPrimitive];
-  if (void 0 !== e) {
-    var i = e.call(t, r || "default");
-    if ("object" != (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(i)) return i;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return ("string" === r ? String : Number)(t);
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ toPropertyKey)
-/* harmony export */ });
-/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
-
-
-function toPropertyKey(t) {
-  var i = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(t, "string");
-  return "symbol" == (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(i) ? i : i + "";
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _typeof)
-/* harmony export */ });
-function _typeof(o) {
-  "@babel/helpers - typeof";
-
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
-    return typeof o;
-  } : function (o) {
-    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-  }, _typeof(o);
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ _unsupportedIterableToArray)
-/* harmony export */ });
-/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayLikeToArray.js */ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js");
-
-function _unsupportedIterableToArray(r, a) {
-  if (r) {
-    if ("string" == typeof r) return (0,_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__["default"])(r, a);
-    var t = {}.toString.call(r).slice(8, -1);
-    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? (0,_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__["default"])(r, a) : void 0;
-  }
-}
 
 
 /***/ }),
@@ -16558,694 +22659,59 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!***************************************************************!*\
-  !*** ./assets/src/js/admin/edit-curriculum/edit-course-ai.js ***!
-  \***************************************************************/
+/*!**************************************************!*\
+  !*** ./assets/src/js/frontend/course-builder.js ***!
+  \**************************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   CourseAI: () => (/* binding */ CourseAI)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var tom_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tom-select */ "./node_modules/tom-select/dist/esm/tom-select.complete.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _edit_section_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./edit-section.js */ "./assets/src/js/admin/edit-curriculum/edit-section.js");
-/* harmony import */ var _share_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./share.js */ "./assets/src/js/admin/edit-curriculum/share.js");
-
-
-
-
-/**
+/* harmony import */ var _course_builder_builder_course_builder_tab_course_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./course-builder/builder-course/builder-tab-course.js */ "./assets/src/js/frontend/course-builder/builder-course/builder-tab-course.js");
+/* harmony import */ var _course_builder_builder_course_builder_edit_course_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./course-builder/builder-course/builder-edit-course.js */ "./assets/src/js/frontend/course-builder/builder-course/builder-edit-course.js");
+/* harmony import */ var _course_builder_builder_lesson_builder_tab_lesson_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./course-builder/builder-lesson/builder-tab-lesson.js */ "./assets/src/js/frontend/course-builder/builder-lesson/builder-tab-lesson.js");
+/* harmony import */ var _course_builder_builder_lesson_builder_edit_lesson_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./course-builder/builder-lesson/builder-edit-lesson.js */ "./assets/src/js/frontend/course-builder/builder-lesson/builder-edit-lesson.js");
+/* harmony import */ var _course_builder_builder_quiz_builder_tab_quiz_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./course-builder/builder-quiz/builder-tab-quiz.js */ "./assets/src/js/frontend/course-builder/builder-quiz/builder-tab-quiz.js");
+/* harmony import */ var _course_builder_builder_quiz_builder_edit_quiz_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./course-builder/builder-quiz/builder-edit-quiz.js */ "./assets/src/js/frontend/course-builder/builder-quiz/builder-edit-quiz.js");
+/* harmony import */ var _course_builder_builder_question_builder_tab_question_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./course-builder/builder-question/builder-tab-question.js */ "./assets/src/js/frontend/course-builder/builder-question/builder-tab-question.js");
+/* harmony import */ var _course_builder_builder_question_builder_edit_question_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./course-builder/builder-question/builder-edit-question.js */ "./assets/src/js/frontend/course-builder/builder-question/builder-edit-question.js");
+/* harmony import */ var lpAssetsJsPath_admin_init_tom_select_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lpAssetsJsPath/admin/init-tom-select.js */ "./assets/src/js/admin/init-tom-select.js");
+/* harmony import */ var lpAssetsJsPath_admin_utils_admin_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lpAssetsJsPath/admin/utils-admin.js */ "./assets/src/js/admin/utils-admin.js");
+/**=
+ * Course builder JS handler.
  *
- * @since 4.2.8.6
- * @version 1.3.2
+ * @since 4.3.0
+ * @version 1.0.0
  */
 
 
 
 
 
-var buildSelectOptions = function buildSelectOptions(options) {
-  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  var html = "<option value=\"\">".concat(defaultValue, "</option>");
-  for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-    var _Object$entries$_i = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_Object$entries[_i], 2),
-      key = _Object$entries$_i[0],
-      value = _Object$entries$_i[1];
-    html += "<option value=\"".concat(key, "\">").concat(value, "</option>");
-  }
-  return html;
-};
-var CourseAI = /*#__PURE__*/function () {
-  function CourseAI() {
-    (0,_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, CourseAI);
-    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])(this, "tomSelect", function () {
-      var tomSelectNodes = document.querySelectorAll('select.lp-tom-select');
-      tomSelectNodes.forEach(function (tomSelectNode) {
-        if (tomSelectNode.tomselect) {
-          tomSelectNode.tomselect.destroy();
-        }
-        var settings = {
-          maxOptions: null,
-          plugins: tomSelectNode.multiple ? ['no_backspace_delete', 'remove_button', 'dropdown_input', 'change_listener'] : ['dropdown_input']
-        };
-        new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"](tomSelectNode, settings);
-      });
-    });
-    this.init();
-  }
-  return (0,_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(CourseAI, [{
-    key: "showPopupCreateTitle",
-    value: function showPopupCreateTitle() {
-      var _this = this;
-      var _lpCourseAiModalData = lpCourseAiModalData,
-        i18n = _lpCourseAiModalData.i18n,
-        options = _lpCourseAiModalData.options;
-      var modalHtml = "\n\t\t\t<div class=\"modal-content\">\n\t\t\t\t<div class=\"input-section\">\n\t\t\t\t\t<h3>".concat(i18n.describeCourseAbout, "</h3>\n\t\t\t\t\t<textarea id=\"swal-course-topic\" placeholder=\"e.g. A course to teach how to use LearnPress\"></textarea>\n\t\t\t\t\t<h3>").concat(i18n.describeCourseGoals, "</h3>\n\t\t\t\t\t<textarea id=\"swal-course-goals\" placeholder=\"e.g. A course for beginners to learn WordPress\"></textarea>\n\t\t\t\t\t<h3>").concat(i18n.audience, "</h3>\n\t\t\t\t\t<select id=\"swal-audience\" multiple>").concat(buildSelectOptions(options.audience), "</select>\n\t\t\t\t\t<h3>").concat(i18n.tone, "</h3>\n\t\t\t\t\t<select id=\"swal-tone\" multiple>").concat(buildSelectOptions(options.tone), "</select>\n\t\t\t\t\t<h3>").concat(i18n.outputLanguage, "</h3>\n\t\t\t\t\t<select id=\"swal-language\">").concat(buildSelectOptions(options.language), "</select>\n\t\t\t\t\t<div class=\"outputs-control\">\n\t\t\t\t\t\t<h3>").concat(i18n.outputs, "</h3>\n\t\t\t\t\t\t<div class=\"outputs-control-content\">\n\t\t\t\t\t\t<div class=\"output-number-selector\">\n\t\t\t\t\t\t\t<button id=\"lp-ai-minus-output-button\" type=\"button\">-</button>\n\t\t\t\t\t\t\t<span id=\"lp-ai-output-count\">02</span>\n\t\t\t\t\t\t\t<button id=\"lp-ai-plus-output-button\" type=\"button\">+</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t<div class=\"output-section\">\n\t\t\t\t\t<div class=\"output-header\">\n\t\t\t\t\t\t<h3>Output</h3>\n\t\t\t\t\t\t<div class=\"header-icons\">\n\t\t\t\t\t\t\t<button class=\"icon-button\">\n\t\t\t\t\t\t\t\t<img width=\"18\" height=\"18\" src=\"https://cdn-icons-png.flaticon.com/512/6808/6808309.png\" alt=\"Maximize\"/>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"output-item\" id=\"lp-ai-output-prompt\">\n\t\t\t\t\t\t<p class=\"prompt\">").concat(i18n.prompt || 'Prompt:', "</p>\n\t\t\t\t\t\t<textarea class=\"prompt-text\" rows=\"6\" id=\"lp-ai-output-prompt-desc\" placeholder=\"e.g. A course to teach how to use LearnPress\"></textarea>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div id=\"lp-ai-output-suggestion\"></div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t");
-      sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-        title: i18n.createCourseTitle,
-        html: modalHtml,
-        showConfirmButton: true,
-        confirmButtonText: i18n.generate,
-        customClass: {
-          popup: 'create-course-modal',
-          confirmButton: 'generate-button',
-          actions: 'input-section'
-        },
-        width: '1000px',
-        showCloseButton: true,
-        didOpen: function didOpen() {
-          var audienceSelect = new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"]('#swal-audience', {
-            plugins: ['remove_button']
-          });
-          var toneSelect = new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"]('#swal-tone', {
-            plugins: ['remove_button']
-          });
-          var languageSelect = new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"]('#swal-language', {});
-          try {
-            var savedAudience = localStorage.getItem('lp_ai_audience');
-            if (savedAudience) {
-              audienceSelect.setValue(JSON.parse(savedAudience));
-            }
-            var savedTone = localStorage.getItem('lp_ai_tone');
-            if (savedTone) {
-              toneSelect.setValue(savedTone);
-            }
-            var savedLang = localStorage.getItem('lp_ai_lang');
-            if (savedLang) {
-              languageSelect.setValue(savedLang);
-            }
-          } catch (e) {
-            console.error('Lỗi khi tải cài đặt AI từ localStorage:', e);
-          }
-          var countEl = document.getElementById('lp-ai-output-count');
-          document.getElementById('lp-ai-minus-output-button').addEventListener('click', function () {
-            var count = parseInt(countEl.textContent, 10);
-            if (count > 1) count--;
-            countEl.textContent = count.toString().padStart(2, '0');
-          });
-          document.getElementById('lp-ai-plus-output-button').addEventListener('click', function () {
-            var count = parseInt(countEl.textContent, 10);
-            if (count < 10) count++;
-            countEl.textContent = count.toString().padStart(2, '0');
-          });
-          var actionsContainer = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getActions();
-          var inputSection = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getPopup().querySelector('.outputs-control-content');
-          if (actionsContainer && inputSection) {
-            inputSection.appendChild(actionsContainer);
-          }
-        },
-        preConfirm: function preConfirm() {
-          var _popup$querySelector$, _popup$querySelector, _popup$querySelector2, _popup$querySelector3;
-          var confirmButton = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getConfirmButton();
-          if (confirmButton) {
-            confirmButton.disabled = true;
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().showLoading();
-          }
-          var popup = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getPopup();
-          var formData = {
-            topic: popup.querySelector('#swal-course-topic').value,
-            goal: popup.querySelector('#swal-course-goals').value,
-            audience: (_popup$querySelector$ = (_popup$querySelector = popup.querySelector('#swal-audience')) === null || _popup$querySelector === void 0 || (_popup$querySelector = _popup$querySelector.tomselect) === null || _popup$querySelector === void 0 ? void 0 : _popup$querySelector.getValue()) !== null && _popup$querySelector$ !== void 0 ? _popup$querySelector$ : [],
-            tone: (_popup$querySelector2 = popup.querySelector('#swal-tone')) === null || _popup$querySelector2 === void 0 || (_popup$querySelector2 = _popup$querySelector2.tomselect) === null || _popup$querySelector2 === void 0 ? void 0 : _popup$querySelector2.getValue(),
-            lang: [(_popup$querySelector3 = popup.querySelector('#swal-language')) === null || _popup$querySelector3 === void 0 || (_popup$querySelector3 = _popup$querySelector3.tomselect) === null || _popup$querySelector3 === void 0 ? void 0 : _popup$querySelector3.getValue()],
-            outputs: parseInt(popup.querySelector('#lp-ai-output-count').textContent, 10)
-          };
-          try {
-            localStorage.setItem('lp_ai_audience', JSON.stringify(formData.audience));
-            localStorage.setItem('lp_ai_tone', formData.tone);
-            localStorage.setItem('lp_ai_lang', formData.lang);
-          } catch (e) {
-            console.error('Lỗi khi lưu cài đặt AI vào localStorage:', e);
-          }
-          _this.generateContent('course-title', formData, _this.showResultPopup, _this.applyTitleAI)["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().showValidationMessage("Request failed: ".concat(err.message));
-          });
-          return false;
-        }
-      }).then(function (result) {});
-    }
-  }, {
-    key: "applyTitleAI",
-    value: function applyTitleAI(_ref) {
-      var text = _ref.text;
-      var titleNode = document.querySelector('#post-body-content #title');
-      var titleLabelNode = document.querySelector('#post-body-content #title-prompt-text');
-      if (titleLabelNode) {
-        titleLabelNode.classList.add('screen-reader-text');
-      }
-      if (titleNode) {
-        titleNode.value = text.trim();
-        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-          title: lpCourseAiModalData.i18n.applied,
-          icon: 'success',
-          timer: 1000,
-          showConfirmButton: false
-        });
-      }
-    }
 
-    // For Description
-  }, {
-    key: "showPopupCreateDescription",
-    value: function showPopupCreateDescription() {
-      var _this2 = this;
-      var _lpCourseAiModalData2 = lpCourseAiModalData,
-        i18n = _lpCourseAiModalData2.i18n,
-        options = _lpCourseAiModalData2.options;
-      var modalHtml = "\n\t\t\t<div class=\"modal-content\">\n\t\t\t\t<div class=\"input-section\">\n\t\t\t\t\t<h3>".concat(i18n.describeCourseStandOut, "</h3>\n\t\t\t\t\t<textarea id=\"swal-course-desc\" placeholder=\"e.g. A course to teach how to use LearnPress\"></textarea>\n\n\t\t\t\t\t<h3>").concat(i18n.audience, "</h3>\n\t\t\t\t\t<select id=\"swal-audience\" multiple>").concat(buildSelectOptions(options.audience), "</select>\n\t\t\t\t\t<h3>").concat(i18n.tone, "</h3>\n\t\t\t\t\t<select id=\"swal-tone\" multiple>").concat(buildSelectOptions(options.tone), "</select>\n\t\t\t\t\t<h3>").concat(i18n.outputLanguage, "</h3>\n\t\t\t\t\t<select id=\"swal-language\">").concat(buildSelectOptions(options.language), "</select>\n\t\t\t\t\t<div class=\"outputs-control\">\n\t\t\t\t\t\t<h3>").concat(i18n.outputs, "</h3>\n\t\t\t\t\t\t<div class=\"outputs-control-content\">\n\t\t\t\t\t\t<div class=\"output-number-selector\">\n\t\t\t\t\t\t\t<button id=\"lp-ai-minus-output-button\" type=\"button\">-</button>\n\t\t\t\t\t\t\t<span id=\"lp-ai-output-count\">02</span>\n\t\t\t\t\t\t\t<button id=\"lp-ai-plus-output-button\" type=\"button\">+</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t<div class=\"output-section\">\n\t\t\t\t\t<div class=\"output-header\">\n\t\t\t\t\t\t<h3>Output</h3>\n\t\t\t\t\t\t<div class=\"header-icons\">\n\t\t\t\t\t\t\t<button class=\"icon-button\">\n\t\t\t\t\t\t\t\t<img width=\"18\" height=\"18\" src=\"https://cdn-icons-png.flaticon.com/512/6808/6808309.png\" alt=\"Maximize\"/>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"output-item\" id=\"lp-ai-output-prompt\">\n\t\t\t\t\t\t<p class=\"prompt\">").concat(i18n.prompt || 'Prompt:', "</p>\n\t\t\t\t\t\t<textarea class=\"prompt-text\" rows=\"6\" id=\"lp-ai-output-prompt-desc\" placeholder=\"e.g. A course to teach how to use LearnPress\"></textarea>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div id=\"lp-ai-output-suggestion\"></div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t");
-      sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-        title: i18n.createCourseDescription,
-        html: modalHtml,
-        showConfirmButton: true,
-        confirmButtonText: i18n.generate,
-        customClass: {
-          popup: 'create-course-modal',
-          confirmButton: 'generate-button',
-          actions: 'input-section'
-        },
-        width: '1000px',
-        showCloseButton: true,
-        didOpen: function didOpen() {
-          var audienceSelect = new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"]('#swal-audience', {
-            plugins: ['remove_button']
-          });
-          var toneSelect = new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"]('#swal-tone', {
-            plugins: ['remove_button']
-          });
-          var languageSelect = new tom_select__WEBPACK_IMPORTED_MODULE_4__["default"]('#swal-language', {});
-          try {
-            var savedAudience = localStorage.getItem('lp_ai_audience');
-            if (savedAudience) {
-              audienceSelect.setValue(JSON.parse(savedAudience));
-            }
-            var savedTone = localStorage.getItem('lp_ai_tone');
-            if (savedTone) {
-              toneSelect.setValue(savedTone);
-            }
-            var savedLang = localStorage.getItem('lp_ai_lang');
-            if (savedLang) {
-              languageSelect.setValue(savedLang);
-            }
-          } catch (e) {
-            console.error('Lỗi khi tải cài đặt AI từ localStorage:', e);
-          }
-          var countEl = document.getElementById('lp-ai-output-count');
-          document.getElementById('lp-ai-minus-output-button').addEventListener('click', function () {
-            var count = parseInt(countEl.textContent, 10);
-            if (count > 1) count--;
-            countEl.textContent = count.toString().padStart(2, '0');
-          });
-          document.getElementById('lp-ai-plus-output-button').addEventListener('click', function () {
-            var count = parseInt(countEl.textContent, 10);
-            if (count < 10) count++;
-            countEl.textContent = count.toString().padStart(2, '0');
-          });
-          var actionsContainer = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getActions();
-          var inputSection = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getPopup().querySelector('.outputs-control-content');
-          if (actionsContainer && inputSection) {
-            inputSection.appendChild(actionsContainer);
-          }
-        },
-        preConfirm: function preConfirm() {
-          var _popup$querySelector$2, _popup$querySelector4, _popup$querySelector5, _popup$querySelector6, _titleCourse$value;
-          var confirmButton = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getConfirmButton();
-          if (confirmButton) {
-            confirmButton.disabled = true;
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().showLoading();
-          }
-          var popup = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getPopup();
-          var titleCourse = document.querySelector('#post-body-content #title');
-          var formData = {
-            topic: popup.querySelector('#swal-course-desc').value,
-            audience: (_popup$querySelector$2 = (_popup$querySelector4 = popup.querySelector('#swal-audience')) === null || _popup$querySelector4 === void 0 || (_popup$querySelector4 = _popup$querySelector4.tomselect) === null || _popup$querySelector4 === void 0 ? void 0 : _popup$querySelector4.getValue()) !== null && _popup$querySelector$2 !== void 0 ? _popup$querySelector$2 : [],
-            tone: (_popup$querySelector5 = popup.querySelector('#swal-tone')) === null || _popup$querySelector5 === void 0 || (_popup$querySelector5 = _popup$querySelector5.tomselect) === null || _popup$querySelector5 === void 0 ? void 0 : _popup$querySelector5.getValue(),
-            lang: [(_popup$querySelector6 = popup.querySelector('#swal-language')) === null || _popup$querySelector6 === void 0 || (_popup$querySelector6 = _popup$querySelector6.tomselect) === null || _popup$querySelector6 === void 0 ? void 0 : _popup$querySelector6.getValue()],
-            outputs: parseInt(popup.querySelector('#lp-ai-output-count').textContent, 10),
-            title: (_titleCourse$value = titleCourse.value) !== null && _titleCourse$value !== void 0 ? _titleCourse$value : ""
-          };
-          try {
-            localStorage.setItem('lp_ai_audience', JSON.stringify(formData.audience));
-            localStorage.setItem('lp_ai_tone', formData.tone);
-            localStorage.setItem('lp_ai_lang', formData.lang);
-          } catch (e) {
-            console.error('Lỗi khi lưu cài đặt AI vào localStorage:', e);
-          }
-          _this2.generateContent('course-description', formData, _this2.showResultPopup, _this2.applyDescriptionAI)["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().showValidationMessage("Request failed: ".concat(err.message));
-          });
-          return false;
-        }
-      }).then(function (result) {});
-    }
-  }, {
-    key: "applyDescriptionAI",
-    value: function applyDescriptionAI(_ref2) {
-      var text = _ref2.text;
-      if (window.tinymce && tinymce.activeEditor) {
-        tinymce.activeEditor.setContent(text.trim());
-      } else {
-        console.warn('tinymce.activeEditor editor not found');
-      }
-      if (window.tinymce) {
-        var editor = tinymce.get('content') || tinymce.get('post_content');
-        if (editor) {
-          editor.setContent(text.trim());
-          sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-            title: lpCourseAiModalData.i18n.applied,
-            icon: 'success',
-            timer: 1000,
-            showConfirmButton: false
-          });
-        } else {
-          console.warn('TinyMCE editor not found');
-        }
-      } else {
-        console.warn('TinyMCE is not loaded');
-      }
-    }
 
-    // // For Feature Image
-    // showPopupFeatureImage() {
-    // 	const { i18n, options, modelImage } = lpCourseAiModalData;
-    // 	let sizeSelector = `<label>${i18n.sizeImage}</label><select id="swal-image-size">${buildSelectOptions(options.imageSize)}</select>`;
-    // 	let qualitySelector = modelImage === 'dall-e-3' ? `<label>${i18n.qualityImage}</label><select id="swal-image-quality">${buildSelectOptions(options.imageQuality)}</select>` : '';
-    //
-    // 	Swal.fire({
-    // 		title: i18n.createFeaturedImage,
-    // 		html: `
-    // 			<div class="lp-ai-modal-form">
-    //                 <label>${i18n.style}</label>
-    //                 <select id="swal-image-style" multiple>${buildSelectOptions(options.imageStyle)}</select>
-    //                 <label>${i18n.imagesOrIcons}</label>
-    //                 <textarea id="swal-image-desc" class="swal2-textarea" placeholder="e.g. a computer, a lightbulb icon"></textarea>
-    //                 ${sizeSelector}
-    // 				${qualitySelector}
-    //             </div>
-    // 		`,
-    // 		confirmButtonText: i18n.generate,
-    // 		customClass: { popup: 'lp-ai-sweetalert' },
-    // 		width: '800px',
-    // 		showCloseButton: true,
-    // 		didOpen: () => {
-    // 			new TomSelect('#swal-image-style', { plugins: ['remove_button'] });
-    // 			new TomSelect('#swal-image-size', {});
-    // 			if (modelImage === 'dall-e-3') {
-    // 				new TomSelect('#swal-image-quality', {});
-    // 			}
-    // 		},
-    // 		preConfirm: () => {
-    // 			const popup = Swal.getPopup();
-    // 			const data = {
-    // 				topic: popup.querySelector('#swal-image-desc').value,
-    // 				style: new TomSelect(popup.querySelector('#swal-image-style')).getValue(),
-    // 				size: [new TomSelect(popup.querySelector('#swal-image-size')).getValue()],
-    // 				title: document.querySelector('#post-body-content #title').value ?? '',
-    // 			};
-    // 			if (modelImage === 'dall-e-3') {
-    // 				data.quality = [new TomSelect(popup.querySelector('#swal-image-quality')).getValue()];
-    // 			}
-    // 			return data;
-    // 		}
-    // 	}).then((result) => {
-    // 		if (result.isConfirmed) {
-    // 			this.generateContent('course-feature-image', result.value, this.showImageResultsPopup, this.applyFeatureImageAI);
-    // 		}
-    // 	});
-    // }
-    //
-    // applyFeatureImageAI(image_url) {
-    // 	const { i18n, nonce } = lpCourseAiModalData;
-    // 	Swal.fire({
-    // 		title: i18n.generating,
-    // 		text: i18n.pleaseWait,
-    // 		allowOutsideClick: false,
-    // 		didOpen: () => Swal.showLoading()
-    // 	});
-    //
-    // 	const post_id = document.querySelector('#post_ID')?.value || 0;
-    //
-    // 	const formData = new FormData();
-    // 	formData.append('action', 'lp_ajax');
-    // 	formData.append('lp-load-ajax', 'save_feature_image');
-    // 	formData.append('nonce', nonce);
-    // 	formData.append('image_url', image_url);
-    // 	formData.append('post_id', post_id);
-    //
-    // 	fetch(lpCourseAiModalData.ajaxUrl, {
-    // 		method: 'POST',
-    // 		body: formData,
-    // 	})
-    // 		.then(response => response.json())
-    // 		.then(res => {
-    // 			if (res.success) {
-    // 				Swal.fire({ title: i18n.applied, text: 'Reloading page...', icon: 'success', timer: 1500, showConfirmButton: false })
-    // 					.then(() => location.reload());
-    // 			} else {
-    // 				Swal.fire(i18n.errorOccurred, res.data.message || 'Unknown error', 'error');
-    // 			}
-    // 		})
-    // 		.catch(err => {
-    // 			Swal.fire(i18n.errorOccurred, err.message, 'error');
-    // 		});
-    // }
 
-    // For Curriculum
-    // showPopupCreateCurriculum() {
-    // 	const { i18n, options } = lpCourseAiModalData;
-    //
-    // 	Swal.fire({
-    // 		title: i18n.createCourseCurriculum,
-    // 		html: `
-    // 			<div class="lp-ai-modal-form lp-ai-modal-grid">
-    //                 <div><label>${i18n.sections}</label><input type="number" id="swal-curriculum-sections" class="swal2-input" value="3"></div>
-    //                 <div><label>${i18n.lessonsPerSection}</label><input type="number" id="swal-curriculum-lessons" class="swal2-input" value="5"></div>
-    //                 <div><label>${i18n.levels}</label><select id="swal-curriculum-levels">${buildSelectOptions(options.levels)}</select></div>
-    //                 <div><label>${i18n.outputLanguage}</label><select id="swal-language">${buildSelectOptions(options.language)}</select></div>
-    //                 <div class="full-width"><label>${i18n.specificKeyTopics}</label><textarea id="swal-curriculum-topics" class="swal2-textarea" placeholder="e.g. Common mistakes, best practices"></textarea></div>
-    //             </div>
-    // 		`,
-    // 		confirmButtonText: i18n.generate,
-    // 		customClass: { popup: 'lp-ai-sweetalert' },
-    // 		width: '800px',
-    // 		showCloseButton: true,
-    // 		didOpen: () => {
-    // 			new TomSelect('#swal-curriculum-levels', {});
-    // 			new TomSelect('#swal-language', {});
-    // 		},
-    // 		preConfirm: () => {
-    // 			const popup = Swal.getPopup();
-    //
-    // 			const getSelectValue = (selector) => {
-    // 				const el = popup.querySelector(selector);
-    // 				return el && el.tomselect ? el.tomselect.getValue() : [];
-    // 			};
-    //
-    // 			return {
-    // 				topic: popup.querySelector('#swal-course-topic').value,
-    // 				goal: popup.querySelector('#swal-course-goals').value,
-    // 				audience: getSelectValue('#swal-audience'),
-    // 				tone: getSelectValue('#swal-tone'),
-    // 				lang: getSelectValue('#swal-language'),
-    // 			};
-    // 		}
-    //
-    // 	}).then((result) => {
-    // 		if (result?.isConfirmed) {
-    // 			this.generateContent('course-curriculum', result.value, this.showCurriculumResultsPopup, this.applyCurriculumAI);
-    // 		}
-    // 	});
-    // }
 
-    // async applyCurriculumAI({ dataLessonsStr }) {
-    // 	const elEditCurriculum = document.querySelector(lpEditCurriculumShare.className.idElEditCurriculum);
-    // 	const dataSend = window.lpAJAXG.getDataSetCurrent(document.querySelector(lpEditCurriculumShare.className.LPTarget));
-    //
-    // 	if (!elEditCurriculum) {
-    // 		console.error('Curriculum container not found');
-    // 		return;
-    // 	}
-    //
-    // 	Swal.fire({ title: lpCourseAiModalData.i18n.applied, icon: 'success', timer: 1000, showConfirmButton: false });
-    //
-    // 	lpEditCurriculumShare.setVariables({
-    // 		elEditCurriculum,
-    // 		courseId: dataSend.args.course_id,
-    // 		elCurriculumSections: elEditCurriculum.querySelector(lpEditCurriculumShare.className.elCurriculumSections),
-    // 	});
-    // 	sectionEdit.init();
-    //
-    // 	try {
-    // 		const curriculumData = JSON.parse(dataLessonsStr);
-    //
-    // 		for (const sectionData of (curriculumData.sections || [])) {
-    // 			// const sectionEl = await sectionEdit.addSectionFromData(sectionData.section_title);
-    // 			//
-    // 			// if (sectionEl && sectionData.lessons?.length > 0) {
-    // 			// 	sectionData.lessons.forEach(lesson => {
-    // 			// 		sectionEdit.addLessonFromData(sectionEl, lesson.lesson_title);
-    // 			// 	});
-    // 			// }
-    // 		}
-    //
-    // 	} catch (e) {
-    // 		console.error('JSON parse error:', e);
-    // 	}
-    // }
-    //
-    // // Generic Content Generation using AJAX
-  }, {
-    key: "generateContent",
-    value: function generateContent(type, formData, resultsCallback, applyCallback) {
-      var _this3 = this;
-      var _lpCourseAiModalData3 = lpCourseAiModalData,
-        i18n = _lpCourseAiModalData3.i18n,
-        nonce = _lpCourseAiModalData3.nonce;
-      var isImage = type === 'course-feature-image';
-      var ajaxAction = isImage ? 'create_course_feature_image' : 'generate_text';
-      var data = new FormData();
-      data.append('action', 'lp_ajax');
-      data.append('lp-load-ajax', ajaxAction);
-      data.append('nonce', nonce);
-      data.append('type', type);
-      var _loop = function _loop(key) {
-        if (Array.isArray(formData[key])) {
-          formData[key].forEach(function (value) {
-            return data.append("".concat(key, "[]"), value);
-          });
-        } else {
-          data.append(key, formData[key]);
-        }
-      };
-      for (var key in formData) {
-        _loop(key);
-      }
-      return fetch(lpCourseAiModalData.ajaxUrl, {
-        method: 'POST',
-        body: data
-      }).then(function (response) {
-        return response.json();
-      }).then(function (res) {
-        if (res.success) {
-          var responseData = res.data.data;
-          var callbackData = {
-            prompt: responseData.prompt,
-            content: isImage ? responseData.urls : responseData.content,
-            extraData: isImage ? null : responseData.sections
-          };
-          resultsCallback.call(_this3, type, callbackData, applyCallback);
-        } else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire(i18n.errorOccurred, res.data.message || 'Unknown error', 'error');
-        }
-      })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire(i18n.errorOccurred, err.message, 'error');
-      });
-    }
 
-    // Generic Popups for Results
-  }, {
-    key: "showResultPopup",
-    value: function showResultPopup(type, callbackData, applyCallback) {
-      var _this4 = this;
-      var prompt = callbackData.prompt,
-        content = callbackData.content,
-        extraData = callbackData.extraData;
-      var _lpCourseAiModalData4 = lpCourseAiModalData,
-        i18n = _lpCourseAiModalData4.i18n;
-      var promptTextarea = document.querySelector('#lp-ai-output-prompt-desc');
-      if (promptTextarea && prompt) {
-        promptTextarea.value = prompt;
+new _course_builder_builder_course_builder_tab_course_js__WEBPACK_IMPORTED_MODULE_0__.BuilderTabCourse();
+new _course_builder_builder_course_builder_edit_course_js__WEBPACK_IMPORTED_MODULE_1__.BuilderEditCourse();
+new _course_builder_builder_lesson_builder_tab_lesson_js__WEBPACK_IMPORTED_MODULE_2__.BuilderTabLesson();
+new _course_builder_builder_lesson_builder_edit_lesson_js__WEBPACK_IMPORTED_MODULE_3__.BuilderEditLesson();
+new _course_builder_builder_quiz_builder_tab_quiz_js__WEBPACK_IMPORTED_MODULE_4__.BuilderTabQuiz();
+new _course_builder_builder_quiz_builder_edit_quiz_js__WEBPACK_IMPORTED_MODULE_5__.BuilderEditQuiz();
+new _course_builder_builder_question_builder_tab_question_js__WEBPACK_IMPORTED_MODULE_6__.BuilderTabQuestion();
+new _course_builder_builder_question_builder_edit_question_js__WEBPACK_IMPORTED_MODULE_7__.BuilderEditQuestion();
 
-        // add btn re-generate
-        var outputPromptElm = document.querySelector('#lp-ai-output-prompt');
-        if (!document.querySelector('#reGenerateBtn')) {
-          var reBtn = document.createElement('button');
-          reBtn.textContent = 'Re-generate';
-          reBtn.id = 'reGenerateBtn';
-          reBtn.classList.add('generate-button');
-          reBtn.addEventListener('click', function () {
-            var popup = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getPopup();
-            var formData = {
-              outputs: parseInt(popup.querySelector('#lp-ai-output-count').textContent, 10),
-              prompt: promptTextarea.value
-            };
-            _this4.generateContent(type, formData, _this4.showResultPopup, applyCallback)["catch"](function (err) {
-              sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().showValidationMessage("Request failed: ".concat(err.message));
-            });
-          });
-          outputPromptElm.appendChild(reBtn);
-        }
-      }
-      var resultsHtml = content.map(function (item, index) {
-        return "\n        <div class=\"output-item output-suggestion\">\n            <textarea>".concat(item, "</textarea>\n            <div class=\"output-actions\">\n                <button type=\"button\" class=\"action-button copy-button\">").concat(i18n.copy, "</button>\n                <button type=\"button\" class=\"action-button apply-button\" data-index=\"").concat(index, "\">").concat(i18n.apply, "</button>\n            </div>\n        </div>\n    ");
-      }).join('');
-      var suggestionContainer = document.querySelector('#lp-ai-output-suggestion');
-      if (suggestionContainer) {
-        suggestionContainer.innerHTML = resultsHtml;
-        suggestionContainer.querySelectorAll('.apply-button').forEach(function (button) {
-          button.addEventListener('click', function (e) {
-            var target = e.currentTarget;
-            var index = target.getAttribute('data-index');
-            var text = target.closest('.output-item').querySelector('textarea').value;
-            var applyData = {
-              text: text,
-              index: index,
-              extraData: extraData
-            };
-            applyCallback.call(_this4, applyData);
-          });
-        });
-        suggestionContainer.querySelectorAll('.copy-button').forEach(function (button) {
-          button.addEventListener('click', function (e) {
-            var textToCopy = e.currentTarget.closest('.output-item').querySelector('textarea').value;
-            navigator.clipboard.writeText(textToCopy).then(function () {
-              sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-                title: lpCourseAiModalData.i18n.copied,
-                icon: 'success',
-                timer: 1000,
-                showConfirmButton: false
-              });
-            });
-          });
-        });
-      }
-      var confirmButton = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().getConfirmButton();
-      if (confirmButton) {
-        confirmButton.disabled = false;
-      }
-    }
-
-    // showImageResultsPopup(urls, applyCallback) {
-    // 	const { i18n } = lpCourseAiModalData;
-    // 	let resultsHtml = urls.map(url => `
-    // 		<div class="output-placeholder" style="background-image: url('${url}');">
-    // 			<div class="output-actions">
-    // 				<button class="action-button" data-apply-url="${url}">Apply</button>
-    // 			</div>
-    // 		</div>
-    // 	`).join('');
-    //
-    // 	Swal.fire({
-    // 		title: i18n.results,
-    // 		html: `<div class="lp-ai-image-results-wrapper">${resultsHtml}</div>`,
-    // 		showConfirmButton: false,
-    // 		showCloseButton: true,
-    // 		width: '800px',
-    // 		customClass: { popup: 'lp-ai-sweetalert' },
-    // 		didOpen: (popup) => {
-    // 			popup.addEventListener('click', (e) => {
-    // 				if (e.target.matches('[data-apply-url]')) {
-    // 					applyCallback.call(this, e.target.getAttribute('data-apply-url'));
-    // 				}
-    // 			});
-    // 		}
-    // 	});
-    // }
-  }, {
-    key: "showCurriculumResultsPopup",
-    value: function showCurriculumResultsPopup(contentArray, applyCallback, sectionsData) {
-      var _this5 = this;
-      this.showResultsPopup(contentArray, function (_ref3) {
-        var index = _ref3.index;
-        applyCallback.call(_this5, {
-          dataLessonsStr: sectionsData[index]
-        });
-      });
-    }
-
-    // Main Init and Events
-  }, {
-    key: "init",
-    value: function init() {
-      this.tomSelect();
-      this.addAIBtns();
-      this.events();
-    }
-  }, {
-    key: "addAIBtns",
-    value: function addAIBtns() {
-      var __ = wp.i18n.__ || function (text) {
-        return text;
-      };
-      var titleWrap = document.querySelector('body.post-type-lp_course #titlewrap');
-      if (titleWrap && !document.getElementById('lp-edit-ai-course-title')) {
-        titleWrap.insertAdjacentHTML('afterend', "<button type=\"button\" class=\"button\" id=\"lp-edit-ai-course-title\">".concat(__('Edit with AI', 'learnpress'), "</button>"));
-      }
-      var btnAddMedia = document.querySelector('body.post-type-lp_course #insert-media-button');
-      if (btnAddMedia && !document.getElementById('lp-edit-ai-course-description')) {
-        btnAddMedia.insertAdjacentHTML('afterend', "<button type=\"button\" class=\"button\" id=\"lp-edit-ai-course-description\">".concat(__('Edit with AI', 'learnpress'), "</button>"));
-      }
-      var btnAddFeatureImage = document.querySelector('body.post-type-lp_course #set-post-thumbnail');
-      if (btnAddFeatureImage && !document.getElementById('lp-edit-ai-course-feature-image')) {
-        btnAddFeatureImage.insertAdjacentHTML('afterend', "<button type=\"button\" class=\"button\" id=\"lp-edit-ai-course-feature-image\">".concat(__('Edit with AI', 'learnpress'), "</button>"));
-      }
-      var editorBox = document.querySelector('#course-editor');
-      if (editorBox) {
-        setTimeout(function () {
-          if (!editorBox.querySelector('#lp-edit-ai-course-curriculum')) {
-            var handleActions = editorBox.querySelector('.handle-actions');
-            if (handleActions) {
-              var btn = document.createElement('button');
-              btn.type = 'button';
-              btn.className = 'button';
-              btn.id = 'lp-edit-ai-course-curriculum';
-              btn.textContent = __('Edit with AI', 'learnpress');
-              handleActions.prepend(btn);
-            }
-          }
-        }, 1500);
-      }
-    }
-  }, {
-    key: "events",
-    value: function events() {
-      var _this6 = this;
-      document.addEventListener('click', function (e) {
-        var target = e.target;
-        var actions = {
-          'lp-edit-ai-course-title': _this6.showPopupCreateTitle,
-          'lp-edit-ai-course-description': _this6.showPopupCreateDescription
-          // 'lp-edit-ai-course-feature-image': this.showPopupFeatureImage,
-          //'lp-edit-ai-course-curriculum': this.showPopupCreateCurriculum,
-        };
-        if (actions[target.id]) {
-          e.preventDefault();
-          actions[target.id].call(_this6);
-        }
-      });
-    }
-  }]);
-}();
-document.addEventListener('DOMContentLoaded', function () {
-  if (typeof lpCourseAiModalData !== 'undefined') {
-    new CourseAI();
-  }
+// Events
+document.addEventListener('click', e => {
+  (0,lpAssetsJsPath_admin_init_tom_select_js__WEBPACK_IMPORTED_MODULE_8__.initElsTomSelect)();
 });
+document.addEventListener('DOMContentLoaded', () => {
+  // Sure that the TomSelect is loaded if listen can't find elements.
+  (0,lpAssetsJsPath_admin_init_tom_select_js__WEBPACK_IMPORTED_MODULE_8__.initElsTomSelect)();
+});
+lpAssetsJsPath_admin_utils_admin_js__WEBPACK_IMPORTED_MODULE_9__.Utils.lpOnElementReady('select.lp-tom-select', e => {
+  (0,lpAssetsJsPath_admin_init_tom_select_js__WEBPACK_IMPORTED_MODULE_8__.initElsTomSelect)();
+});
+window.lpFindTomSelect = lpAssetsJsPath_admin_init_tom_select_js__WEBPACK_IMPORTED_MODULE_8__.initElsTomSelect;
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=edit-course-ai.js.map
+//# sourceMappingURL=course-builder.js.map

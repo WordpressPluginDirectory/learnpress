@@ -684,7 +684,7 @@ export class EditSectionItem {
 			elItemNew.dataset.itemType = item.type;
 			elItemNew
 				.querySelector( '.edit-link' )
-				.setAttribute( 'href', item.edit_link || '' );
+				.setAttribute( 'href', item.editLink || '' );
 			elInputTitleNew.value = item.titleSelected || '';
 			lpUtils.lpSetLoadingEl( elItemNew, 1 );
 			lpUtils.lpShowHideEl( elItemNew, 1 );
@@ -702,30 +702,27 @@ export class EditSectionItem {
 		};
 		window.lpAJAXG.fetchAJAX( dataSend, {
 			success: ( response ) => {
-				const { message, status } = response;
+				const { message, status, data } = response;
+				const { html } = data || '';
 				lpToastify.show( message, status );
 
-				if ( status === 'error' ) {
-					itemsSelectedData.forEach( ( item ) => {
-						const elItemAdded = elSection.querySelector(
-							`${ EditSectionItem.selectors.elSectionItem }[data-item-id="${ item.id }"]`
-						);
-						if ( elItemAdded ) {
-							elItemAdded.remove();
-						}
-					} );
+				itemsSelectedData.forEach( ( item ) => {
+					const elItemAdded = elSection.querySelector(
+						`${ EditSectionItem.selectors.elSectionItem }[data-item-id="${ item.id }"]`
+					);
+					if ( elItemAdded ) {
+						elItemAdded.remove();
+					}
+				} );
+
+				if ( status === 'success' ) {
+					elItemClone.insertAdjacentHTML( 'beforebegin', html );
 				}
 			},
 			error: ( error ) => {
 				lpToastify.show( error, 'error' );
 			},
 			completed: () => {
-				itemsSelectedData.forEach( ( item ) => {
-					const elItemAdded = elSection.querySelector(
-						`${ EditSectionItem.selectors.elSectionItem }[data-item-id="${ item.id }"]`
-					);
-					lpUtils.lpSetLoadingEl( elItemAdded, 0 );
-				} );
 				this.updateCountItems( elSection );
 			},
 		} );
