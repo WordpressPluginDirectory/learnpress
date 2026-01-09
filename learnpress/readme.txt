@@ -3,7 +3,7 @@ Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla
 Donate link:
 Tags: elearning, education, course, lms, learning management system
 Tested up to: 6.9
-Stable tag: 4.3.2.3
+Stable tag: 4.3.2.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ A WordPress LMS Plugin to create WordPress Learning Management System. Turn your
 LearnPress is a comprehensive *WordPress LMS Plugin* for WordPress. This is one of the best WordPress LMS Plugins which can be used to easily create & sell courses online. You can create a course curriculum with lessons & quizzes included which is managed with an easy-to-use interface for users. With our newest features, you can also sell your in-person classes and workshops using online payment gateways. Having this WordPress LMS Plugin, now you have a chance to quickly and easily create education, online school, online-course, offline-course websites with no coding knowledge required.
 
 <a href="https://learnpresslms.com/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Official Website - Explore more about LearnPress</a>
-<a href="https://edupress.thimpress.com" target="_blank">Live Demo</a> | <a href="https://docs.thimpress.com/learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Documentation</a> | <a href="https://help.thimpress.com" target="_blank">Support</a>
+<a href="https://edupress.thimpress.com" target="_blank">Live Demo</a> | <a href="https://learnpresslms.com/docs/learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Documentation</a> | <a href="https://help.thimpress.com" target="_blank">Support</a>
 <a href="https://thimpress.com/product/education-wordpress-starter-theme-for-learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content">Free LearnPress Theme</a>
 <a href="https://1.envato.market/G5Ook" target="_blank">Premium LearnPress Themes</a>
 <a href="https://thimpress.com/eduma-mobile-app/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">LearnPress Mobile App</a>
@@ -71,7 +71,7 @@ Add [Thim Blocks](https://wordpress.org/plugins/thim-blocks/) - our Page Builder
 
 ###LearnPress Tutorials###
 
-- [LearnPress Tutorials](https://docs.thimpress.com/learnpress/)
+- [LearnPress Tutorials](https://learnpresslms.com/docs/learnpress/)
 - How to create an Udemy or Coursera clone easily with LearnPress [Click here >>](https://thimpress.com/create-udemy-coursera-clone-easily-learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content)
 - Step-by-step YouTube guide on setting up your own Online Course site. [Click here >>](https://www.youtube.com/watch?v=0mJBC9IpiS0)
 [youtube https://www.youtube.com/watch?v=0mJBC9IpiS0]
@@ -114,7 +114,7 @@ Education should be free, and we want you to bring it to as many people as you c
 **LearnPress is actively developed**
 We are developing and improving LearnPress day by day and bringing you more new features because we want LearnPress to become the **best WordPress LMS plugin**.
 
-<a href="https://docs.thimpress.com/learnpress/" target="_blank">LearnPress WordPress LMS Plugin Documentation</a>
+<a href="https://learnpresslms.com/docs/learnpress/" target="_blank">LearnPress WordPress LMS Plugin Documentation</a>
 
 ###Free Add-ons for LearnPress WordPress LMS Plugin###
 
@@ -251,7 +251,7 @@ You can send us your thoughts via email: support@thimpress.com or create post at
 You can also report bugs on LearnPress Support Forum or LearnPress <a href="https://github.com/LearnPress/learnpress/issues" target="_blank">Github Repository</a>.
 
 = Where can I find the REST API documentation? =
-You can find the REST API documentation <a href="https://docs.thimpress.com/learnpress-developer-documentation/api-reference/">here</a>.
+You can find the REST API documentation <a href="https://learnpresslms.com/docs/learnpress-developer-documentation/api-reference/">here</a>.
 
 = LearnPress is great, can I contribute to it? =
 Yes, you can and we appreciate it. Join in our <a href="https://github.com/LearnPress/LearnPress/" target="_blank">Github Repository</a>.
@@ -276,6 +276,14 @@ https://translate.wordpress.org/projects/wp-plugins/learnpress/
 13. Add-ons: Unlock endless possibilities with our add-ons from additional payment gateways to more managing course options. Tailor to your needs and easily scale as your site grow
 
 == Changelog ==
+
+= 4.3.2.5 (2026-01-09) =
+~ Fixed: error enroll course.
+
+= 4.3.2.4 (2026-01-07) =
+~ Deprecated: methods learn_press_add_course_buttons, learn_press_remove_course_buttons,
+button_retry, course_purchase_button, course_enroll_button, course_continue_button, course_finish_button, course_external_button.
+~ Tweak class LP_User_Factory.
 
 = 4.3.2.3 (2025-12-25) =
 ~ Fixed security.
