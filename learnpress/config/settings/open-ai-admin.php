@@ -1,27 +1,4 @@
 <?php
-$currencies = learn_press_currencies();
-
-foreach ( $currencies as $code => $name ) {
-	$currency_symbol     = learn_press_get_currency_symbol( $code );
-	$currencies[ $code ] = sprintf( '%s (%s)', $name, $currency_symbol );
-}
-
-$settings      = LP_Settings::instance();
-$user          = wp_get_current_user();
-$username      = $user->user_login;
-$settings_slug = $settings->get( 'profile_endpoints.settings', 'settings' );
-$profile_slug  = 'profile';
-
-if ( learn_press_get_page_id( 'profile' ) ) {
-	$profile_post = get_post( learn_press_get_page_id( 'profile' ) );
-
-	if ( $profile_post ) {
-		$profile_slug = $profile_post->post_name;
-	}
-}
-
-$profile_url = site_url() . '/' . $profile_slug . '/' . $username;
-
 return apply_filters(
 	'lp/settings/open-ai',
 	array_merge(
@@ -58,7 +35,7 @@ return apply_filters(
 				[
 					'title'   => __( 'Text Model Type', 'learnpress' ),
 					'id'      => 'open_ai_text_model_type',
-					'default' => 'chatgpt-4o-latest',
+					'default' => 'gpt-4.1',
 					'type'    => 'select',
 					'options' => array(
 						'gpt-5.2'                => esc_html__( 'ChatGPT 5.2', 'learnpress' ),
@@ -66,7 +43,7 @@ return apply_filters(
 						'gpt-5-mini'             => esc_html__( 'ChatGPT 5 mini', 'learnpress' ),
 						'gpt-5-nano'             => esc_html__( 'ChatGPT 5 nano', 'learnpress' ),
 						'gpt-4.1'                => esc_html__( 'ChatGPT 4.1', 'learnpress' ),
-						'chatgpt-4o-latest'      => esc_html__( 'ChatGPT 4o-Latest', 'learnpress' ),
+						//'chatgpt-4o-latest'      => esc_html__( 'ChatGPT 4o-Latest', 'learnpress' ),
 						'gpt-4o'                 => esc_html__( 'GPT 4o', 'learnpress' ),
 						'gpt-4o-mini'            => esc_html__( 'GPT 4o Mini', 'learnpress' ),
 						'gpt-4'                  => esc_html__( 'GPT 4', 'learnpress' ),

@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/api.js":
+/***/ "./assets/src/js/api.js"
 /*!******************************!*\
   !*** ./assets/src/js/api.js ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -49,7 +49,7 @@ if (lp_rest_url) {
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -71,6 +71,12 @@ if (lp_rest_url) {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -108,6 +114,8 @@ if (lp_rest_url) {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!***************************************!*\
   !*** ./assets/src/js/admin/addons.js ***!
   \***************************************/
@@ -442,6 +450,8 @@ document.addEventListener('input', e => {
     }
   }
 });
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=addons.js.map

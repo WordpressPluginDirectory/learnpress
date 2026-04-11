@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -327,7 +327,7 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -349,6 +349,12 @@ const eventHandlers = (eventName, eventHandlers) => {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -386,6 +392,8 @@ const eventHandlers = (eventName, eventHandlers) => {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!**************************************************!*\
   !*** ./assets/src/js/frontend/become-teacher.js ***!
   \**************************************************/
@@ -469,6 +477,8 @@ jQuery(function ($) {
     });
   });
 });
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=become-teacher.js.map

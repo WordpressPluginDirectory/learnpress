@@ -1,9 +1,9 @@
-=== LearnPress - WordPress LMS Plugin ===
+=== LearnPress - WordPress LMS Plugin for Create and Sell Online Courses ===
 Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla, thongta, kendy73, leehld
 Donate link:
 Tags: elearning, education, course, lms, learning management system
 Tested up to: 6.9
-Stable tag: 4.3.2.5
+Stable tag: 4.3.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -46,6 +46,8 @@ Instead of starting from a blank page, you can use LearnPress AI to generate a s
 LearnPress AI also includes an AI Image Generator to help you create course thumbnails and visual assets that match your content. Every AI-generated result is fully editable, giving you complete control over what you publish.
 
 By handling the repetitive and time-consuming parts of course planning, LearnPress AI helps you work more efficiently - so you can focus on teaching, refining your content, and supporting your learners.
+
+[👉 Learn more about LearnPress AI](https://learnpresslms.com/learnpress-ai/)
 
 ### Exciting News: LearnPress Officially Integrates with Gutenberg! ###
 Get ready to revolutionize your online course creation experience! We are thrilled to announce the official LearnPress [Gutenberg integration](https://learnpresslms.com/blog/learnpress-gutenberg-integration/). This powerful combination brings the flexibility and intuitive nature of WordPress’s block editor to your favorite WordPress LMS plugin, [LearnPress](https://learnpresslms.com/). Now, crafting beautiful and engaging course layouts is easier and more dynamic than ever before.
@@ -276,6 +278,44 @@ https://translate.wordpress.org/projects/wp-plugins/learnpress/
 13. Add-ons: Unlock endless possibilities with our add-ons from additional payment gateways to more managing course options. Tailor to your needs and easily scale as your site grow
 
 == Changelog ==
+
+= 4.3.5 (2026-04-10) =
+~ Added: MCP (Model Context Protocol) support for get information courses, curriculum, lessons... with AI.
+~ Fixed: minor bugs.
+
+= 4.3.4 (2026-03-30) =
+~ Fixed: security.
+~ Fixed: style button AI display on Gutenberg edit course screen.
+~ Fixed: error display content of lesson, question with Elementor.
+~ Tweak: count statistics on Profile Page, exclude courses with status auto-draft.
+~ Added: a feature to generate pretty user slugs instead of usernames (login name), improving user privacy and security.
+	1. Go to LearnPress > Settings > Permalinks > Users Pretty Slug and click "Generate User Slugs" to generate slugs for all users.
+	2. Edit each user, find "LearnPress User Slug" enter pretty slug new for that user.
+~ Tweak: improved the "Read more" button text.
+~ Tweak: style student list.
+
+= 4.3.3 (2026-03-11) =
+~ Added: a feature display list students enrolled, on the tab LearnPress, Profile Page.
+~ Fixed: security.
+~ Fixed: save lesson preview, but the curriculum not change.
+
+= 4.3.2.8 (2026-02-25) =
+~ Added: feature export Orders to CSV file.
+~ Tweak: logo on menu admin.
+~ Remove support chatgpt-4o-latest.
+
+= 4.3.2.7 (2026-01-22) =
+~ Fixed: minor bugs.
+
+= 4.3.2.6 (2026-01-22) =
+~ Tweak: profile social labels.
+~ Tweak: breadcrumb, remove single title course.
+~ Tweak: show label for pages assign to pages of LearnPress.
+~ Fixed: query list orders backend with Pagination config by Admin.
+~ Fixed: styling of the meta area on the single classic course page.
+~ Fixed: styling single classic course page with Astra theme.
+~ Fixed: error link item on order details profile page.
+~ Clean code.
 
 = 4.3.2.5 (2026-01-09) =
 ~ Fixed: error enroll course.

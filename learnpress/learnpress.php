@@ -4,7 +4,7 @@
  * Plugin URI: https://thimpress.com/learnpress
  * Description: LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create courses, lessons and quizzes.
  * Author: ThimPress
- * Version: 4.3.2.5
+ * Version: 4.3.5
  * Author URI: http://thimpress.com
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -18,7 +18,9 @@ use LearnPress\Ajax\EditQuestionAjax;
 use LearnPress\Ajax\EditQuizAjax;
 use LearnPress\Ajax\LessonAjax;
 use LearnPress\Ajax\LoadContentViaAjax;
+use LearnPress\Ajax\MCP\McpApiKeysAjax;
 use LearnPress\Ajax\AI\OpenAiAjax;
+use LearnPress\Ajax\ExportOrderCSVAjax;
 use LearnPress\Background\LPBackgroundTrigger;
 use LearnPress\ExternalPlugin\Elementor\LPElementor;
 use LearnPress\ExternalPlugin\RankMath\LPRankMath;
@@ -26,6 +28,8 @@ use LearnPress\ExternalPlugin\YoastSeo\LPYoastSeo;
 use LearnPress\Gutenberg\GutenbergHandleMain;
 use LearnPress\Ajax\EditCurriculumAjax;
 use LearnPress\Ajax\SendEmailAjax;
+use LearnPress\MCP\Abilities;
+use LearnPress\MCP\Auth\ApiKeyAuthenticator;
 use LearnPress\Models\CourseModel;
 use LearnPress\Models\UserModel;
 use LearnPress\Shortcodes\Course\FilterCourseShortcode;
@@ -39,6 +43,7 @@ use LearnPress\TemplateHooks\Admin\AI\AdminEditCourseCurriculumWithAITemplate;
 use LearnPress\TemplateHooks\Admin\AI\AdminEditWithAITemplate;
 use LearnPress\TemplateHooks\Admin\AdminEditQizTemplate;
 use LearnPress\TemplateHooks\Admin\AdminEditQuestionTemplate;
+use LearnPress\TemplateHooks\Admin\AdminListStudentsEnrolled;
 use LearnPress\TemplateHooks\Course\AdminEditCurriculumTemplate;
 use LearnPress\TemplateHooks\Course\FilterCourseTemplate;
 use LearnPress\TemplateHooks\Course\ListCoursesRelatedTemplate;
@@ -53,11 +58,13 @@ use LearnPress\TemplateHooks\Profile\ProfileCoursesTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileGeneralInfoTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileInstructorStatisticsTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileQuizzesTemplate;
+use LearnPress\TemplateHooks\Profile\ProfileStudentEnrolledTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileOrdersTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileOrderTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileStudentStatisticsTemplate;
 use LearnPress\TemplateHooks\Course\CourseMaterialTemplate;
 use LearnPress\TemplateHooks\Order\AdminOrderItemsTemplate;
+use LearnPress\TemplateHooks\Order\AdminOrderListTemplate;
 use LearnPress\Widgets\LPRegisterWidget;
 use LearnPress\WPGDPR\ErasePersonalData;
 use LearnPress\WPGDPR\ExportPersonalData;
@@ -337,6 +344,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			FilterCourseTemplate::instance();
 			ProfileQuizzesTemplate::instance();
 			ProfileCoursesTemplate::instance();
+			ProfileStudentEnrolledTemplate::instance();
 
 			// Admin template hooks.
 			AdminEditCurriculumTemplate::instance();
@@ -344,9 +352,11 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			AdminEditQuestionTemplate::instance();
 			CourseMaterialTemplate::instance();
 			AdminOrderItemsTemplate::instance();
+			AdminOrderListTemplate::instance();
 			AdminCreateCourseAITemplate::instance();
 			AdminEditWithAITemplate::instance();
 			AdminEditCourseCurriculumWithAITemplate::instance();
+			AdminListStudentsEnrolled::instance();
 			// WP GDPR
 			ErasePersonalData::instance();
 			ExportPersonalData::instance();
@@ -525,7 +535,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			// Meta box helper
 			include_once 'inc/admin/meta-box/class-lp-meta-box-helper.php';
 
-			include_once 'inc/admin/class-lp-admin.php';
+			// include_once 'inc/admin/class-lp-admin.php';
 			// include_once 'inc/admin/settings/abstract-settings-page.php';
 		}
 
@@ -603,18 +613,20 @@ if ( ! class_exists( 'LearnPress' ) ) {
 
 				if ( is_admin() ) {
 					$this->check_addons_version_valid();
+
+					include_once 'inc/admin/class-lp-admin.php';
 				}
 
 				// let third parties know that we're ready .
 				do_action( 'learn-press/ready' );
 
 				// For addon sorting choice old <= v4.0.1
-				if ( class_exists( 'LP_Addon_Sorting_Choice_Preload' ) ) {
+				/*if ( class_exists( 'LP_Addon_Sorting_Choice_Preload' ) ) {
 					if ( version_compare( LP_ADDON_SORTING_CHOICE_VER, '4.0.1', '<=' ) ) {
 						$lp_addon_sorting_choice = new LP_Addon_Sorting_Choice();
 						$lp_addon_sorting_choice->init();
 					}
-				}
+				}*/
 
 				/**
 				 * Init gateways, to load all payment gateways, catch callback.
@@ -627,18 +639,18 @@ if ( ! class_exists( 'LearnPress' ) ) {
 				 * @since 4.2.7.4
 				 * When 2 addons update to new version, will remove this code.
 				 */
-				if ( class_exists( 'LP_Addon_Announcements_Preload' ) ) {
+				/*if ( class_exists( 'LP_Addon_Announcements_Preload' ) ) {
 					if ( version_compare( LP_ADDON_ANNOUNCEMENTS_VER, '4.0.6', '<=' ) ) {
 						$addon_announcement = LP_Addon_Announcements_Preload::$addon;
 						$addon_announcement->emails_setting();
 					}
-				}
-				if ( class_exists( 'LP_Addon_Assignment_Preload' ) ) {
+				}*/
+				/*if ( class_exists( 'LP_Addon_Assignment_Preload' ) ) {
 					if ( version_compare( LP_ADDON_ASSIGNMENT_VER, '4.1.1', '<=' ) ) {
 						$addon_assignment = LP_Addon_Assignment_Preload::$addon;
 						$addon_assignment->emails_setting();
 					}
-				}
+				}*/
 			} catch ( Throwable $e ) {
 				LP_Debug::error_log( $e );
 			}
@@ -685,6 +697,8 @@ if ( ! class_exists( 'LearnPress' ) ) {
 		 * Initial common hooks
 		 */
 		public function hooks() {
+			add_action( 'init', array( $this, 'maybe_init_mcp_abilities' ), 20 );
+
 			/**
 			 * Handle lp ajax.
 			 * Set priority after register_post_type to register capabilities for post type of LP.
@@ -699,6 +713,8 @@ if ( ! class_exists( 'LearnPress' ) ) {
 					EditQuestionAjax::catch_lp_ajax();
 					SendEmailAjax::catch_lp_ajax();
 					OpenAiAjax::catch_lp_ajax();
+					ExportOrderCSVAjax::catch_lp_ajax();
+					McpApiKeysAjax::catch_lp_ajax();
 
 					do_action( 'learn-press/register-ajax-handlers' );
 				},
@@ -826,6 +842,20 @@ if ( ! class_exists( 'LearnPress' ) ) {
 		 */
 		public function on_deactivate() {
 			do_action( 'learn-press/deactivate', $this );
+		}
+
+		/**
+		 * Conditionally bootstrap MCP abilities.
+		 *
+		 * @return void
+		 */
+		public function maybe_init_mcp_abilities() {
+			if ( LP_Settings::get_option( 'enable_mcp_integration', 'no' ) !== 'yes' ) {
+				return;
+			}
+
+			ApiKeyAuthenticator::init();
+			Abilities::init();
 		}
 
 		/**

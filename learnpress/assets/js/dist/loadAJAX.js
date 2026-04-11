@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -327,7 +327,7 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -349,6 +349,12 @@ const eventHandlers = (eventName, eventHandlers) => {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -386,6 +392,8 @@ const eventHandlers = (eventName, eventHandlers) => {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!***********************************!*\
   !*** ./assets/src/js/loadAJAX.js ***!
   \***********************************/
@@ -398,7 +406,7 @@ __webpack_require__.r(__webpack_exports__);
  * Load all you need via AJAX
  *
  * @since 4.2.5.7
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 
@@ -601,7 +609,7 @@ const lpAJAX = () => {
       return elLPTarget.dataset.send = JSON.stringify(dataSend);
     },
     showHideLoading: (elLPTarget, status) => {
-      const elLoading = elLPTarget.closest(`div:not(${classLPTarget})`).querySelector('.lp-loading-change');
+      const elLoading = elLPTarget.nextElementSibling?.querySelector('.lp-loading-change');
       if (elLoading) {
         (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl)(elLoading, status);
       }
@@ -643,6 +651,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.lpAJAXG.getElements();
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lpAJAX);
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=loadAJAX.js.map

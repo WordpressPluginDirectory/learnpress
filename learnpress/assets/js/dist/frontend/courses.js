@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/api.js":
+/***/ "./assets/src/js/api.js"
 /*!******************************!*\
   !*** ./assets/src/js/api.js ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -49,13 +49,13 @@ if (lp_rest_url) {
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -376,13 +376,13 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils/cookies.js":
+/***/ "./assets/src/js/utils/cookies.js"
 /*!****************************************!*\
   !*** ./assets/src/js/utils/cookies.js ***!
   \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -440,7 +440,7 @@ const Cookies = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Cookies);
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -462,6 +462,12 @@ const Cookies = {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -499,6 +505,8 @@ const Cookies = {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!*******************************************!*\
   !*** ./assets/src/js/frontend/courses.js ***!
   \*******************************************/
@@ -824,7 +832,7 @@ window.lpCourseList = (() => {
     		return;
     	}
     	const skeleton = elListCourse.querySelector( `.${ classSkeletonArchiveCourse }` );
-    		return {
+    			return {
     		before: () => {
     			const urlPush = lpAddQueryArgs( currentUrl, args );
     			window.history.pushState( '', '', urlPush );
@@ -844,14 +852,14 @@ window.lpCourseList = (() => {
     				}
     				elLi.remove();
     			} );
-    				// Insert new items.
+    					// Insert new items.
     			elListCourse.insertAdjacentHTML( 'afterbegin', res.data.content || '' );
-    				// Check if Pagination exists will remove.
+    					// Check if Pagination exists will remove.
     			const elPagination = document.querySelector( `.${ classPaginationCourse }` );
     			if ( elPagination ) {
     				elPagination.remove();
     			}
-    				// Insert Pagination.
+    					// Insert Pagination.
     			const pagination = res.data.pagination || '';
     			elListCourse.insertAdjacentHTML( 'afterend', pagination );
     		},
@@ -862,7 +870,7 @@ window.lpCourseList = (() => {
     			if ( skeleton ) {
     				skeleton.style.display = 'none';
     			}
-    				// Scroll to archive element
+    					// Scroll to archive element
     			const optionScroll = { behavior: 'smooth' };
     			elListCourse.closest( '.lp-archive-courses' ).scrollIntoView( optionScroll );
     		},
@@ -1048,6 +1056,8 @@ document.addEventListener('DOMContentLoaded', function () {
   window.lpCourseList.init();
   window.lpCourseList.ajaxEnableLoadPage();
 });
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=courses.js.map

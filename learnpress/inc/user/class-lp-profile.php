@@ -1,9 +1,13 @@
 <?php
 
+use LearnPress\Databases\UserItemsDB;
+use LearnPress\Filters\UserItemsFilter;
 use LearnPress\Helpers\Config;
 use LearnPress\Models\Courses;
+use LearnPress\Models\UserModel;
 use LearnPress\Models\UserItems\UserCourseModel;
 use LearnPress\Models\UserItems\UserItemModel;
+use LearnPress\Services\UserService;
 use LearnPress\TemplateHooks\Profile\ProfileOrdersTemplate;
 
 defined( 'ABSPATH' ) || exit;
@@ -323,12 +327,17 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 		 */
 		public function get_tab_link( $tab = false, $with_section = false ) {
 			$user = $this->get_user();
-
 			if ( ! $user ) {
 				return '';
 			}
 
-			$url = $this->get_tabs()->get_tab_link( $tab, $with_section, $user->get_username() );
+			$userModel = UserModel::find( $user->get_id(), true );
+			if ( ! $userModel ) {
+				return '';
+			}
+
+			$user_pretty_slug = $userModel->get_pretty_slug();
+			$url              = $this->get_tabs()->get_tab_link( $tab, $with_section, $user_pretty_slug );
 
 			/**
 			 * @deprecated
@@ -496,7 +505,9 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 
 			learn_press_set_message( $message );
 
-			if ( ! empty( $_REQUEST['redirect'] ) ) {
+			if ( 'basic-information' === $action && ! is_wp_error( $return ) ) {
+				$redirect = LP_Profile::instance( $user_id )->get_current_url();
+			} elseif ( ! empty( $_REQUEST['redirect'] ) ) {
 				$redirect = esc_url_raw( $_REQUEST['redirect'] );
 			} else {
 				$redirect = LP_Helper::getUrlCurrent();
@@ -562,8 +573,12 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 		 *
 		 * @return array
 		 * @since 3.0.0
+		 * @deprecated 4.2.3.x
 		 */
 		public function get_user_orders( $args = '' ) {
+			_deprecated_function( __METHOD__, '4.2.3.x' );
+			return [];
+
 			$args = wp_parse_args(
 				$args,
 				array(
@@ -623,7 +638,12 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 					'post_type'      => LP_ORDER_CPT,
 					'posts_per_page' => $args['limit'],
 					'offset'         => $offset,
-					'post_status'    => [ LP_ORDER_COMPLETED_DB, LP_ORDER_PENDING_DB, LP_ORDER_PROCESSING_DB, LP_ORDER_CANCELLED_DB ],
+					'post_status'    => [
+						LP_ORDER_COMPLETED_DB,
+						LP_ORDER_PENDING_DB,
+						LP_ORDER_PROCESSING_DB,
+						LP_ORDER_CANCELLED_DB,
+					],
 					//'post__in'       => array_keys( $order_ids ),
 					//'orderby'        => 'post__in',
 					'fields'         => 'ids',
@@ -682,6 +702,7 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 		 * @param array $args - Optional.
 		 *
 		 * @return LP_Query_List_Table
+		 * @throws Exception
 		 */
 		public function query_courses( string $type = 'own', array $args = array() ): LP_Query_List_Table {
 			$lp_user_items_db = LP_User_Items_DB::getInstance();
@@ -689,28 +710,37 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 
 			switch ( $type ) {
 				case 'purchased':
-					// $query = $this->_curd->query_purchased_courses( $this->get_user_data( 'id' ), $args );
-					$filter              = new LP_User_Items_Filter();
+					$filter              = new UserItemsFilter();
 					$filter->only_fields = array( 'DISTINCT (item_id) AS item_id', 'ui.user_item_id' );
 					$filter->field_count = 'ui.item_id';
 					$filter->user_id     = $this->get_user_data( 'id' );
 					$filter->order_by    = 'ui.user_item_id';
 					$filter->order       = 'DESC';
+					$filter->item_type   = LP_COURSE_CPT;
 					$status              = $args['status'] ?? '';
-					if ( $status != LP_COURSE_FINISHED ) {
-						$filter->graduation = $status;
-						$filter->where[]    = $lp_user_items_db->wpdb->prepare(
-							"AND ui.status != '%s'",
-							UserItemModel::STATUS_CANCEL
-						);
-					} else {
-						$filter->status = $status;
+
+					switch ( $status ) {
+						case '':
+							$filter->where[] = $lp_user_items_db->wpdb->prepare(
+								"AND ui.status != '%s'",
+								UserItemModel::STATUS_CANCEL
+							);
+							break;
+						case UserItemModel::STATUS_FINISHED:
+							$filter->status = UserItemModel::STATUS_FINISHED;
+							break;
+						case UserItemModel::GRADUATION_IN_PROGRESS:
+						case UserItemModel::GRADUATION_PASSED:
+						case UserItemModel::GRADUATION_FAILED:
+							$filter->graduation = $status;
+							break;
 					}
+
 					$filter->page   = $args['paged'] ?? 1;
 					$filter->limit  = $args['limit'] ?? $filter->limit;
 					$total_rows     = 0;
 					$filter         = apply_filters( 'lp/api/profile/courses/purchased/filter', $filter, $args );
-					$result_courses = LP_User_Item_Course::get_user_courses( $filter, $total_rows );
+					$result_courses = UserItemsDB::getInstance()->get_user_items( $filter, $total_rows );
 
 					$course_ids = LP_Database::get_values_by_key( $result_courses, 'item_id' );
 
@@ -727,13 +757,15 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 					if ( empty( $args['status'] ) ) {
 						$args['status'] = [ 'publish', 'pending', 'private' ];
 					}
+
+					if ( ! is_array( $args['status'] ) ) {
+						$args['status'] = (array) $args['status'];
+					}
+
 					Courses::handle_params_for_query_courses( $filter, $args );
 					$filter->fields      = [ 'ID' ];
 					$filter->post_author = $this->get_user_data( 'id' );
-					$filter->post_status = ! empty( $args['status'] ) ? $args['status'] : array(
-						'publish',
-						'pending',
-					);
+					$filter->post_status = $args['status'];
 					$filter->page        = $args['paged'] ?? 1;
 					$filter->limit       = $args['limit'] ?? $filter->limit;
 					$total_rows          = 0;
@@ -1076,18 +1108,35 @@ if ( ! class_exists( 'LP_Profile' ) ) {
 		 * @param $user_id
 		 *
 		 * @return LP_Profile mixed
-		 * @since 3.0.0
+		 * @throws Exception
 		 * @version 1.0.4
+		 * @since 3.0.0
 		 */
 		public static function instance( $user_id = 0 ) {
-			$is_page_profile = LP_Page_Controller::page_is( 'profile' );
+			$is_page_profile  = LP_Page_Controller::page_is( 'profile' );
+			$userModelCurrent = UserModel::find( get_current_user_id(), true );
 
 			if ( $is_page_profile && empty( $user_id ) ) {
 				if ( empty( self::$_instance ) ) {
-					$user_name = get_query_var( 'user' );
-					if ( ! empty( $user_name ) ) {
-						$user    = get_user_by( 'login', urldecode( $user_name ) );
-						$user_id = $user ? $user->ID : 0;
+					$user_slug = (string) get_query_var( 'user' );
+					if ( ! empty( $user_slug ) ) {
+						$userModel = UserService::instance()->get_user_by_pretty_slug( $user_slug );
+						if ( $userModel ) {
+							$user_id = $userModel->get_id();
+						} else {
+							// Get user by slug.
+							$wp_user = get_user_by( 'slug', $user_slug );
+							// Only allow view instructor when user is administrator or view his/her profile.
+							if ( $wp_user ) {
+								$userModel = UserModel::find( $wp_user->ID, true );
+								if ( current_user_can( UserModel::ROLE_ADMINISTRATOR )
+									|| ( $userModelCurrent && $userModelCurrent->get_id() === $wp_user->ID ) ) {
+									$user_id = $userModelCurrent->get_id();
+								} elseif ( empty( $userModel->get_pretty_slug( false ) ) ) {
+									$user_id = $userModel->get_id();
+								}
+							}
+						}
 					} else {
 						$user_id = get_current_user_id();
 					}

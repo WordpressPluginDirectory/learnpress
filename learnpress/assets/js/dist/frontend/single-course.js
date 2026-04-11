@@ -1,11 +1,11 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/frontend/material.js":
+/***/ "./assets/src/apps/js/frontend/material.js"
 /*!*************************************************!*\
   !*** ./assets/src/apps/js/frontend/material.js ***!
   \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -53,13 +53,13 @@ function lpMaterialsLoad() {
   });
 }
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/show-lp-overlay-complete-item.js":
+/***/ "./assets/src/apps/js/frontend/show-lp-overlay-complete-item.js"
 /*!**********************************************************************!*\
   !*** ./assets/src/apps/js/frontend/show-lp-overlay-complete-item.js ***!
   \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -113,13 +113,13 @@ const lpModalOverlayCompleteItem = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lpModalOverlayCompleteItem);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-course/index.js":
+/***/ "./assets/src/apps/js/frontend/single-course/index.js"
 /*!************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-course/index.js ***!
   \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -154,25 +154,25 @@ document.addEventListener('DOMContentLoaded', () => {
   run();
 });
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-course/store/index.js":
+/***/ "./assets/src/apps/js/frontend/single-course/store/index.js"
 /*!******************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-course/store/index.js ***!
   \******************************************************************/
-/***/ (() => {
+() {
 
 /**
  * Created by tu on 9/19/19.
  */
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/search.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/search.js"
 /*!****************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/search.js ***!
   \****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -248,13 +248,13 @@ const searchCourseContent = () => {
   }
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/sidebar.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/sidebar.js"
 /*!*****************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/sidebar.js ***!
   \*****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -305,19 +305,22 @@ const Sidebar = () => {
   /*$( '.section' ).each( function() {
   	const $section = $( this ),
   		$toggle = $section.find( '.section-left' );
-  		$toggle.on( 'click', function() {
+  
+  	$toggle.on( 'click', function() {
   		const isClose = $section.toggleClass( 'closed' ).hasClass( 'closed' );
   		const sections = LP.Cookies.get( 'closed-section-' + lpGlobalSettings.post_id ) || [];
   		const sectionId = parseInt( $section.data( 'section-id' ) );
   		const at = sections.findIndex( ( id ) => {
   			return id == sectionId;
   		} );
-  			if ( isClose ) {
+  
+  		if ( isClose ) {
   			sections.push( parseInt( $section.data( 'section-id' ) ) );
   		} else {
   			sections.splice( at, 1 );
   		}
-  			LP.Cookies.remove( 'closed-section-(.*)' );
+  
+  		LP.Cookies.remove( 'closed-section-(.*)' );
   		LP.Cookies.set( 'closed-section-' + lpGlobalSettings.post_id, [ ...new Set( sections ) ] );
   	} );
   } );*/
@@ -330,13 +333,13 @@ const Sidebar = () => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/scrolltoitem.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/scrolltoitem.js"
 /*!***********************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/scrolltoitem.js ***!
   \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -383,13 +386,13 @@ const scrollToItemCurrent = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (scrollToItemCurrent);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/skeleton.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/skeleton.js"
 /*!*******************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/skeleton.js ***!
   \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -724,13 +727,13 @@ function courseCurriculumSkeleton(courseID = '') {
   });
 }
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/tabs-scroll.js":
+/***/ "./assets/src/apps/js/frontend/tabs-scroll.js"
 /*!****************************************************!*\
   !*** ./assets/src/apps/js/frontend/tabs-scroll.js ***!
   \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -776,13 +779,13 @@ function TabsDragScroll() {
   });
 }
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/utils/lp-modal-overlay.js":
+/***/ "./assets/src/apps/js/utils/lp-modal-overlay.js"
 /*!******************************************************!*\
   !*** ./assets/src/apps/js/utils/lp-modal-overlay.js ***!
   \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -843,13 +846,13 @@ const lpModalOverlay = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lpModalOverlay);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/frontend/copy-to-clipboard.js":
+/***/ "./assets/src/js/frontend/copy-to-clipboard.js"
 /*!*****************************************************!*\
   !*** ./assets/src/js/frontend/copy-to-clipboard.js ***!
   \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -930,13 +933,13 @@ function CopyToClipboard() {
   }
 }
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -1258,13 +1261,13 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/toastify-js/src/toastify.css":
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/toastify-js/src/toastify.css"
 /*!*****************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/toastify-js/src/toastify.css ***!
   \*****************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
+(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -1370,13 +1373,13 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/*!
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/***/ "./node_modules/css-loader/dist/runtime/api.js"
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
   \*****************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1465,13 +1468,13 @@ module.exports = function (cssWithMappingToString) {
   return list;
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/css-loader/dist/runtime/sourceMaps.js":
+/***/ "./node_modules/css-loader/dist/runtime/sourceMaps.js"
 /*!************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
   \************************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1491,13 +1494,13 @@ module.exports = function (item) {
   return [content].join("\n");
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/toastify-js/src/toastify.css":
+/***/ "./node_modules/toastify-js/src/toastify.css"
 /*!***************************************************!*\
   !*** ./node_modules/toastify-js/src/toastify.css ***!
   \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -1546,13 +1549,13 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_toastify_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _css_loader_dist_cjs_js_toastify_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _css_loader_dist_cjs_js_toastify_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
+/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js"
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
   \****************************************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1640,13 +1643,13 @@ module.exports = function (list, options) {
   };
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/style-loader/dist/runtime/insertBySelector.js":
+/***/ "./node_modules/style-loader/dist/runtime/insertBySelector.js"
 /*!********************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/insertBySelector.js ***!
   \********************************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1684,13 +1687,13 @@ function insertBySelector(insert, style) {
 }
 module.exports = insertBySelector;
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/style-loader/dist/runtime/insertStyleElement.js":
+/***/ "./node_modules/style-loader/dist/runtime/insertStyleElement.js"
 /*!**********************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/insertStyleElement.js ***!
   \**********************************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1704,13 +1707,13 @@ function insertStyleElement(options) {
 }
 module.exports = insertStyleElement;
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js":
+/***/ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js"
 /*!**********************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js ***!
   \**********************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
 
@@ -1724,13 +1727,13 @@ function setAttributesWithoutAttributes(styleElement) {
 }
 module.exports = setAttributesWithoutAttributes;
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/style-loader/dist/runtime/styleDomAPI.js":
+/***/ "./node_modules/style-loader/dist/runtime/styleDomAPI.js"
 /*!***************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/styleDomAPI.js ***!
   \***************************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1795,13 +1798,13 @@ function domAPI(options) {
 }
 module.exports = domAPI;
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/style-loader/dist/runtime/styleTagTransform.js":
+/***/ "./node_modules/style-loader/dist/runtime/styleTagTransform.js"
 /*!*********************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/styleTagTransform.js ***!
   \*********************************************************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 
@@ -1819,13 +1822,13 @@ function styleTagTransform(css, styleElement) {
 }
 module.exports = styleTagTransform;
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/toastify-js/src/toastify.js":
+/***/ "./node_modules/toastify-js/src/toastify.js"
 /*!**************************************************!*\
   !*** ./node_modules/toastify-js/src/toastify.js ***!
   \**************************************************/
-/***/ (function(module) {
+(module) {
 
 /*!
  * Toastify js 1.12.0
@@ -2274,51 +2277,51 @@ module.exports = styleTagTransform;
 });
 
 
-/***/ }),
+/***/ },
 
-/***/ "react":
+/***/ "react"
 /*!************************!*\
   !*** external "React" ***!
   \************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["React"];
 
-/***/ }),
+/***/ },
 
-/***/ "@learnpress/quiz":
+/***/ "@learnpress/quiz"
 /*!******************************!*\
   !*** external ["LP","quiz"] ***!
   \******************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["LP"]["quiz"];
 
-/***/ }),
+/***/ },
 
-/***/ "@wordpress/element":
+/***/ "@wordpress/element"
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
   \*********************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["wp"]["element"];
 
-/***/ }),
+/***/ },
 
-/***/ "@wordpress/url":
+/***/ "@wordpress/url"
 /*!*****************************!*\
   !*** external ["wp","url"] ***!
   \*****************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["wp"]["url"];
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -2340,6 +2343,12 @@ module.exports = window["wp"]["url"];
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -2394,7 +2403,7 @@ module.exports = window["wp"]["url"];
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 /*!******************************************************!*\
