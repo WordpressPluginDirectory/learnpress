@@ -4,7 +4,7 @@
  * Plugin URI: https://thimpress.com/learnpress
  * Description: LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create courses, lessons and quizzes.
  * Author: ThimPress
- * Version: 4.3.8
+ * Version: 4.4.1
  * Author URI: http://thimpress.com
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -23,9 +23,10 @@ use LearnPress\Ajax\CourseBuilder\CourseBuilderAjax;
 use LearnPress\Ajax\EditCurriculumAjax;
 use LearnPress\Ajax\EditQuestionAjax;
 use LearnPress\Ajax\EditQuizAjax;
-use LearnPress\Ajax\ExportOrderCSVAjax;
+use LearnPress\Ajax\Order\ExportOrderCSVAjax;
 use LearnPress\Ajax\LessonAjax;
 use LearnPress\Ajax\LoadContentViaAjax;
+use LearnPress\Ajax\AI\AIAssistantAjax;
 use LearnPress\Ajax\MCP\McpApiKeysAjax;
 use LearnPress\Ajax\CourseBuilder\CBEditCourseAjax;
 use LearnPress\Ajax\SendEmailAjax;
@@ -34,6 +35,7 @@ use LearnPress\ExternalPlugin\Elementor\LPElementor;
 use LearnPress\ExternalPlugin\RankMath\LPRankMath;
 use LearnPress\ExternalPlugin\YoastSeo\LPYoastSeo;
 use LearnPress\Gutenberg\GutenbergHandleMain;
+use LearnPress\Ajax\Order\RefundOrderAjax;
 use LearnPress\MCP\Abilities;
 use LearnPress\MCP\Auth\ApiKeyAuthenticator;
 use LearnPress\Models\CourseModel;
@@ -85,6 +87,7 @@ use LearnPress\TemplateHooks\Profile\ProfileOrderTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileQuizzesTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileStudentEnrolledTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileStudentStatisticsTemplate;
+use LearnPress\TemplateHooks\Course\CourseAIAssistantTemplate;
 use LearnPress\Widgets\LPRegisterWidget;
 use LearnPress\WPGDPR\ErasePersonalData;
 use LearnPress\WPGDPR\ExportPersonalData;
@@ -389,6 +392,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			AdminEditQizTemplate::instance();
 			AdminEditQuestionTemplate::instance();
 			CourseMaterialTemplate::instance();
+			CourseAIAssistantTemplate::instance();
 			AdminOrderItemsTemplate::instance();
 			AdminOrderListTemplate::instance();
 			AdminCreateCourseAITemplate::instance();
@@ -716,7 +720,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 
 				$lp_addon_version = $lp_addon_info['Version'];
 
-				$addon                  = new Lp_Addon();
+				$addon                  = new LP_Addon();
 				$addon->version         = $lp_addon_version;
 				$addon->plugin_base     = $lp_addon;
 				$addon->require_version = $lp_addon_info['Require_LP_Version'];
@@ -751,8 +755,10 @@ if ( ! class_exists( 'LearnPress' ) ) {
 					EditQuizAjax::catch_lp_ajax();
 					EditQuestionAjax::catch_lp_ajax();
 					SendEmailAjax::catch_lp_ajax();
+					RefundOrderAjax::catch_lp_ajax();
 					CourseBuilderAjax::catch_lp_ajax();
 					OpenAiAjax::catch_lp_ajax();
+					AIAssistantAjax::catch_lp_ajax();
 					ExportOrderCSVAjax::catch_lp_ajax();
 					McpApiKeysAjax::catch_lp_ajax();
 					CBEditCourseAjax::catch_lp_ajax();
@@ -970,32 +976,6 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			}
 
 			return $this->cart;
-		}
-
-		/**
-		 * Check type of request.
-		 *
-		 * @param string $type ajax, frontend or admin.
-		 *
-		 * @return bool
-		 * @deprecated 4.2.9.4
-		 */
-		public function is_request( $type ) {
-			_deprecated_function( __METHOD__, '4.2.9.4' );
-			return false;
-
-			switch ( $type ) {
-				case 'admin':
-					return is_admin();
-				case 'ajax':
-					return defined( 'LP_DOING_AJAX' );
-				case 'cron':
-					return defined( 'DOING_CRON' );
-				case 'frontend':
-					return ( ! is_admin() || defined( 'LP_DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
-				default:
-					return strtolower( $_SERVER['REQUEST_METHOD'] ) == $type;
-			}
 		}
 
 		/**

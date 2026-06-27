@@ -366,17 +366,17 @@ const debounce = (func, wait = 500) => {
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
+/******/ 	const __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		const cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 		const module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
@@ -385,7 +385,7 @@ const debounce = (func, wait = 500) => {
 /******/ 		// Execute the module function
 /******/ 		if (!(moduleId in __webpack_modules__)) {
 /******/ 			delete __webpack_module_cache__[moduleId];
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			const e = new Error("Cannot find module '" + moduleId + "'");
 /******/ 			e.code = 'MODULE_NOT_FOUND';
 /******/ 			throw e;
 /******/ 		}
@@ -398,11 +398,26 @@ const debounce = (func, wait = 500) => {
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
+/******/ 		// define getter/value functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			if(Array.isArray(definition)) {
+/******/ 				var i = 0;
+/******/ 				while(i < definition.length) {
+/******/ 					var key = definition[i++];
+/******/ 					var binding = definition[i++];
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
+/******/ 						} else {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 					}
 /******/ 				}
 /******/ 			}
 /******/ 		};
@@ -410,14 +425,14 @@ const debounce = (func, wait = 500) => {
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.hasOwn(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			if(Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
@@ -425,7 +440,7 @@ const debounce = (func, wait = 500) => {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
+let __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
 /*!*******************************************!*\
@@ -553,8 +568,7 @@ const lpMetaboxExtraInfo = () => {
   /*document.querySelectorAll( '.lp_course_extra_meta_box__fields' ).forEach( ( ele ) => {
   	ele.addEventListener( 'keydown', ( e ) => {
   		const inputs = ele.querySelectorAll( '.lp_course_extra_meta_box__input' );
-  
-  		if ( e.keyCode === 13 ) {
+  			if ( e.keyCode === 13 ) {
   			e.preventDefault();
   			inputs.forEach( ( input ) => {
   				input.blur();
@@ -589,8 +603,7 @@ const lpMetaboxExtraInfo = () => {
   	ele.addEventListener( 'keydown', ( e ) => {
   		const inputs = ele.querySelectorAll( '.lp_course_faq_meta_box__field input' );
   		const textareas = ele.querySelectorAll( '.lp_course_faq_meta_box__field textarea' );
-  
-  		if ( e.keyCode === 13 ) {
+  			if ( e.keyCode === 13 ) {
   			e.preventDefault();
   			[ ...inputs, ...textareas ].forEach( ( input ) => {
   				input.blur();
@@ -1058,12 +1071,10 @@ const lpMetaboxsalePriceDate = () => {
   	const option = $( datepicker ).is( '#_lp_sale_start' ) ? 'minDate' : 'maxDate',
   		otherDateField = 'minDate' === option ? $( '#_lp_sale_end' ) : $( '#_lp_sale_start' ),
   		date = $( datepicker ).datetimepicker( 'getDate' );
-  
-  	$( otherDateField ).datetimepicker( 'option', option, date );
+  		$( otherDateField ).datetimepicker( 'option', option, date );
   	$( datepicker ).trigger( 'change' );
   };
-  
-  $( '.lp_sale_dates_fields' ).each( function() {
+  	$( '.lp_sale_dates_fields' ).each( function() {
   	$( this ).find( 'input' ).datetimepicker( {
   		timeFormat: 'HH:mm',
   		separator: ' ',
@@ -1073,8 +1084,7 @@ const lpMetaboxsalePriceDate = () => {
   			datePickerSelect( $( this ) );
   		},
   	} );
-  
-  	$( this ).find( 'input' ).each( function() {
+  		$( this ).find( 'input' ).each( function() {
   		datePickerSelect( $( this ) );
   	} );
   } );*/

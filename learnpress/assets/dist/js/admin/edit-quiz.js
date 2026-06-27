@@ -205,26 +205,10 @@ class EditQuestion {
     });
   }
   reInitTinymce(id) {
-    if (!window.tinymce || !id) {
-      return;
-    }
-    const elTextarea = document.getElementById(id);
-    if (!elTextarea) {
-      return;
-    }
-    this.reInitQuicktags(id);
-    const editor = window.tinymce.get(id);
-    const editorContainer = editor?.getContainer?.();
-    const isEditorAttached = editor && (editor.targetElm === elTextarea || editor.getElement?.() === elTextarea || editorContainer?.contains(elTextarea));
-    if (isEditorAttached) {
-      this.setDefaultEditorTab(id);
-      return;
-    }
     window.tinymce.execCommand('mceRemoveEditor', true, id);
     window.tinymce.execCommand('mceAddEditor', true, id);
-    this.setDefaultEditorTab(id);
   }
-  reInitQuicktags(id) {
+  reInitQuickTags(id) {
     const toolbar = document.getElementById(`qt_${id}_toolbar`);
     if (!toolbar || toolbar.children.length || !window.quicktags) {
       return;
@@ -244,6 +228,10 @@ class EditQuestion {
     }
     if (wrapEditor.classList.contains('html-active') && window.switchEditors?.go) {
       window.switchEditors.go(id, 'tmce');
+      const elTextarea = document.getElementById(id);
+      if (elTextarea) {
+        elTextarea.style.visibility = '';
+      }
     }
     wrapEditor.classList.add('tmce-active');
     wrapEditor.classList.remove('html-active');
@@ -264,7 +252,6 @@ class EditQuestion {
       if (id === 'content') {
         return;
       }
-      this.setDefaultEditorTab(id);
       const elTextarea = document.getElementById(id);
       if (!elTextarea) {
         return;
@@ -286,6 +273,9 @@ class EditQuestion {
       editor.settings.convert_urls = true;
       editor.settings.document_base_url = lpData.site_url;
       // End config use absolute url
+
+      // Add quick tags
+      this.reInitQuickTags(id);
 
       // Events focus in TinyMCE editor
       editor.on('change keyup', e => {
@@ -310,7 +300,10 @@ class EditQuestion {
 					border: 1px dashed rebeccapurple;
 					padding: 5px;
 				}
-			`);
+				`);
+
+        // Set default tab visual
+        this.setDefaultEditorTab(id);
       });
       editor.on('setcontent', e => {
         const uniquid = this.randomString();
@@ -11288,17 +11281,17 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
+/******/ 	const __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		const cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 		const module = __webpack_module_cache__[moduleId] = {
 /******/ 			id: moduleId,
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
@@ -11307,7 +11300,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 		// Execute the module function
 /******/ 		if (!(moduleId in __webpack_modules__)) {
 /******/ 			delete __webpack_module_cache__[moduleId];
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			const e = new Error("Cannot find module '" + moduleId + "'");
 /******/ 			e.code = 'MODULE_NOT_FOUND';
 /******/ 			throw e;
 /******/ 		}
@@ -11322,7 +11315,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
 /******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
+/******/ 			const getter = module && module.__esModule ?
 /******/ 				() => (module['default']) :
 /******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
@@ -11332,11 +11325,26 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
+/******/ 		// define getter/value functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			if(Array.isArray(definition)) {
+/******/ 				var i = 0;
+/******/ 				while(i < definition.length) {
+/******/ 					var key = definition[i++];
+/******/ 					var binding = definition[i++];
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
+/******/ 						} else {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 					}
 /******/ 				}
 /******/ 			}
 /******/ 		};
@@ -11344,14 +11352,14 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.hasOwn(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			if(Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
@@ -11364,7 +11372,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
+let __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
